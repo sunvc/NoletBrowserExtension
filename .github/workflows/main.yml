@@ -1,0 +1,107 @@
+name: Build and Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Make build.sh executable
+        run: chmod +x ./build.sh
+
+      - name: Run build script
+        run: ./build.sh
+
+      - name: Collect Git Info
+        id: gitinfo
+        run: |
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "build_time=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+
+          git fetch --tags --force
+
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || echo "")
+
+          if [ -n "$PREVIOUS_TAG" ]; then
+            # 每行显示短SHA、提交信息和作者
+            COMMIT_LOG=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %h %s (%an)")
+            echo "previous_tag=${PREVIOUS_TAG}" >> $GITHUB_OUTPUT
+          else
+            COMMIT_LOG=$(git log -n 5 --pretty=format:"- %h %s (%an)")
+            echo "previous_tag=Initial Release" >> $GITHUB_OUTPUT
+          fi
+
+          {
+            echo "commits<<EOF"
+            echo "$COMMIT_LOG"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: false
+          files: |
+            .output/*-chrome.zip
+            .output/*-firefox.zip
+            .output/*-edge.zip
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            ## 🍻 NoLet Sender New Release | 新版发布
+
+            - **Firefox**: `nolet-sender-*-firefox.zip`  
+            - **Chrome**: `nolet-sender-*-chrome.zip`
+            - **Edge**: `nolet-sender-*-edge.zip`
+
+            ### 📖 Installation Guide | 安装说明
+            1. Download the appropriate extension zip | 下载对应浏览器的扩展包  
+            2. Extract to a local folder | 解压缩到本地文件夹  
+            3. Go to your browser's extension page, enable "Load unpacked" | 在浏览器扩展管理页面选择"加载已解压的扩展程序"  
+            4. Select the extracted folder to install | 选择解压后的文件夹即可安装
+
+            ---
+
+            ### 📝 Changes Since ${{ steps.gitinfo.outputs.previous_tag }} | 更新内容
+            ${{ steps.gitinfo.outputs.commits }}
+
+            ---
+
+            ✅ **Build Info | 构建信息**
+            - Current Commit: ${{ steps.gitinfo.outputs.sha_short }}
+            - Build Time: ${{ steps.gitinfo.outputs.build_time }}
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nolet-sender-extensions-${{ steps.gitinfo.outputs.sha_short }}
+          path: .output/*.zip
+          retention-days: 30
+          include-hidden-files: true
+
