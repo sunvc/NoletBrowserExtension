@@ -1,0 +1,937 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BA93706F2EB908B800CC25D3 /* NoletSafari Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BA93706E2EB908B800CC25D3 /* NoletSafari Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BA9370792EB908B800CC25D3 /* NoletSafari Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BA9370782EB908B800CC25D3 /* NoletSafari Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BA9370702EB908B800CC25D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA9370352EB908B500CC25D3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA93706D2EB908B800CC25D3;
+			remoteInfo = "NoletSafari Extension (iOS)";
+		};
+		BA93707A2EB908B800CC25D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA9370352EB908B500CC25D3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA9370772EB908B800CC25D3;
+			remoteInfo = "NoletSafari Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BA9370A12EB908B800CC25D3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BA93706F2EB908B800CC25D3 /* NoletSafari Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA9370AB2EB908B800CC25D3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BA9370792EB908B800CC25D3 /* NoletSafari Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BA9370512EB908B800CC25D3 /* NoletSafari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoletSafari.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA9370632EB908B800CC25D3 /* NoletSafari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoletSafari.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA93706E2EB908B800CC25D3 /* NoletSafari Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "NoletSafari Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA9370782EB908B800CC25D3 /* NoletSafari Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "NoletSafari Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BA93709C2EB908B800CC25D3 /* Exceptions for "Shared (App)" folder in "NoletSafari (iOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Resources/Main.html",
+				Assets.xcassets,
+				Resources/logo.svg,
+				Resources/Script.js,
+				Resources/Style.css,
+				ViewController.swift,
+			);
+			target = BA9370502EB908B800CC25D3 /* NoletSafari (iOS) */;
+		};
+		BA9370A02EB908B800CC25D3 /* Exceptions for "iOS (Extension)" folder in "NoletSafari Extension (iOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BA93706D2EB908B800CC25D3 /* NoletSafari Extension (iOS) */;
+		};
+		BA9370A62EB908B800CC25D3 /* Exceptions for "Shared (App)" folder in "NoletSafari (macOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Resources/Main.html",
+				Assets.xcassets,
+				Resources/logo.svg,
+				Resources/Script.js,
+				Resources/Style.css,
+				ViewController.swift,
+			);
+			target = BA9370622EB908B800CC25D3 /* NoletSafari (macOS) */;
+		};
+		BA9370AA2EB908B800CC25D3 /* Exceptions for "macOS (Extension)" folder in "NoletSafari Extension (macOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BA9370772EB908B800CC25D3 /* NoletSafari Extension (macOS) */;
+		};
+		BA9370AF2EB908B800CC25D3 /* Exceptions for "Shared (Extension)" folder in "NoletSafari Extension (iOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/_locales,
+				Resources/assets,
+				Resources/background.js,
+				Resources/chunks,
+				"Resources/content-scripts",
+				Resources/icon,
+				Resources/lottie,
+				Resources/manifest.json,
+				Resources/popup.html,
+				SafariWebExtensionHandler.swift,
+			);
+			target = BA93706D2EB908B800CC25D3 /* NoletSafari Extension (iOS) */;
+		};
+		BA9370B02EB908B800CC25D3 /* Exceptions for "Shared (Extension)" folder in "NoletSafari Extension (macOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/_locales,
+				Resources/assets,
+				Resources/background.js,
+				Resources/chunks,
+				"Resources/content-scripts",
+				Resources/icon,
+				Resources/lottie,
+				Resources/manifest.json,
+				Resources/popup.html,
+				SafariWebExtensionHandler.swift,
+			);
+			target = BA9370772EB908B800CC25D3 /* NoletSafari Extension (macOS) */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		BA9370392EB908B500CC25D3 /* Shared (App) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BA93709C2EB908B800CC25D3 /* Exceptions for "Shared (App)" folder in "NoletSafari (iOS)" target */,
+				BA9370A62EB908B800CC25D3 /* Exceptions for "Shared (App)" folder in "NoletSafari (macOS)" target */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		BA9370422EB908B800CC25D3 /* Shared (Extension) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BA9370AF2EB908B800CC25D3 /* Exceptions for "Shared (Extension)" folder in "NoletSafari Extension (iOS)" target */,
+				BA9370B02EB908B800CC25D3 /* Exceptions for "Shared (Extension)" folder in "NoletSafari Extension (macOS)" target */,
+			);
+			explicitFolders = (
+				Resources/_locales,
+				Resources/assets,
+				Resources/chunks,
+				"Resources/content-scripts",
+				Resources/icon,
+				Resources/lottie,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		BA9370532EB908B800CC25D3 /* iOS (App) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		BA9370642EB908B800CC25D3 /* macOS (App) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		BA9370722EB908B800CC25D3 /* iOS (Extension) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BA9370A02EB908B800CC25D3 /* Exceptions for "iOS (Extension)" folder in "NoletSafari Extension (iOS)" target */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		BA93707C2EB908B800CC25D3 /* macOS (Extension) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BA9370AA2EB908B800CC25D3 /* Exceptions for "macOS (Extension)" folder in "NoletSafari Extension (macOS)" target */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BA93704E2EB908B800CC25D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA9370602EB908B800CC25D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA93706B2EB908B800CC25D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA9370752EB908B800CC25D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BA9370342EB908B500CC25D3 = {
+			isa = PBXGroup;
+			children = (
+				BA9370392EB908B500CC25D3 /* Shared (App) */,
+				BA9370422EB908B800CC25D3 /* Shared (Extension) */,
+				BA9370532EB908B800CC25D3 /* iOS (App) */,
+				BA9370642EB908B800CC25D3 /* macOS (App) */,
+				BA9370722EB908B800CC25D3 /* iOS (Extension) */,
+				BA93707C2EB908B800CC25D3 /* macOS (Extension) */,
+				BA9370522EB908B800CC25D3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BA9370522EB908B800CC25D3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA9370512EB908B800CC25D3 /* NoletSafari.app */,
+				BA9370632EB908B800CC25D3 /* NoletSafari.app */,
+				BA93706E2EB908B800CC25D3 /* NoletSafari Extension.appex */,
+				BA9370782EB908B800CC25D3 /* NoletSafari Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BA9370502EB908B800CC25D3 /* NoletSafari (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA9370A22EB908B800CC25D3 /* Build configuration list for PBXNativeTarget "NoletSafari (iOS)" */;
+			buildPhases = (
+				BA93704D2EB908B800CC25D3 /* Sources */,
+				BA93704E2EB908B800CC25D3 /* Frameworks */,
+				BA93704F2EB908B800CC25D3 /* Resources */,
+				BA9370A12EB908B800CC25D3 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA9370712EB908B800CC25D3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BA9370532EB908B800CC25D3 /* iOS (App) */,
+			);
+			name = "NoletSafari (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "NoletSafari (iOS)";
+			productReference = BA9370512EB908B800CC25D3 /* NoletSafari.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BA9370622EB908B800CC25D3 /* NoletSafari (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA9370AC2EB908B800CC25D3 /* Build configuration list for PBXNativeTarget "NoletSafari (macOS)" */;
+			buildPhases = (
+				BA93705F2EB908B800CC25D3 /* Sources */,
+				BA9370602EB908B800CC25D3 /* Frameworks */,
+				BA9370612EB908B800CC25D3 /* Resources */,
+				BA9370AB2EB908B800CC25D3 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA93707B2EB908B800CC25D3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BA9370642EB908B800CC25D3 /* macOS (App) */,
+			);
+			name = "NoletSafari (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "NoletSafari (macOS)";
+			productReference = BA9370632EB908B800CC25D3 /* NoletSafari.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BA93706D2EB908B800CC25D3 /* NoletSafari Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA93709D2EB908B800CC25D3 /* Build configuration list for PBXNativeTarget "NoletSafari Extension (iOS)" */;
+			buildPhases = (
+				BA93706A2EB908B800CC25D3 /* Sources */,
+				BA93706B2EB908B800CC25D3 /* Frameworks */,
+				BA93706C2EB908B800CC25D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BA9370722EB908B800CC25D3 /* iOS (Extension) */,
+			);
+			name = "NoletSafari Extension (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "NoletSafari Extension (iOS)";
+			productReference = BA93706E2EB908B800CC25D3 /* NoletSafari Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		BA9370772EB908B800CC25D3 /* NoletSafari Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA9370A72EB908B800CC25D3 /* Build configuration list for PBXNativeTarget "NoletSafari Extension (macOS)" */;
+			buildPhases = (
+				BA9370742EB908B800CC25D3 /* Sources */,
+				BA9370752EB908B800CC25D3 /* Frameworks */,
+				BA9370762EB908B800CC25D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BA93707C2EB908B800CC25D3 /* macOS (Extension) */,
+			);
+			name = "NoletSafari Extension (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "NoletSafari Extension (macOS)";
+			productReference = BA9370782EB908B800CC25D3 /* NoletSafari Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BA9370352EB908B500CC25D3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					BA9370502EB908B800CC25D3 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					BA9370622EB908B800CC25D3 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					BA93706D2EB908B800CC25D3 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					BA9370772EB908B800CC25D3 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+				};
+			};
+			buildConfigurationList = BA9370382EB908B500CC25D3 /* Build configuration list for PBXProject "NoletSafari" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BA9370342EB908B500CC25D3;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BA9370522EB908B800CC25D3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BA9370502EB908B800CC25D3 /* NoletSafari (iOS) */,
+				BA9370622EB908B800CC25D3 /* NoletSafari (macOS) */,
+				BA93706D2EB908B800CC25D3 /* NoletSafari Extension (iOS) */,
+				BA9370772EB908B800CC25D3 /* NoletSafari Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BA93704F2EB908B800CC25D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA9370612EB908B800CC25D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA93706C2EB908B800CC25D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA9370762EB908B800CC25D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA93704D2EB908B800CC25D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA93705F2EB908B800CC25D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA93706A2EB908B800CC25D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA9370742EB908B800CC25D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BA9370712EB908B800CC25D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA93706D2EB908B800CC25D3 /* NoletSafari Extension (iOS) */;
+			targetProxy = BA9370702EB908B800CC25D3 /* PBXContainerItemProxy */;
+		};
+		BA93707B2EB908B800CC25D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA9370772EB908B800CC25D3 /* NoletSafari Extension (macOS) */;
+			targetProxy = BA93707A2EB908B800CC25D3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BA93709E2EB908B800CC25D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "NoletSafari Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meows.Extension;
+				PRODUCT_NAME = "NoletSafari Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA93709F2EB908B800CC25D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "NoletSafari Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meows.Extension;
+				PRODUCT_NAME = "NoletSafari Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BA9370A32EB908B800CC25D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = NoletSafari;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meows;
+				PRODUCT_NAME = NoletSafari;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA9370A42EB908B800CC25D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = NoletSafari;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meows;
+				PRODUCT_NAME = NoletSafari;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BA9370A82EB908B800CC25D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "NoletSafari Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meows.Extension;
+				PRODUCT_NAME = "NoletSafari Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BA9370A92EB908B800CC25D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "NoletSafari Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meows.Extension;
+				PRODUCT_NAME = "NoletSafari Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BA9370AD2EB908B800CC25D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = NoletSafari;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meows;
+				PRODUCT_NAME = NoletSafari;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BA9370AE2EB908B800CC25D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = NoletSafari;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meows;
+				PRODUCT_NAME = NoletSafari;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BA9370B12EB908B800CC25D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BA9370B22EB908B800CC25D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BA9370382EB908B500CC25D3 /* Build configuration list for PBXProject "NoletSafari" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA9370B12EB908B800CC25D3 /* Debug */,
+				BA9370B22EB908B800CC25D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA93709D2EB908B800CC25D3 /* Build configuration list for PBXNativeTarget "NoletSafari Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA93709E2EB908B800CC25D3 /* Debug */,
+				BA93709F2EB908B800CC25D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA9370A22EB908B800CC25D3 /* Build configuration list for PBXNativeTarget "NoletSafari (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA9370A32EB908B800CC25D3 /* Debug */,
+				BA9370A42EB908B800CC25D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA9370A72EB908B800CC25D3 /* Build configuration list for PBXNativeTarget "NoletSafari Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA9370A82EB908B800CC25D3 /* Debug */,
+				BA9370A92EB908B800CC25D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA9370AC2EB908B800CC25D3 /* Build configuration list for PBXNativeTarget "NoletSafari (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA9370AD2EB908B800CC25D3 /* Debug */,
+				BA9370AE2EB908B800CC25D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BA9370352EB908B500CC25D3 /* Project object */;
+}
