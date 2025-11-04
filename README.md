@@ -1,5 +1,7 @@
 # Nolet
 
+---
+
 ### Quick Install | 快速上手
 Just click the badge/ link below to install it from your browser's extension store!
  
@@ -7,6 +9,12 @@ Just click the badge/ link below to install it from your browser's extension sto
 
 <table>
   <tr>
+  <td align="left">
+      <a href="https://testflight.apple.com/join/EqfRKWMH">
+        <img src="./docs/assets/badge-sf.png" alt="Safari" height="66">
+      </a><br>
+      <a href="https://testflight.apple.com/join/EqfRKWMH">Safari</a>
+    </td>
     <td align="left">
       <a href="https://addons.mozilla.org/firefox/addon/nolet/">
         <img src="./docs/assets/badge-fx.png" alt="Firefox" height="66">
@@ -30,7 +38,7 @@ Just click the badge/ link below to install it from your browser's extension sto
 
 ---
 
-[🇺🇸 English](#english-description) | [🇨🇳 中文说明](#中文说明)
+🌐 **English** | [中文](#中文说明) | [한국어](#한국어korean-설명) | [日本語](#日本語japanese-説明)
 
 ## English Description
 
@@ -117,3 +125,83 @@ Nolet 是一个浏览器扩展，允许你将网页中的文字内容或 PC 剪�
 - Chrome/Edge: `.output/nolet-<Version>-chrome.zip`
 
 > 本项目修改自 [ij369/bark-sender](https://github.com/ij369/bark-sender)。
+
+---
+
+## 한국어(Korean) 설명
+
+**위 뱃지를 클릭해 해당 스토어에서 확장 프로그램을 설치하세요.**
+
+Nolet은 웹페이지에서 선택한 텍스트나 PC 클립보드 내용을 [NoLet App](https://apps.apple.com/app/id6615073345)이 설치된 iOS 기기로 빠르게 전송할 수 있는 브라우저 확장 프로그램입니다.
+
+🧩 주요 기능:
+- 웹페이지에서 텍스트를 선택한 후 우클릭으로 전송
+- 어떤 페이지에서든 우클릭으로 현재 URL 전송
+- 키보드 단축키로 클립보드 내용 전송
+- NoLet App이 설치된 여러 iOS 기기 추가 지원
+
+📌 필요 조건:
+iOS 기기에 [NoLet App](https://apps.apple.com/app/id6615073345)을 설치하고 알림 권한을 활성화해야 합니다.
+
+📱 iOS 기기 추가 방법:
+1. iOS 기기에서 NoLet App을 열고, 우측 상단 구름 아이콘을 눌러 서버 목록 열기
+2. 아무 서버나 누른 뒤 "URL 및 Key 복사" 선택
+3. 확장 프로그램 설정 페이지에서 `https://wzs.app/:key/` 형식으로 기기 추가
+4. 텍스트를 선택하고 우클릭하면 기본 기기로 전송됩니다. 텍스트가 선택되지 않은 경우 현재 페이지 링크가 전송됩니다.
+
+## 빌드 설명
+
+📋 **확장 프로그램 빌드**
+
+소스 코드로부터 확장 프로그램을 빌드하려면 다음 상세 빌드 설명을 참조하세요:
+
+**👉 [README-BUILD.md](./README-BUILD.md)**
+
+**빠른 빌드:**
+```bash
+./build.sh
+```
+
+최종 확장 프로그램 패키지는 다음 위치에 생성됩니다:
+- Firefox: `.output/nolet-<Version>-firefox.zip`
+- Chrome/Edge: `.output/nolet-<Version>-chrome.zip`
+
+---
+
+## 日本語(Japanese) 説明
+
+**上のバッジをクリックして、対応するストアから拡張機能をインストールしてください。**
+
+Noletは、ウェブページで選択したテキストやPCクリップボードの内容を[NoLet App](https://apps.apple.com/app/id6615073345)がインストールされたiOSデバイスに素早くプッシュできるブラウザ拡張機能です。
+
+🧩 主な機能:
+- ウェブページ上の任意のテキストを選択して右クリックで送信
+- 任意のページで右クリックして現在のURLを送信
+- キーボードショートカットでクリップボードの内容を送信
+- NoLet Appがインストールされた複数のiOSデバイスを追加可能
+
+📌 必要な条件:
+iOSデバイスに[NoLet App](https://apps.apple.com/app/id6615073345)をインストールし、通知権限を有効にする必要があります。
+
+📱 iOSデバイスを追加する方法:
+1. iOSデバイスでNoLet Appを開き、右上の雲アイコンをタップしてサーバーリストを開く
+2. 任意のサーバーをタップし、「URLとKeyをコピー」を選択
+3. 拡張機能設定ページで`https://wzs.app/:key/`の形式でデバイスを追加
+4. テキストを選択して右クリックすると、デフォルトデバイスに送信されます。テキストが選択されていない場合は現在のページリンクが送信されます。
+
+## ビルド説明
+
+📋 **拡張機能ビルド**
+
+ソースコードから拡張機能をビルドするには、詳細なビルド説明を参照してください：
+
+**👉 [README-BUILD.md](./README-BUILD.md)**
+
+**クイックビルド:**
+```bash
+./build.sh
+```
+
+最終的な拡張機能パッケージは以下の場所に生成されます:
+- Firefox: `.output/nolet-<Version>-firefox.zip`
+- Chrome/Edge: `.output/nolet-<Version>-chrome.zip`
