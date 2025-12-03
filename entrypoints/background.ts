@@ -1,9 +1,19 @@
-import { initBackgroundI18n, watchLanguageChanges, getMessage } from './background/i18n-helper';
-import { sendPush, getRequestParameters, generateID, PushParams, EncryptionConfig } from './shared/push-service';
-import { Device } from './popup/types';
-import { DEFAULT_ADVANCED_PARAMS } from './popup/utils/settings';
-import { fileCacheManager, dbManager } from './popup/utils/database';
-import { showSYSNotification } from './popup/utils/notification';
+import {
+  initBackgroundI18n,
+  watchLanguageChanges,
+  getMessage,
+} from "./background/i18n-helper";
+import {
+  sendPush,
+  getRequestParameters,
+  generateID,
+  PushParams,
+  EncryptionConfig,
+} from "./shared/push-service";
+import { Device } from "./popup/types";
+import { DEFAULT_ADVANCED_PARAMS } from "./popup/utils/settings";
+import { fileCacheManager, dbManager } from "./popup/utils/database";
+import { showSYSNotification } from "./popup/utils/notification";
 
 export default defineBackground(() => {
   // 初始化 i18n
@@ -21,24 +31,30 @@ export default defineBackground(() => {
 
     try {
       // 解析用户自定义的参数配置
-      const userParams = settings.advancedParamsJson ?
-        JSON.parse(settings.advancedParamsJson) : {};
+      const userParams = settings.advancedParamsJson
+        ? JSON.parse(settings.advancedParamsJson)
+        : {};
 
       // 对比每个参数，只保留与默认值不同的参数
-      Object.keys(DEFAULT_ADVANCED_PARAMS).forEach(key => {
-        const defaultValue = DEFAULT_ADVANCED_PARAMS[key as keyof typeof DEFAULT_ADVANCED_PARAMS];
+      Object.keys(DEFAULT_ADVANCED_PARAMS).forEach((key) => {
+        const defaultValue =
+          DEFAULT_ADVANCED_PARAMS[key as keyof typeof DEFAULT_ADVANCED_PARAMS];
         const userValue = userParams[key];
 
         // 如果用户设置的值与默认值不同且不为空 则添加到自定义参数中
-        if (userValue !== undefined && userValue !== defaultValue && userValue !== '') {
+        if (
+          userValue !== undefined &&
+          userValue !== defaultValue &&
+          userValue !== ""
+        ) {
           customParams[key] = userValue;
         }
       });
 
-      console.debug('自定义参数差异:', customParams);
+      console.debug("自定义参数差异:", customParams);
       return customParams;
     } catch (error) {
-      console.error('解析自定义参数失败:', error);
+      console.error("解析自定义参数失败:", error);
       return customParams;
     }
   }
@@ -59,18 +75,21 @@ export default defineBackground(() => {
 
     // 定义冲突检查规则
     const conflictRules = [
-      { condition: () => !!parsedContent.title, removeKeys: ['title'] },
-      { condition: () => !!parsedContent.url, removeKeys: ['url'] },
-      { condition: () => !!parsedContent.copyContent, removeKeys: ['copy'] },
-      { condition: () => !!parsedContent.autoCopy, removeKeys: ['autoCopy'] },
-      { condition: () => !!parsedContent.level, removeKeys: ['level'] },
-      { condition: () => parsedContent.contentType === 'image', removeKeys: ['image'] }
+      { condition: () => !!parsedContent.title, removeKeys: ["title"] },
+      { condition: () => !!parsedContent.url, removeKeys: ["url"] },
+      { condition: () => !!parsedContent.copyContent, removeKeys: ["copy"] },
+      { condition: () => !!parsedContent.autoCopy, removeKeys: ["autoCopy"] },
+      { condition: () => !!parsedContent.level, removeKeys: ["level"] },
+      {
+        condition: () => parsedContent.contentType === "image",
+        removeKeys: ["image"],
+      },
     ];
 
     // 应用冲突规则，移除冲突的自定义参数
-    conflictRules.forEach(rule => {
+    conflictRules.forEach((rule) => {
       if (rule.condition()) {
-        rule.removeKeys.forEach(key => delete filtered[key]);
+        rule.removeKeys.forEach((key) => delete filtered[key]);
       }
     });
 
@@ -82,39 +101,42 @@ export default defineBackground(() => {
   async function prefetchFavicon(url: string): Promise<string | null> {
     try {
       // 获取应用设置
-      const settingsResult = await browser.storage.local.get('nolet_app_settings');
+      const settingsResult = await browser.storage.local.get(
+        "nolet_app_settings"
+      );
       const settings = settingsResult.nolet_app_settings || {};
 
       // 检查是否启用 favicon
       if (!settings.enableFaviconIcon) {
-        throw new Error('Favicon 功能已关闭');
+        throw new Error("Favicon 功能已关闭");
       }
 
       const domain = new URL(url).hostname;
 
       // 构建 favicon URL，使用 API 模板
       const faviconApiTemplate = settings.faviconApiUrl;
-      const faviconUrl = faviconApiTemplate.replace('$domain$', domain);
+      const faviconUrl = faviconApiTemplate.replace("$domain$", domain);
 
       // 发送 HEAD 判断 Favicon 是否存在
       const response = await fetch(faviconUrl, {
-        method: 'HEAD',
-        cache: 'force-cache'
+        method: "HEAD",
+        cache: "force-cache",
       });
 
       if (response.ok) {
         // 如果 HEAD 请求成功，再发送 GET 请求预加载 Favicon
         const getResponse = await fetch(faviconUrl, {
-          cache: 'force-cache'
+          cache: "force-cache",
         });
 
         if (getResponse.ok) {
-          const contentType = getResponse.headers.get('content-type');
+          const contentType = getResponse.headers.get("content-type");
           // 检查是否为有效的图片类型
-          if (contentType && (
-            contentType.startsWith('image/') ||
-            contentType === 'application/octet-stream'
-          )) {
+          if (
+            contentType &&
+            (contentType.startsWith("image/") ||
+              contentType === "application/octet-stream")
+          ) {
             console.debug(`Favicon 预加载 for ${domain}: ${faviconUrl}`);
             return faviconUrl;
           }
@@ -131,79 +153,110 @@ export default defineBackground(() => {
 
   // 监听来自popup的消息
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === 'prefetchFavicon') {
+    if (message.action === "prefetchFavicon") {
       prefetchFavicon(message.url)
-        .then(faviconUrl => {
+        .then((faviconUrl) => {
           sendResponse({ success: true, faviconUrl });
         })
-        .catch(error => {
+        .catch((error) => {
           sendResponse({ success: false, error: error.message });
         });
       return true;
     }
 
-    if (message.action === 'sendPush') {
-      handleSendPush(message.apiURL, message.message, message.sound, message.url, message.title, message.uuid, message.authorization, message.devices, message.icon)
-        .then(result => {
+    if (message.action === "sendPush") {
+      handleSendPush(
+        message.apiURL,
+        message.message,
+        message.sound,
+        message.url,
+        message.title,
+        message.uuid,
+        message.authorization,
+        message.devices,
+        message.icon
+      )
+        .then((result) => {
           sendResponse({ success: true, data: result });
         })
-        .catch(error => {
+        .catch((error) => {
           sendResponse({ success: false, error: error.message });
         });
       return true; // 保持消息通道开放
     }
 
-    if (message.action === 'sendEncryptedPush') {
-      handleSendEncryptedPush(message.apiURL, message.message, message.encryptionConfig, message.sound, message.url, message.title, message.uuid, message.authorization, message.devices, message.icon)
-        .then(result => {
+    if (message.action === "sendEncryptedPush") {
+      handleSendEncryptedPush(
+        message.apiURL,
+        message.message,
+        message.encryptionConfig,
+        message.sound,
+        message.url,
+        message.title,
+        message.uuid,
+        message.authorization,
+        message.devices,
+        message.icon
+      )
+        .then((result) => {
           sendResponse({ success: true, data: result });
         })
-        .catch(error => {
+        .catch((error) => {
           sendResponse({ success: false, error: error.message });
         });
       return true; // 保持消息通道开放
     }
 
-    if (message.action === 'readClipboard') {
+    if (message.action === "readClipboard") {
       // 处理剪切板读取
       handleClipboard()
-        .then(result => {
+        .then((result) => {
           sendResponse(result);
         })
-        .catch(error => {
-          sendResponse('');
+        .catch((error) => {
+          sendResponse("");
         });
       return true;
     }
 
     // 处理来自 content script 的发送内容请求
-    if (message.action === 'send_content') {
-
+    if (message.action === "send_content") {
       // 获取默认设备和设置
       Promise.all([
-        browser.storage.local.get('nolet_devices'),
-        browser.storage.local.get('nolet_default_device'),
-        browser.storage.local.get('nolet_app_settings')
+        browser.storage.local.get("nolet_devices"),
+        browser.storage.local.get("nolet_default_device"),
+        browser.storage.local.get("nolet_app_settings"),
       ]).then(([devicesResult, defaultDeviceResult, settingsResult]) => {
         const devices = devicesResult.nolet_devices || [];
-        const defaultDeviceId = defaultDeviceResult.nolet_default_device || '';
-        const defaultDevice = devices.find((device: any) => device.id === defaultDeviceId) || devices[0];
-        const settings = settingsResult.nolet_app_settings || { enableEncryption: false };
+        const defaultDeviceId = defaultDeviceResult.nolet_default_device || "";
+        const defaultDevice =
+          devices.find((device: any) => device.id === defaultDeviceId) ||
+          devices[0];
+        const settings = settingsResult.nolet_app_settings || {
+          enableEncryption: false,
+        };
 
         // console.debug('获取到的设置:', settings);
         // console.debug('文件缓存设置:', settings.enableFileCache);
 
         if (!defaultDevice) {
-          console.error(getMessage('device_not_found'));
+          console.error(getMessage("device_not_found"));
           // 未找到默认设备
-          showSYSNotification(getMessage('nolet_sender_title'), getMessage('device_not_found'), true);
-          sendResponse({ success: false, error: getMessage('device_not_found') });
+          showSYSNotification(
+            getMessage("nolet_sender_title"),
+            getMessage("device_not_found"),
+            true
+          );
+          sendResponse({
+            success: false,
+            error: getMessage("device_not_found"),
+          });
           return;
         }
 
         // 准备发送参数
-        let title = message.title || '';
-        let content = message.content?.trim() || '';
+        let title = message.title || "";
+        let content = message.content?.trim() || "";
         let url = undefined;
         let copyContent = undefined;
         let level = undefined;
@@ -211,9 +264,9 @@ export default defineBackground(() => {
         let notBody = false;
         // 根据内容类型设置 URL 和标题
         switch (message.contentType) {
-          case 'text':
+          case "text":
             content = content;
-            autoCopy = '1';
+            autoCopy = "1";
             /* note:
                NoLet App 在 1.5.3 的时候修复了推送内容过长无法正常复制的问题
                nolet servet 还是会限制请求体 4kB
@@ -225,25 +278,25 @@ export default defineBackground(() => {
                都会出现长度在 1500 以内的内容不管多少都会截掉 128 - 1500 之间的内容
             */
             break;
-          case 'text-large':
+          case "text-large":
             // 对于 text-large 类型，保持完整的 copyContent，但显示提示信息
             copyContent = message.content?.trim() || undefined;
-            content = message.isLastChunk ?
-              getMessage('push.large_content.last_chunk') : // 最后一段显示完整内容
-              getMessage('push.large_content.not_last_chunk'); // 其他段显示提示信息
-            level = message.isLastChunk ? undefined : 'passive'; // 最后一段显示提醒出来
+            content = message.isLastChunk
+              ? getMessage("push.large_content.last_chunk") // 最后一段显示完整内容
+              : getMessage("push.large_content.not_last_chunk"); // 其他段显示提示信息
+            level = message.isLastChunk ? undefined : "passive"; // 最后一段显示提醒出来
             break;
-          case 'image': // 策略: 点击推送能打开 Safari，下拉复制的是图片的网址，能显示推送图片，不用加密，也不用传递 body 来减少请求体大小
+          case "image": // 策略: 点击推送能打开 Safari，下拉复制的是图片的网址，能显示推送图片，不用加密，也不用传递 body 来减少请求体大小
             url = message.content;
-            autoCopy = '1';
-            copyContent = undefined;// 避免太长，用autoCopy =1 代替
+            autoCopy = "1";
+            copyContent = undefined; // 避免太长，用autoCopy =1 代替
             content = undefined; // 由于image直接用url参数，且body意义不大, 减少请求体大小
             notBody = true;
             break;
-          case 'url': // 策略: 点击推送能打开 Safari，下来复制的是url，不用加密，也不用传递 body 来减少请求体大小
+          case "url": // 策略: 点击推送能打开 Safari，下来复制的是url，不用加密，也不用传递 body 来减少请求体大小
             url = message.content;
-            autoCopy = '1';
-            copyContent = undefined;// 避免太长，用autoCopy =1 代替
+            autoCopy = "1";
+            copyContent = undefined; // 避免太长，用autoCopy =1 代替
             content = undefined; // 由于url直接用url参数，且body意义不大, 减少请求体大小
             notBody = true;
             break;
@@ -273,43 +326,55 @@ export default defineBackground(() => {
           copyContent,
           autoCopy,
           level,
-          contentType: message.contentType
+          contentType: message.contentType,
         });
 
         const pushParams: PushParams = {
           apiURL: defaultDevice.apiURL,
           message: notBody ? undefined : content, // 图片类型和url类型不传 message
           sound: settings.sound,
-          image: message.contentType === 'image' ? message.content : undefined,
+          image: message.contentType === "image" ? message.content : undefined,
           url: url || undefined,
           title: title || undefined,
           uuid: pushUuid,
           copy: copyContent || undefined,
           devices: [defaultDevice],
-          ...(defaultDevice.authorization && { authorization: defaultDevice.authorization }),
+          ...(defaultDevice.authorization && {
+            authorization: defaultDevice.authorization,
+          }),
           ...(level && { level }),
           ...(finalIcon && { icon: finalIcon }),
           ...(autoCopy && { autoCopy }),
-          ...filteredCustomParams // 添加过滤后的自定义参数差异
+          ...filteredCustomParams, // 添加过滤后的自定义参数差异
         };
 
-        // 根据设置选择是否加密, 避免 414 Request-URI Too Large 错误, 使用 POST 请求（API v2 使用POST, 默认 4Kb)
+        // 根据设置选择是否加密, 避免 414 Request-URI Too Large 错误, 使用 POST 请求（使用POST, 默认 4Kb)
         let isEncrypted = false;
 
         // 如果是image类型，不加密
-        const sendPushPromise = settings.enableEncryption && settings.encryptionConfig?.key && !notBody
-          ? (isEncrypted = true, sendPush(pushParams, settings.encryptionConfig))
-          : sendPush(pushParams, undefined);
+        const sendPushPromise =
+          settings.enableEncryption &&
+          settings.encryptionConfig?.key &&
+          !notBody
+            ? ((isEncrypted = true),
+              sendPush(pushParams, settings.encryptionConfig))
+            : sendPush(pushParams, undefined);
 
         sendPushPromise
-          .then(response => {
-            console.log('发送成功:', response);
+          .then((response) => {
+            console.log("发送成功:", response);
 
             // 记录历史
             const requestTimestamp = Date.now();
             const parameters = getRequestParameters(pushParams, isEncrypted);
-            parameters.push({ key: 'device_key', value: defaultDevice.deviceKey || '' });
-            parameters.push({ key: 'device_keys', value: [defaultDevice.deviceKey].filter(Boolean).join(',') || '' });
+            parameters.push({
+              key: "device_key",
+              value: defaultDevice.deviceKey || "",
+            });
+            parameters.push({
+              key: "device_keys",
+              value: [defaultDevice.deviceKey].filter(Boolean).join(",") || "",
+            });
 
             const historyRecord = {
               id: Date.now(),
@@ -323,61 +388,74 @@ export default defineBackground(() => {
               requestTimestamp: requestTimestamp,
               responseTimestamp: Date.now(),
               timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-              method: 'POST',
+              method: "POST",
               title: title || undefined,
               sound: settings.sound || undefined,
               url: url || undefined,
               isEncrypted: notBody ? false : isEncrypted, // 图片类型和url类型不加密
-              createdAt: new Date(requestTimestamp).toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
+              createdAt: new Date(requestTimestamp).toLocaleString("zh-CN", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
                 hour12: false,
               }),
               inspectType: message.contentType, // 记录分析的内容类型
-              authorization: defaultDevice.authorization
+              authorization: defaultDevice.authorization,
             };
 
             saveHistoryRecord(historyRecord);
 
             // 只在非 text-large 类型或是最后一段时显示通知
-            if (message.contentType !== 'text-large' || message.isLastChunk) {
-              const title = message.contentType === 'text-large'
-                ? getMessage('nolet_sender_title') + ' (Large Content)'
-                : getMessage('nolet_sender_title');
-              showSYSNotification(title, getMessage('sent_to_device', [defaultDevice.alias]));
+            if (message.contentType !== "text-large" || message.isLastChunk) {
+              const title =
+                message.contentType === "text-large"
+                  ? getMessage("nolet_sender_title") + " (Large Content)"
+                  : getMessage("nolet_sender_title");
+              showSYSNotification(
+                title,
+                getMessage("sent_to_device", [defaultDevice.alias])
+              );
             }
 
             // 如果是图片类型且启用了文件缓存，通知 content script 缓存图片
-            if (message.contentType === 'image' && settings.enableFileCache && message.content) {
+            if (
+              message.contentType === "image" &&
+              settings.enableFileCache &&
+              message.content
+            ) {
               // 发送消息给 content script 请求图片缓存
               // console.debug('发送消息给 content script 请求图片缓存:', message.content, pushUuid);
               if (sender.tab?.id) {
-                browser.tabs.sendMessage(sender.tab.id, {
-                  action: 'cacheImage',
-                  imageUrl: message.content,
-                  pushID: pushUuid
-                }).catch(error => {
-                  console.debug('发送缓存图片消息失败:', error);
-                });
+                browser.tabs
+                  .sendMessage(sender.tab.id, {
+                    action: "cacheImage",
+                    imageUrl: message.content,
+                    pushID: pushUuid,
+                  })
+                  .catch((error) => {
+                    console.debug("发送缓存图片消息失败:", error);
+                  });
               }
             }
 
             // 返回成功响应给content script
             sendResponse({ success: true, data: response, pushID: pushUuid });
           })
-          .catch(error => {
-            console.error('发送失败:', error);
+          .catch((error) => {
+            console.error("发送失败:", error);
 
             // 记录失败的历史记录
             const requestTimestamp = Date.now();
             const errorResponse = {
               code: -1,
-              message: error instanceof Error ? error.message : getMessage('error_unknown'),
-              timestamp: Date.now()
+              message:
+                error instanceof Error
+                  ? error.message
+                  : getMessage("error_unknown"),
+              timestamp: Date.now(),
             };
 
             const historyRecord = {
@@ -392,27 +470,31 @@ export default defineBackground(() => {
               requestTimestamp: requestTimestamp,
               responseTimestamp: Date.now(),
               timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-              method: 'POST',
+              method: "POST",
               title: title || undefined,
               sound: settings.sound || undefined,
               url: url || undefined,
               isEncrypted: notBody ? false : isEncrypted,
-              createdAt: new Date(requestTimestamp).toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
+              createdAt: new Date(requestTimestamp).toLocaleString("zh-CN", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
                 hour12: false,
               }),
-              authorization: defaultDevice.authorization
+              authorization: defaultDevice.authorization,
             };
 
             saveHistoryRecord(historyRecord);
 
             // 发送失败，请检查网络连接
-            showSYSNotification(getMessage('nolet_sender_title'), getMessage('send_failed_check_network'), true);
+            showSYSNotification(
+              getMessage("nolet_sender_title"),
+              getMessage("send_failed_check_network"),
+              true
+            );
 
             // 返回错误响应给 content script
             sendResponse({ success: false, data: errorResponse });
@@ -423,57 +505,61 @@ export default defineBackground(() => {
     }
 
     // 处理来自 content script 的图片缓存数据 (有类图片只能网站内请求到, 其他环境 background 反而请求不到)
-    if (message.action === 'saveImageCache') {
+    if (message.action === "saveImageCache") {
       // console.debug('收到来自 content script 的图片缓存数据:', message.imageUrl, message.imageData, message.pushID);
       const { imageUrl, imageData, pushID } = message;
 
       if (!imageUrl || !imageData || !pushID) {
-        sendResponse({ success: false, error: '缺少必要参数' });
+        sendResponse({ success: false, error: "缺少必要参数" });
         return true;
       }
 
       try {
         // 直接使用传入的 ArrayBuffer（Structured Clone）
         if (!(imageData instanceof ArrayBuffer)) {
-          throw new Error('图片数据类型错误，期望 ArrayBuffer');
+          throw new Error("图片数据类型错误，期望 ArrayBuffer");
         }
 
         // 保存到数据库
-        fileCacheManager.saveImage(imageUrl, imageData, pushID)
-          .then(record => {
-            console.debug('图片缓存保存成功:', record);
+        fileCacheManager
+          .saveImage(imageUrl, imageData, pushID)
+          .then((record) => {
+            console.debug("图片缓存保存成功:", record);
             sendResponse({ success: true, record });
           })
-          .catch(error => {
-            console.error('保存图片缓存失败:', error);
+          .catch((error) => {
+            console.error("保存图片缓存失败:", error);
             sendResponse({ success: false, error: error.message });
           });
       } catch (error) {
-        console.error('处理图片数据失败:', error);
-        sendResponse({ success: false, error: error instanceof Error ? error.message : '处理图片数据失败' });
+        console.error("处理图片数据失败:", error);
+        sendResponse({
+          success: false,
+          error: error instanceof Error ? error.message : "处理图片数据失败",
+        });
       }
 
       return true;
     }
 
     // 处理来自 content script 的 base64 图片缓存数据（port 不行的话用该兜底）
-    if (message.action === 'saveImageCacheBase64') {
+    if (message.action === "saveImageCacheBase64") {
       const { imageUrl, imageData, pushID } = message;
 
       if (!imageUrl || !imageData || !pushID) {
-        sendResponse({ success: false, error: '缺少必要参数' });
+        sendResponse({ success: false, error: "缺少必要参数" });
         return true;
       }
 
       try {
         // 将 base64 数据转换为 ArrayBuffer
-        if (typeof imageData !== 'string') {
-          throw new Error('图片数据类型错误，期望 base64 字符串');
+        if (typeof imageData !== "string") {
+          throw new Error("图片数据类型错误，期望 base64 字符串");
         }
 
-        const base64Data = imageData.split(',')[1]; // 移除 data:image/xxx;base64, 前缀
+        const base64Data = imageData.split(",")[1]; // 移除 data:image/xxx;base64, 前缀
         if (!base64Data) {
-          throw new Error('无效的 base64 数据');
+          throw new Error("无效的 base64 数据");
         }
 
         const binaryString = atob(base64Data);
@@ -485,52 +571,63 @@ export default defineBackground(() => {
         }
 
         // 保存到数据库
-        fileCacheManager.saveImage(imageUrl, arrayBuffer, pushID)
-          .then(record => {
-            console.debug('图片缓存保存成功 (base64):', record);
+        fileCacheManager
+          .saveImage(imageUrl, arrayBuffer, pushID)
+          .then((record) => {
+            console.debug("图片缓存保存成功 (base64):", record);
             sendResponse({ success: true, record });
           })
-          .catch(error => {
-            console.error('保存图片缓存失败 (base64):', error);
+          .catch((error) => {
+            console.error("保存图片缓存失败 (base64):", error);
             sendResponse({ success: false, error: error.message });
           });
       } catch (error) {
-        console.error('处理 base64 图片数据失败:', error);
-        sendResponse({ success: false, error: error instanceof Error ? error.message : '处理图片数据失败' });
+        console.error("处理 base64 图片数据失败:", error);
+        sendResponse({
+          success: false,
+          error: error instanceof Error ? error.message : "处理图片数据失败",
+        });
       }
 
       return true;
     }
 
     // 处理跨域图片获取和缓存（兜底: 一些图片因为跨域但能用 background 请求到）
-    if (message.action === 'fetchAndCacheImage') {
+    if (message.action === "fetchAndCacheImage") {
       const { imageUrl, pushID } = message;
 
       if (!imageUrl || !pushID) {
-        sendResponse({ success: false, error: '缺少必要参数' });
+        sendResponse({ success: false, error: "缺少必要参数" });
         return true;
       }
 
       // 使用 background 脚本获取图片数据
       fetch(imageUrl)
-        .then(response => {
+        .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
           }
           return response.arrayBuffer();
         })
-        .then(arrayBuffer => {
-          console.debug('Background 获取图片数据成功，大小:', arrayBuffer.byteLength, 'bytes');
+        .then((arrayBuffer) => {
+          console.debug(
+            "Background 获取图片数据成功，大小:",
+            arrayBuffer.byteLength,
+            "bytes"
+          );
           // 保存到数据库
           return fileCacheManager.saveImage(imageUrl, arrayBuffer, pushID);
         })
-        .then(record => {
-          console.debug('图片缓存保存成功 (background):', record);
+        .then((record) => {
+          console.debug("图片缓存保存成功 (background):", record);
           sendResponse({ success: true, record });
         })
-        .catch(error => {
-          console.error('Background 获取并缓存图片失败:', error);
-          sendResponse({ success: false, error: error.message || 'Background 获取图片失败' });
+        .catch((error) => {
+          console.error("Background 获取并缓存图片失败:", error);
+          sendResponse({
+            success: false,
+            error: error.message || "Background 获取图片失败",
+          });
         });
 
       return true; // 保持消息通道开放
@@ -539,38 +636,42 @@ export default defineBackground(() => {
 
   // 处理 Port 连接
   browser.runtime.onConnect.addListener((port) => {
-    if (port.name === 'imageCache') {
+    if (port.name === "imageCache") {
       port.onMessage.addListener(async (message) => {
-        if (message.action === 'saveImageCache') {
+        if (message.action === "saveImageCache") {
           const { imageUrl, imageData, pushID } = message;
 
           try {
             if (!imageUrl || !imageData || !pushID) {
-              throw new Error('缺少必要参数');
+              throw new Error("缺少必要参数");
             }
 
             // 确保 imageData 是 ArrayBuffer
             if (!(imageData instanceof ArrayBuffer)) {
-              throw new Error('图片数据类型错误，期望 ArrayBuffer');
+              throw new Error("图片数据类型错误，期望 ArrayBuffer");
             }
 
             // 保存到数据库
-            const record = await fileCacheManager.saveImage(imageUrl, imageData, pushID);
-            console.debug('图片缓存保存成功 (Port):', record);
+            const record = await fileCacheManager.saveImage(
+              imageUrl,
+              imageData,
+              pushID
+            );
+            console.debug("图片缓存保存成功 (Port):", record);
 
             port.postMessage({ success: true, record });
           } catch (error) {
-            console.error('Port 保存图片缓存失败:', error);
+            console.error("Port 保存图片缓存失败:", error);
             port.postMessage({
               success: false,
-              error: error instanceof Error ? error.message : '保存失败'
+              error: error instanceof Error ? error.message : "保存失败",
             });
           }
         }
       });
 
       port.onDisconnect.addListener(() => {
-        console.debug('图片缓存 Port 连接断开');
+        console.debug("图片缓存 Port 连接断开");
       });
     }
   });
@@ -585,14 +686,14 @@ export default defineBackground(() => {
     try {
       // 优先尝试直接存储到 IndexedDB
       await dbManager.addRecord(record);
-      console.debug(getMessage('save_history_record'), record, '(直接存储)');
+      console.debug(getMessage("save_history_record"), record, "(直接存储)");
       directSaveSuccess = true;
     } catch (directError) {
-      console.warn('直接存储历史记录失败，使用暂存兜底:', directError);
+      console.warn("直接存储历史记录失败，使用暂存兜底:", directError);
 
       try {
         // 兜底：暂存到 chrome.storage.local
-        const result = await browser.storage.local.get('nolet_history');
+        const result = await browser.storage.local.get("nolet_history");
         const existingHistory = result.nolet_history || [];
 
         // 添加新记录到数组开头（最新的在前面）
@@ -604,10 +705,14 @@ export default defineBackground(() => {
         }
 
         await browser.storage.local.set({ nolet_history: existingHistory });
-        console.debug(getMessage('save_history_record'), record, '(暂存兜底)');
-        console.debug(getMessage('current_history_total', [existingHistory.length.toString()]));
+        console.debug(getMessage("save_history_record"), record, "(暂存兜底)");
+        console.debug(
+          getMessage("current_history_total", [
+            existingHistory.length.toString(),
+          ])
+        );
       } catch (tempError) {
-        console.error(getMessage('save_history_failed'), tempError);
+        console.error(getMessage("save_history_failed"), tempError);
       }
     }
   }
@@ -616,19 +721,19 @@ export default defineBackground(() => {
   async function handleClipboard(): Promise<string> {
     try {
       const text = await navigator.clipboard.readText();
-      return text || '';
+      return text || "";
     } catch (error) {
       // console.error('读取剪切板失败:', error);
-      console.error(getMessage('read_clipboard_failed'), error);
-      return '';
+      console.error(getMessage("read_clipboard_failed"), error);
+      return "";
     }
   }
 
   // 监听快捷键命令
   browser.commands.onCommand.addListener(async (command) => {
     // console.debug('收到快捷键命令:', command);
-    console.debug(getMessage('shortcut_triggered'), command);
-    if (command === 'send-clipboard') {
+    console.debug(getMessage("shortcut_triggered"), command);
+    if (command === "send-clipboard") {
       await handleClipboardShortcut();
     }
   });
@@ -637,88 +742,125 @@ export default defineBackground(() => {
   async function handleClipboardShortcut() {
     try {
       // console.debug('收到全局快捷键触发');
-      console.debug(getMessage('shortcut_triggered'));
+      console.debug(getMessage("shortcut_triggered"));
 
       // 获取默认设备
       const [devicesResult, defaultDeviceResult] = await Promise.all([
-        browser.storage.local.get('nolet_devices'),
-        browser.storage.local.get('nolet_default_device')
+        browser.storage.local.get("nolet_devices"),
+        browser.storage.local.get("nolet_default_device"),
       ]);
 
       const devices = devicesResult.nolet_devices || [];
-      const defaultDeviceId = defaultDeviceResult.nolet_default_device || '';
-      const defaultDevice = devices.find((device: any) => device.id === defaultDeviceId) || devices[0];
+      const defaultDeviceId = defaultDeviceResult.nolet_default_device || "";
+      const defaultDevice =
+        devices.find((device: any) => device.id === defaultDeviceId) ||
+        devices[0];
 
       if (!defaultDevice) {
         // console.debug('未找到默认设备，但仍打开窗口让用户配置');
-        console.debug(getMessage('device_not_found_window'));
+        console.debug(getMessage("device_not_found_window"));
         // 仍然打开小窗口，让用户可以添加设备，补充 URL 插叙参数（autoAddDevice=true），自动打开添加设备对话框
         await browser.windows.create({
-          url: browser.runtime.getURL('/popup.html?mode=window&autoAddDevice=true'),
-          type: 'popup',
+          url: browser.runtime.getURL(
+            "/popup.html?mode=window&autoAddDevice=true"
+          ),
+          type: "popup",
           width: 380,
           height: 660,
           left: 0,
           top: 0,
-          focused: true
+          focused: true,
         });
         // 默认设备未找到
-        showSYSNotification(getMessage('nolet_sender_title'), getMessage('device_not_found'), true);
+        showSYSNotification(
+          getMessage("nolet_sender_title"),
+          getMessage("device_not_found"),
+          true
+        );
         return;
       }
 
       // 直接创建小窗口
       // console.debug('创建小窗口');
-      console.debug(getMessage('creating_small_window'));
+      console.debug(getMessage("creating_small_window"));
       await browser.windows.create({
-        url: browser.runtime.getURL('/popup.html?mode=window'),
-        type: 'popup',
+        url: browser.runtime.getURL("/popup.html?mode=window"),
+        type: "popup",
         width: 380,
         height: 660,
         left: 0,
         top: 0,
-        focused: true
+        focused: true,
       });
 
       // 延迟发送消息，确保窗口已经完全加载
       setTimeout(() => {
         // 向窗口发送快捷键触发消息
-        browser.runtime.sendMessage({
-          action: 'shortcut-triggered',
-          defaultDevice: defaultDevice
-        }).catch(error => {
-          // console.debug('发送消息到窗口失败:', error);
-          console.debug(getMessage('send_message_to_window_failed', [error.toString()]));
-          showSYSNotification(getMessage('nolet_sender_title'), getMessage('notification_shortcut_with_device', [defaultDevice.alias]), true);
-        });
+        browser.runtime
+          .sendMessage({
+            action: "shortcut-triggered",
+            defaultDevice: defaultDevice,
+          })
+          .catch((error) => {
+            // console.debug('发送消息到窗口失败:', error);
+            console.debug(
+              getMessage("send_message_to_window_failed", [error.toString()])
+            );
+            showSYSNotification(
+              getMessage("nolet_sender_title"),
+              getMessage("notification_shortcut_with_device", [
+                defaultDevice.alias,
+              ]),
+              true
+            );
+          });
       }, 300); // 给窗口足够时间加载
-
     } catch (error) {
       // console.error('快捷键处理失败:', error);
-      console.error(getMessage('shortcut_processing_failed'), error);
+      console.error(getMessage("shortcut_processing_failed"), error);
       // 快捷键处理失败
-      showSYSNotification(getMessage('nolet_sender_title'), getMessage('shortcut_processing_failed'), true);
+      showSYSNotification(
+        getMessage("nolet_sender_title"),
+        getMessage("shortcut_processing_failed"),
+        true
+      );
     }
   }
 
   // 处理推送请求
-  async function handleSendPush(apiURL: string, message: string, sound?: string, url?: string, title?: string, uuid?: string, authorization?: { type: 'basic'; user: string; pwd: string; value: string; },  devices?: Device[], icon?: string) {
+  async function handleSendPush(
+    apiURL: string,
+    message: string,
+    sound?: string,
+    url?: string,
+    title?: string,
+    uuid?: string,
+    authorization?: { type: "basic"; user: string; pwd: string; value: string },
+    devices?: Device[],
+    icon?: string
+  ) {
     try {
       // 获取应用设置
-      const settingsResult = await browser.storage.local.get('nolet_app_settings');
-      const settings = settingsResult.nolet_app_settings || { enableEncryption: false };
+      const settingsResult = await browser.storage.local.get(
+        "nolet_app_settings"
+      );
+      const settings = settingsResult.nolet_app_settings || {
+        enableEncryption: false,
+      };
 
       // 如果没有传入 devices，则创建一个单设备对象
-      const singleDevice = authorization ? {
-        id: uuid || generateID(),
-        apiURL,
-        deviceKey: apiURL.split('/').filter(Boolean).pop() || '',
-        server: new URL(apiURL).origin,
-        alias: 'Default Device',
-        timestamp: Date.now(),
-        createdAt: new Date().toISOString(),
-        authorization
-      } : undefined;
+      const singleDevice = authorization
+        ? {
+            id: uuid || generateID(),
+            apiURL,
+            deviceKey: apiURL.split("/").filter(Boolean).pop() || "",
+            server: new URL(apiURL).origin,
+            alias: "Default Device",
+            timestamp: Date.now(),
+            createdAt: new Date().toISOString(),
+            authorization,
+          }
+        : undefined;
 
       // 确定最终使用的图标：优先级为 传入的icon > 自定义头像
       let finalIcon: string | undefined;
@@ -737,37 +879,56 @@ export default defineBackground(() => {
         uuid,
         devices: devices || (singleDevice ? [singleDevice] : undefined),
         device_key: singleDevice?.deviceKey, // 添加device_key
-        device_keys: devices?.map(d => d.deviceKey).filter(Boolean) as string[], // 添加device_keys
+        device_keys: devices
+          ?.map((d) => d.deviceKey)
+          .filter(Boolean) as string[], // 添加device_keys
         ...(authorization && { authorization }),
-        ...(finalIcon && { icon: finalIcon })
+        ...(finalIcon && { icon: finalIcon }),
       };
       const response = await sendPush(pushParams, undefined);
       return response; // 返回PushResponse
     } catch (error) {
       // console.error('Background发送推送失败:', error);
-      console.error(getMessage('background_send_push_failed'), error);
+      console.error(getMessage("background_send_push_failed"), error);
       throw error;
     }
   }
 
   // 处理加密推送请求
-  async function handleSendEncryptedPush(apiURL: string, message: string, encryptionConfig: EncryptionConfig, sound?: string, url?: string, title?: string, uuid?: string, authorization?: { type: 'basic'; user: string; pwd: string; value: string; }, devices?: Device[], icon?: string) {
+  async function handleSendEncryptedPush(
+    apiURL: string,
+    message: string,
+    encryptionConfig: EncryptionConfig,
+    sound?: string,
+    url?: string,
+    title?: string,
+    uuid?: string,
+    authorization?: { type: "basic"; user: string; pwd: string; value: string },
+    devices?: Device[],
+    icon?: string
+  ) {
     try {
       // 获取应用设置
-      const settingsResult = await browser.storage.local.get('nolet_app_settings');
-      const settings = settingsResult.nolet_app_settings || { enableEncryption: false };
+      const settingsResult = await browser.storage.local.get(
+        "nolet_app_settings"
+      );
+      const settings = settingsResult.nolet_app_settings || {
+        enableEncryption: false,
+      };
 
       // 如果没有传入 devices，则创建一个单设备对象
-      const singleDevice = authorization ? {
-        id: uuid || generateID(),
-        apiURL,
-        deviceKey: apiURL.split('/').filter(Boolean).pop() || '',
-        server: new URL(apiURL).origin,
-        alias: 'Default Device',
-        timestamp: Date.now(),
-        createdAt: new Date().toISOString(),
-        authorization
-      } : undefined;
+      const singleDevice = authorization
+        ? {
+            id: uuid || generateID(),
+            apiURL,
+            deviceKey: apiURL.split("/").filter(Boolean).pop() || "",
+            server: new URL(apiURL).origin,
+            alias: "Default Device",
+            timestamp: Date.now(),
+            createdAt: new Date().toISOString(),
+            authorization,
+          }
+        : undefined;
 
       // 确定最终使用的图标：优先级为 传入的icon > 自定义头像
       let finalIcon: string | undefined;
@@ -786,64 +947,79 @@ export default defineBackground(() => {
         uuid,
         devices: devices || (singleDevice ? [singleDevice] : undefined),
         device_key: singleDevice?.deviceKey, // 添加device_key
-        device_keys: devices?.map(d => d.deviceKey).filter(Boolean) as string[], // 添加device_keys
+        device_keys: devices
+          ?.map((d) => d.deviceKey)
+          .filter(Boolean) as string[], // 添加device_keys
         ...(authorization && { authorization }),
-        ...(finalIcon && { icon: finalIcon })
+        ...(finalIcon && { icon: finalIcon }),
       };
       const response = await sendPush(pushParams, encryptionConfig);
       return response; // 返回 PushResponse
     } catch (error) {
       // console.error('Background 发送加密推送失败:', error);
-      console.error(getMessage('background_send_encrypted_push_failed'), error);
+      console.error(getMessage("background_send_encrypted_push_failed"), error);
       throw error;
     }
   }
-  if (browser.omnibox){
-// 监听 omnibox 输入完成（回车）
-  browser.omnibox.onInputEntered.addListener(async (text) => {
-    if (text.trim()) {
-      await handleOmniboxPush(text.trim());
-    }
-  });
+  if (browser.omnibox) {
+    // 监听 omnibox 输入完成（回车）
+    browser.omnibox.onInputEntered.addListener(async (text) => {
+      if (text.trim()) {
+        await handleOmniboxPush(text.trim());
+      }
+    });
 
-  // 监听 omnibox 输入变化，提供建议
-  browser.omnibox.onInputChanged.addListener((text, suggest) => {
-    if (text.trim()) {
-      browser.omnibox.setDefaultSuggestion({ description: getMessage('omnibox_send_push') });
-    }
-  });
+    // 监听 omnibox 输入变化，提供建议
+    browser.omnibox.onInputChanged.addListener((text, suggest) => {
+      if (text.trim()) {
+        browser.omnibox.setDefaultSuggestion({
+          description: getMessage("omnibox_send_push"),
+        });
+      }
+    });
   }
-  
 
   // 处理地址栏推送发送
   async function handleOmniboxPush(message: string) {
     try {
       // 获取默认设备和设置
-      const [devicesResult, defaultDeviceResult, settingsResult] = await Promise.all([
-        browser.storage.local.get('nolet_devices'),
-        browser.storage.local.get('nolet_default_device'),
-        browser.storage.local.get('nolet_app_settings')
-      ]);
+      const [devicesResult, defaultDeviceResult, settingsResult] =
+        await Promise.all([
+          browser.storage.local.get("nolet_devices"),
+          browser.storage.local.get("nolet_default_device"),
+          browser.storage.local.get("nolet_app_settings"),
+        ]);
 
       const devices = devicesResult.nolet_devices || [];
-      const defaultDeviceId = defaultDeviceResult.nolet_default_device || '';
-      const defaultDevice = devices.find((device: any) => device.id === defaultDeviceId) || devices[0];
-      const settings = settingsResult.nolet_app_settings || { enableEncryption: false };
+      const defaultDeviceId = defaultDeviceResult.nolet_default_device || "";
+      const defaultDevice =
+        devices.find((device: any) => device.id === defaultDeviceId) ||
+        devices[0];
+      const settings = settingsResult.nolet_app_settings || {
+        enableEncryption: false,
+      };
 
-      if (!defaultDevice) { // 没有默认设备，则打开 添加设备 窗口
+      if (!defaultDevice) {
+        // 没有默认设备，则打开 添加设备 窗口
         // 将用户输入的文字保存到 storage，供 popup 使用
         await browser.storage.local.set({ nolet_omnibox_message: message });
         // 未找到默认设备
-        showSYSNotification(getMessage('nolet_sender_title'), getMessage('device_not_found'), true);
+        showSYSNotification(
+          getMessage("nolet_sender_title"),
+          getMessage("device_not_found"),
+          true
+        );
         // 打开设置窗口让用户添加设备
         await browser.windows.create({
-          url: browser.runtime.getURL('/popup.html?mode=window&autoAddDevice=true'),
-          type: 'popup',
+          url: browser.runtime.getURL(
+            "/popup.html?mode=window&autoAddDevice=true"
+          ),
+          type: "popup",
           width: 380,
           height: 660,
           left: 0,
           top: 0,
-          focused: true
+          focused: true,
         });
         return;
       }
@@ -864,25 +1040,37 @@ export default defineBackground(() => {
         title: undefined,
         uuid: pushUuid,
         devices: [defaultDevice],
-        ...(defaultDevice.authorization && { authorization: defaultDevice.authorization }),
-        ...(settings.enableCustomAvatar && settings.noletAvatarUrl && { icon: settings.noletAvatarUrl }),
-        ...filteredCustomParams
+        ...(defaultDevice.authorization && {
+          authorization: defaultDevice.authorization,
+        }),
+        ...(settings.enableCustomAvatar &&
+          settings.noletAvatarUrl && { icon: settings.noletAvatarUrl }),
+        ...filteredCustomParams,
       };
 
       let isEncrypted = false;
-      let method: 'GET' | 'POST' = 'GET';
+      let method: "GET" | "POST" = "GET";
 
-      const sendPushPromise = settings.enableEncryption && settings.encryptionConfig?.key
-        ? (isEncrypted = true, method = 'POST', sendPush(pushParams, settings.encryptionConfig))
-        : (method = 'POST', sendPush(pushParams, undefined ));
+      const sendPushPromise =
+        settings.enableEncryption && settings.encryptionConfig?.key
+          ? ((isEncrypted = true),
+            (method = "POST"),
+            sendPush(pushParams, settings.encryptionConfig))
+          : ((method = "POST"), sendPush(pushParams, undefined));
 
       const response = await sendPushPromise;
 
       // 记录历史
       const requestTimestamp = Date.now();
       const parameters = getRequestParameters(pushParams, isEncrypted);
-      parameters.push({ key: 'device_key', value: defaultDevice.deviceKey || '' });
-      parameters.push({ key: 'device_keys', value: [defaultDevice.deviceKey].filter(Boolean).join(',') || '' });
+      parameters.push({
+        key: "device_key",
+        value: defaultDevice.deviceKey || "",
+      });
+      parameters.push({
+        key: "device_keys",
+        value: [defaultDevice.deviceKey].filter(Boolean).join(",") || "",
+      });
 
       const historyRecord = {
         id: Date.now(),
@@ -901,35 +1089,41 @@ export default defineBackground(() => {
         sound: settings.sound || undefined,
         url: undefined,
         isEncrypted: isEncrypted,
-        createdAt: new Date(requestTimestamp).toLocaleString('zh-CN', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
+        createdAt: new Date(requestTimestamp).toLocaleString("zh-CN", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
           hour12: false,
         }),
-        inspectType: 'omnibox', // 标记为 omnibox 输入
-        authorization: defaultDevice.authorization
+        inspectType: "omnibox", // 标记为 omnibox 输入
+        authorization: defaultDevice.authorization,
       };
 
       await saveHistoryRecord(historyRecord);
 
       // 已发送至**设备
-      showSYSNotification(getMessage('nolet_sender_title'), getMessage('sent_to_device', [defaultDevice.alias]));
-
+      showSYSNotification(
+        getMessage("nolet_sender_title"),
+        getMessage("sent_to_device", [defaultDevice.alias])
+      );
     } catch (error) {
-      console.error('地址栏推送发送失败:', error);
+      console.error("地址栏推送发送失败:", error);
       // 发送失败，请检查网络连接
-      showSYSNotification(getMessage('nolet_sender_title'), getMessage('send_failed_check_network'), true);
+      showSYSNotification(
+        getMessage("nolet_sender_title"),
+        getMessage("send_failed_check_network"),
+        true
+      );
     }
   }
 
   // 监听扩展安装和启动
   browser.runtime.onInstalled.addListener(() => {
     // console.debug('Nolet 已安装');
-    console.debug(getMessage('extension_installed'));
+    console.debug(getMessage("extension_installed"));
     updateContextMenus();
   });
 
@@ -951,28 +1145,34 @@ export default defineBackground(() => {
       browser.contextMenus.removeAll();
 
       // 获取设置
-      const settingsResult = await browser.storage.local.get('nolet_app_settings');
-      const settings = settingsResult.nolet_app_settings || { enableContextMenu: true, enableInspectSend: true };
+      const settingsResult = await browser.storage.local.get(
+        "nolet_app_settings"
+      );
+      const settings = settingsResult.nolet_app_settings || {
+        enableContextMenu: true,
+        enableInspectSend: true,
+      };
 
       // 老用户没有这项，这里默认启用
       const enableInspectSend = settings.enableInspectSend ?? true; // 是否启用 inspect-send 菜单项
 
-
       // 获取设备列表和默认设备
       const [devicesResult, defaultDeviceResult] = await Promise.all([
-        browser.storage.local.get('nolet_devices'),
-        browser.storage.local.get('nolet_default_device')
+        browser.storage.local.get("nolet_devices"),
+        browser.storage.local.get("nolet_default_device"),
       ]);
 
       const devices = devicesResult.nolet_devices || [];
-      const defaultDeviceId = defaultDeviceResult.nolet_default_device || '';
+      const defaultDeviceId = defaultDeviceResult.nolet_default_device || "";
 
       if (devices.length === 0) {
         return;
       }
 
       // 找到默认设备
-      const defaultDevice = devices.find((device: any) => device.id === defaultDeviceId) || devices[0];
+      const defaultDevice =
+        devices.find((device: any) => device.id === defaultDeviceId) ||
+        devices[0];
 
       // 根据 enableInspectSend 设置决定 如果开启则使用新版的 inspect-send 否则使用旧版的 send-selection, send-page, send-link
       if (enableInspectSend) {
@@ -1013,51 +1213,65 @@ export default defineBackground(() => {
         //   contexts: ['link']
         // });
       }
-      if ( import.meta.env.BROWSER !== "safari"){
-            // 切换极速模式的右键菜单项
-          const speedModeEnabled = settings.enableSpeedMode || false;
-          browser.contextMenus.create({
-            id: 'toggle-speed-mode',
-            title: getMessage(speedModeEnabled ? 'disable_speed_mode' : 'enable_speed_mode'),
-            contexts: ['action']
-          });
+      if (import.meta.env.BROWSER !== "safari") {
+        // 切换极速模式的右键菜单项
+        const speedModeEnabled = settings.enableSpeedMode || false;
+        browser.contextMenus.create({
+          id: "toggle-speed-mode",
+          title: getMessage(
+            speedModeEnabled ? "disable_speed_mode" : "enable_speed_mode"
+          ),
+          contexts: ["action"],
+        });
       }
-      
     } catch (error) {
-      console.error(getMessage('update_context_menus_failed'), error);
+      console.error(getMessage("update_context_menus_failed"), error);
     }
   }
 
   // 处理右键菜单点击
   browser.contextMenus.onClicked.addListener(async (info: any, tab: any) => {
-    let message = '', title = '', url = '';
+    let message = "",
+      title = "",
+      url = "";
     let defaultDevice: any = null;
     let settings: any = {};
 
     try {
       // 获取默认设备和设置
-      const [devicesResult, defaultDeviceResult, settingsResult] = await Promise.all([
-        browser.storage.local.get('nolet_devices'),
-        browser.storage.local.get('nolet_default_device'),
-        browser.storage.local.get('nolet_app_settings')
-      ]);
+      const [devicesResult, defaultDeviceResult, settingsResult] =
+        await Promise.all([
+          browser.storage.local.get("nolet_devices"),
+          browser.storage.local.get("nolet_default_device"),
+          browser.storage.local.get("nolet_app_settings"),
+        ]);
 
       const devices = devicesResult.nolet_devices || [];
-      const defaultDeviceId = defaultDeviceResult.nolet_default_device || '';
-      defaultDevice = devices.find((device: any) => device.id === defaultDeviceId) || devices[0];
-      settings = settingsResult.nolet_app_settings || { enableEncryption: false };
+      const defaultDeviceId = defaultDeviceResult.nolet_default_device || "";
+      defaultDevice =
+        devices.find((device: any) => device.id === defaultDeviceId) ||
+        devices[0];
+      settings = settingsResult.nolet_app_settings || {
+        enableEncryption: false,
+      };
 
       // 对于切换极速模式，不需要检查默认设备
-      if (info.menuItemId === 'toggle-speed-mode') {
+      if (info.menuItemId === "toggle-speed-mode") {
         const currentSpeedMode = settings.enableSpeedMode || false;
         const newSpeedMode = !currentSpeedMode;
 
         // 更新设置
         const updatedSettings = { ...settings, enableSpeedMode: newSpeedMode };
-        await browser.storage.local.set({ nolet_app_settings: updatedSettings });
+        await browser.storage.local.set({
+          nolet_app_settings: updatedSettings,
+        });
 
         // 极速模式已启用/禁用 如果是启用，则提醒
-        showSYSNotification(getMessage('nolet_sender_title'), getMessage(newSpeedMode ? 'enable_speed_mode' : 'disable_speed_mode'), newSpeedMode === true);
+        showSYSNotification(
+          getMessage("nolet_sender_title"),
+          getMessage(newSpeedMode ? "enable_speed_mode" : "disable_speed_mode"),
+          newSpeedMode === true
+        );
 
         // 更新右键菜单
         updateContextMenus();
@@ -1066,20 +1280,24 @@ export default defineBackground(() => {
 
       if (!defaultDevice) {
         // console.error('未找到默认设备');
-        console.error(getMessage('device_not_found'));
+        console.error(getMessage("device_not_found"));
         // 未找到默认设备
-        showSYSNotification(getMessage('nolet_sender_title'), getMessage('device_not_found'), true);
+        showSYSNotification(
+          getMessage("nolet_sender_title"),
+          getMessage("device_not_found"),
+          true
+        );
         return;
       }
-      console.debug('info', info);
-      if (info.menuItemId === 'send-selection' && info.selectionText) {
+      console.debug("info", info);
+      if (info.menuItemId === "send-selection" && info.selectionText) {
         message = info.selectionText;
-      } else if (info.menuItemId === 'send-page' && tab?.url) {
-        title = tab.title || 'Web'; // 网页标题作为推送标题
+      } else if (info.menuItemId === "send-page" && tab?.url) {
+        title = tab.title || "Web"; // 网页标题作为推送标题
         message = tab.url; // 网页 URL 作为推送内容
         url = tab.url; // 同时保留url参数
-      } else if (info.menuItemId === 'send-link' && info.linkUrl) {
-        title = info.linkText || 'Link'; // 链接文本作为推送标题
+      } else if (info.menuItemId === "send-link" && info.linkUrl) {
+        title = info.linkText || "Link"; // 链接文本作为推送标题
         message = info.linkUrl; // 链接URL作为推送内容
         url = info.linkUrl; // 同时保留url参数
       }
@@ -1088,9 +1306,9 @@ export default defineBackground(() => {
       //   message = info.srcUrl; // 图片URL作为推送内容
       //   url = info.srcUrl; // 同时保留url参数
       // }
-      else if (info.menuItemId === 'inspect-send') {
+      else if (info.menuItemId === "inspect-send") {
         // 打印完整的右键菜单信息到控制台
-        console.log('Right Click Context Info:', {
+        console.log("Right Click Context Info:", {
           info,
           tab,
           mediaType: info.mediaType,
@@ -1105,41 +1323,51 @@ export default defineBackground(() => {
           modifiers: info.modifiers,
           button: info.button,
           // 添加来自content script的元素信息
-          elementInfo: lastRightClickedElementInfo
+          elementInfo: lastRightClickedElementInfo,
         });
         // pageUrl 必须是http或者是https协议的 使用正则表达式
-        if (info.pageUrl && !info.pageUrl.startsWith('http://') && !info.pageUrl.startsWith('https://')) {
+        if (
+          info.pageUrl &&
+          !info.pageUrl.startsWith("http://") &&
+          !info.pageUrl.startsWith("https://")
+        ) {
           return;
         }
 
         // 向 content script 发送消息，显示选择对话框
         if (tab && tab.id) {
-          browser.tabs.sendMessage(tab.id, {
-            action: 'show_dialog',
-            contextInfo: info, // 右键菜单信息
-          }).catch(error => {
-            // 将URL相关参数存储到storage.local
-            const urlData = {
-              url: tab.url,
-              title: tab.title,
-              selectionText: info.selectionText,
-              linkText: info.linkText,
-              linkUrl: info.linkUrl
-            };
+          browser.tabs
+            .sendMessage(tab.id, {
+              action: "show_dialog",
+              contextInfo: info, // 右键菜单信息
+            })
+            .catch((error) => {
+              // 将URL相关参数存储到storage.local
+              const urlData = {
+                url: tab.url,
+                title: tab.title,
+                selectionText: info.selectionText,
+                linkText: info.linkText,
+                linkUrl: info.linkUrl,
+              };
 
-            browser.storage.local.set({ nolet_url_data: urlData }).then(() => {
-              browser.windows.create({
-                url: browser.runtime.getURL('/popup.html?mode=window&useUrlDialog=true'),
-                type: 'popup',
-                width: 380,
-                height: 660,
-                left: 0,
-                top: 0,
-                focused: true,
-              });
+              browser.storage.local
+                .set({ nolet_url_data: urlData })
+                .then(() => {
+                  browser.windows.create({
+                    url: browser.runtime.getURL(
+                      "/popup.html?mode=window&useUrlDialog=true"
+                    ),
+                    type: "popup",
+                    width: 380,
+                    height: 660,
+                    left: 0,
+                    top: 0,
+                    focused: true,
+                  });
+                });
+              return;
             });
-            return;
-          });
         }
 
         return; // 不执行发送操作
@@ -1148,7 +1376,7 @@ export default defineBackground(() => {
       if (message) {
         const requestTimestamp = Date.now();
         let response: any;
-        let method: 'GET' | 'POST' = 'GET';
+        let method: "GET" | "POST" = "GET";
         let isEncrypted = false;
         let parameters: any[] = [];
 
@@ -1156,14 +1384,17 @@ export default defineBackground(() => {
 
         // 预加载favicon（仅当发送页面或选中文本时）
         let faviconUrl: string | null = null;
-        if (info.menuItemId === 'send-page' || info.menuItemId === 'send-selection') {
+        if (
+          info.menuItemId === "send-page" ||
+          info.menuItemId === "send-selection"
+        ) {
           try {
             const currentPageUrl = tab?.url;
             if (currentPageUrl) {
               faviconUrl = await prefetchFavicon(currentPageUrl);
             }
           } catch (error) {
-            console.debug('预加载favicon失败:', error);
+            console.debug("预加载favicon失败:", error);
           }
         }
 
@@ -1179,7 +1410,7 @@ export default defineBackground(() => {
         const customParams = getCustomParametersDifference(settings);
         const filteredCustomParams = filterConflictingParams(customParams, {
           title,
-          url
+          url,
         });
 
         const pushParams: PushParams = {
@@ -1192,18 +1423,20 @@ export default defineBackground(() => {
           devices: [defaultDevice],
           device_key: defaultDevice.deviceKey, // 添加device_key
           device_keys: [defaultDevice.deviceKey].filter(Boolean) as string[], // 添加device_keys
-          ...(defaultDevice.authorization && { authorization: defaultDevice.authorization }),
+          ...(defaultDevice.authorization && {
+            authorization: defaultDevice.authorization,
+          }),
           ...(finalIcon && { icon: finalIcon }),
-          ...filteredCustomParams
+          ...filteredCustomParams,
         };
 
         // 根据设置选择发送方式
         if (settings.enableEncryption && settings.encryptionConfig?.key) {
-          method = 'POST';
+          method = "POST";
           isEncrypted = true;
-          response = await sendPush(pushParams, settings.encryptionConfig,);
+          response = await sendPush(pushParams, settings.encryptionConfig);
         } else {
-          method = 'POST' ;
+          method = "POST";
           response = await sendPush(pushParams, undefined);
         }
 
@@ -1212,13 +1445,13 @@ export default defineBackground(() => {
 
         const responseTimestamp = Date.now();
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const createdAt = new Date(requestTimestamp).toLocaleString('zh-CN', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
+        const createdAt = new Date(requestTimestamp).toLocaleString("zh-CN", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
           hour12: false,
         });
 
@@ -1241,19 +1474,21 @@ export default defineBackground(() => {
           url: url || undefined,
           isEncrypted: isEncrypted,
           createdAt: createdAt,
-          authorization: defaultDevice.authorization
+          authorization: defaultDevice.authorization,
         };
 
         // 保存历史记录
         await saveHistoryRecord(historyRecord);
 
         // 已发送至**
-        showSYSNotification(getMessage('nolet_sender_title'), getMessage('sent_to_device', [defaultDevice.alias]));
+        showSYSNotification(
+          getMessage("nolet_sender_title"),
+          getMessage("sent_to_device", [defaultDevice.alias])
+        );
       }
-
     } catch (error) {
       // console.error('发送推送失败:', error);
-      console.error(getMessage('send_failed_check_network'), error);
+      console.error(getMessage("send_failed_check_network"), error);
 
       // 即使发送失败也要记录历史
       if (message && defaultDevice) {
@@ -1261,8 +1496,11 @@ export default defineBackground(() => {
         const errorResponse = {
           code: -1,
           // message: error instanceof Error ? error.message : '未知错误',
-          message: error instanceof Error ? error.message : getMessage('error_unknown'),
-          timestamp: Date.now()
+          message:
+            error instanceof Error
+              ? error.message
+              : getMessage("error_unknown"),
+          timestamp: Date.now(),
         };
 
         const historyRecord = {
@@ -1277,28 +1515,32 @@ export default defineBackground(() => {
           requestTimestamp: requestTimestamp,
           responseTimestamp: Date.now(),
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          method: 'GET' as const,
+          method: "GET" as const,
           title: title || undefined,
           sound: settings.sound || undefined,
           url: url || undefined,
           isEncrypted: false,
-          createdAt: new Date(requestTimestamp).toLocaleString('zh-CN', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
+          createdAt: new Date(requestTimestamp).toLocaleString("zh-CN", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
             hour12: false,
           }),
-          authorization: defaultDevice.authorization
+          authorization: defaultDevice.authorization,
         };
 
         await saveHistoryRecord(historyRecord);
       }
 
       // 发送失败，请检查网络连接
-      showSYSNotification(getMessage('nolet_sender_title'), getMessage('send_failed_check_network'), true);
+      showSYSNotification(
+        getMessage("nolet_sender_title"),
+        getMessage("send_failed_check_network"),
+        true
+      );
     }
   });
 });

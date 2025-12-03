@@ -185,12 +185,6 @@
         "config_save_failed": "암호화 구성 저장 실패: {{message}}"
       }
     },
-    "api_v2": {
-      "title": "API v2 활성화",
-      "update_success": "API v2가 활성화되었습니다. 모든 매개변수를 완전히 지원합니다",
-      "success_message": "API v2 모드를 자동으로 활성화했습니다",
-      "update_failed": "장치 업데이트 실패: {{message}}"
-    },
     "advanced_params": {
       "enable": "맞춤 매개변수 활성화",
       "success_message": "전체 매개변수 구성을 활성화했습니다. 발송 페이지에서 더 많은 매개변수를 설정할 수 있습니다",
@@ -335,7 +329,7 @@
     "target_device": "대상 장치",
     "select_device": "전송할 장치 선택",
     "message": "푸시 내용",
-    "message_placeholder": "푸시할 메시지 내용을 입력",
+    "message_placeholder": "전송할 메시지 내용을 입력하고, 탭을 클릭하여 모드를 전환하세요.",
     "send": "전송",
     "sending": "전송 중...",
     "send_clipboard": "클립보드 내용 전송",

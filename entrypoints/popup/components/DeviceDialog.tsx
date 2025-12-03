@@ -65,7 +65,7 @@ const concatenateServerAndDeviceKey = (server: string, deviceKey: string): strin
 };
 
 function isValidDeviceKey(input: string): boolean {
-    const shortUuidRegex = /^[A-HJ-NP-Za-km-z2-9]{22}$/;
+    const shortUuidRegex = /^[A-Za-z0-9]{5,}$/;
     return shortUuidRegex.test(input);
 }
 

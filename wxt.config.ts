@@ -19,7 +19,7 @@ export default defineConfig({
   manifest: {
     default_locale: "en",
     omnibox: {
-      keyword: "bb",
+      keyword: "wzs",
     },
     permissions: [
       "storage",

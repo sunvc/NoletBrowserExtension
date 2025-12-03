@@ -9,34 +9,34 @@ Just click the badge/ link below to install it from your browser's extension sto
 点击下方 对应浏览器的 徽标/ 链接 即可跳转至的扩展商店进行安装！
 
 <table>
-  <tr>
-  <td align="center">
-      <a href="https://apps.apple.com/app/id6740040672">
-        <img src="./docs/assets/badge-sf.png" alt="Safari" height="66">
-      </a><br>
-      <a href="https://apps.apple.com/app/id6740040672">For Apple Safari</a>
-    </td>
-    <td align="center">
-      <a href="https://chromewebstore.google.com/detail/bbhjjpgkahbphfmllckjjpkgpcaghgjk">
-        <img src="./docs/assets/badge-cr.png" alt="Chrome" height="66">
-      </a><br>
-      <a href="https://chromewebstore.google.com/detail/bbhjjpgkahbphfmllckjjpkgpcaghgjk">For Google Chrome</a>
-    </td>
- </tr>
-     <tr>
-      <td align="center">
-      <a href="https://addons.mozilla.org/firefox/addon/nolet/">
-        <img src="./docs/assets/badge-fx.png" alt="Firefox" height="66">
-      </a><br>
-      <a href="https://addons.mozilla.org/firefox/addon/nolet/">For Mozilla Firefox</a>
-    </td>
-    <td align="center">
-          <a href="https://microsoftedge.microsoft.com/addons/detail/cpeddmngdbglghhmfomfpeckcllgpcii">
-        <img src="./docs/assets/badge-eg.png" alt="Edge" height="66">
-      </a><br>
-      <a href="https://microsoftedge.microsoft.com/addons/detail/cpeddmngdbglghhmfomfpeckcllgpcii">For Microsoft Edge</a>
-    </td>
-  </tr>
+	<tr>
+		<td align="center">
+			<a href="https://chromewebstore.google.com/detail/bbhjjpgkahbphfmllckjjpkgpcaghgjk">
+				<img src="./docs/assets/badge-cr.png" alt="Chrome" height="66">
+			</a><br>
+			<a href="https://chromewebstore.google.com/detail/bbhjjpgkahbphfmllckjjpkgpcaghgjk">For Google Chrome</a>
+		</td>
+		<td align="center">
+			<a href="https://addons.mozilla.org/firefox/addon/nolet/">
+				<img src="./docs/assets/badge-fx.png" alt="Firefox" height="66">
+			</a><br>
+			<a href="https://addons.mozilla.org/firefox/addon/nolet/">For Mozilla Firefox</a>
+		</td>
+		<td align="center">
+			<a href="https://microsoftedge.microsoft.com/addons/detail/cpeddmngdbglghhmfomfpeckcllgpcii">
+				<img src="./docs/assets/badge-eg.png" alt="Edge" height="66">
+			</a><br>
+			<a href="https://microsoftedge.microsoft.com/addons/detail/cpeddmngdbglghhmfomfpeckcllgpcii">For Microsoft Edge</a>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<a href="https://apps.apple.com/app/id6740040672">
+				<img src="./docs/assets/badge-sf.png" alt="Safari" height="66">
+			</a><br>
+			<a href="https://apps.apple.com/app/id6740040672">For Apple Safari</a>
+		</td>
+	</tr>
 </table>
 
 ---

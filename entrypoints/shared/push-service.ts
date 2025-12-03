@@ -10,6 +10,7 @@ export interface MessagePayload {
   title?: string; // 推送标题
   subtitle?: string; // 推送副标题
   image?: string; // 推送图片地址，支持 URL 或 base64 编码的图片
+  markdown?: string;
   device_key?: string;
   /* 设备 key，API v2 使用
         实际服务器根据请求头 Content-Type 来判断是 API v1 还是 API v2
@@ -55,6 +56,7 @@ export interface PushParams extends Omit<MessagePayload, "body" | "id"> {
   devices?: Device[]; // 完整的设备信息
   apiURL: string; // API URL地址
   message: string; // *必填* 对应 MessagePayload 中的 body
+  isMarkdown: boolean,
   uuid?: string; // 作为请求参数里的 id 作为唯一标识, 这个 id 后续修改撤回功能会用到 对应 MessagePayload 中的 id
   authorization?: {
     type: "basic";
@@ -182,7 +184,6 @@ export async function encryptAESGCM(
   return arrayBufferToBase64(combined.buffer);
 }
 
-
 /**
  * 发送 API v2 推送消息
  */
@@ -307,14 +308,17 @@ async function sendGroupAPIv2Push(
   if (authorization && authorization.value) {
     headers["Authorization"] = authorization.value;
   }
-
   let payload = { ...msgPayload };
+
+  if (payload.markdown) {
+    delete payload.body;
+  }
 
   // 如果是加密模式，处理加密
   if (encryptionConfig?.key) {
     const iv = generateIV();
     const plaintext = JSON.stringify({
-      body: payload.body,
+      ...(payload.body ? { body: payload.body } : {}),
       title: payload.title,
       ...Object.entries(payload)
         .filter(([key]) => !["body", "title"].includes(key))
@@ -323,8 +327,8 @@ async function sendGroupAPIv2Push(
 
     const ciphertext = await encryptAESGCM(plaintext, encryptionConfig.key, iv);
 
-    // 加密模式下，移除 body，title subtitle 字段，使用 ciphertext
-    const { body, title, subtitle, ...payloadWithoutBody } = payload;
+    // 加密模式下，移除 body，title subtitle, markdown 字段，使用 ciphertext
+    const { body, title, markdown, subtitle, ...payloadWithoutBody } = payload;
     payload = {
       ...payloadWithoutBody,
       ciphertext,
@@ -366,12 +370,14 @@ async function sendGroupAPIv2Push(
  */
 export async function sendPush(
   params: PushParams,
-  encryptionConfig?: EncryptionConfig,
+  encryptionConfig?: EncryptionConfig
 ): Promise<PushResponse> {
   // 构建消息体 - 将PushParams转换为MessagePayload
+
   const msgPayload: MessagePayload = {
     // 特殊字段映射
-    body: params.message,
+    body: !params.isMarkdown ? params.message : "",
+    markdown: params.isMarkdown ? params.message : undefined,
     id: params.uuid || generateID(),
 
     // 复制其他所有字段 (除去前端内部使用的 apiURL, authorization, devices 等)
@@ -379,13 +385,9 @@ export async function sendPush(
       .filter(([key, value]) => {
         // 排除内部使用的字段
         if (
-          [
-            "apiURL",
-            "message",
-            "uuid",
-            "authorization",
-            "devices",
-          ].includes(key)
+          ["apiURL", "message", "uuid", "authorization", "devices"].includes(
+            key
+          )
         ) {
           return false;
         }
@@ -418,6 +420,7 @@ export function getRequestParameters(
   // 构建基本参数对象
   const paramMap: Record<string, string | undefined> = {
     message: params.message,
+    isMarkdown: params.isMarkdown ? "1" : "0",
     autoCopy: params.autoCopy || "1",
     copy: params.copy || params.message,
     id: params.uuid || "",

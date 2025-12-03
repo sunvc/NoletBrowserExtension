@@ -185,12 +185,6 @@
         "config_save_failed": "暗号化構成の保存に失敗しました: {{message}}"
       }
     },
-    "api_v2": {
-      "title": "API v2 を有効化",
-      "update_success": "API v2 を有効化しました。すべてのパラメータに対応しています。",
-      "success_message": "API v2 モードを自動的に有効化しました",
-      "update_failed": "デバイスの更新に失敗しました: {{message}}"
-    },
     "advanced_params": {
       "enable": "カスタムパラメータを有効化",
       "success_message": "拡張パラメータ設定を有効化しました。送信ページで詳細設定できます",
@@ -335,7 +329,7 @@
     "target_device": "送信先デバイス",
     "select_device": "送信するデバイスを選択",
     "message": "送信内容",
-    "message_placeholder": "送信するメッセージ内容を入力",
+    "message_placeholder": "送信するメッセージ内容を入力し、タブをクリックしてモードを切り替えます。",
     "send": "送信",
     "sending": "送信中...",
     "send_clipboard": "クリップボードを送信",
