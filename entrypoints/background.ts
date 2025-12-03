@@ -168,6 +168,7 @@ export default defineBackground(() => {
       handleSendPush(
         message.apiURL,
         message.message,
+        false,
         message.sound,
         message.url,
         message.title,
@@ -189,6 +190,7 @@ export default defineBackground(() => {
       handleSendEncryptedPush(
         message.apiURL,
         message.message,
+        false,
         message.encryptionConfig,
         message.sound,
         message.url,
@@ -840,6 +842,8 @@ export default defineBackground(() => {
     icon?: string
   ) {
     try {
+      const isMarkdown = (await browser.storage.local.get("nolet_draft_markdown_mode")).nolet_draft_markdown_mode || false;
+      
       // 获取应用设置
       const settingsResult = await browser.storage.local.get(
         "nolet_app_settings"
@@ -873,6 +877,7 @@ export default defineBackground(() => {
       const pushParams: PushParams = {
         apiURL,
         message,
+        isMarkdown,
         sound,
         url,
         title,
@@ -916,6 +921,9 @@ export default defineBackground(() => {
         enableEncryption: false,
       };
 
+      const isMarkdown = (await browser.storage.local.get("nolet_draft_markdown_mode")).nolet_draft_markdown_mode || false;
+
+
       // 如果没有传入 devices，则创建一个单设备对象
       const singleDevice = authorization
         ? {
@@ -945,6 +953,7 @@ export default defineBackground(() => {
         url,
         title,
         uuid,
+        isMarkdown,
         devices: devices || (singleDevice ? [singleDevice] : undefined),
         device_key: singleDevice?.deviceKey, // 添加device_key
         device_keys: devices

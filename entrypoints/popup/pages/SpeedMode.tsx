@@ -151,6 +151,7 @@ export default function SpeedMode({ defaultDevice, onExitSpeedMode }: SpeedModeP
                 {
                     apiURL: defaultDevice.apiURL,
                     message: clipboardContent,
+                    isMarkdown: false,
                     authorization: defaultDevice.authorization,
                     devices: [defaultDevice],
                     sound: appSettings?.sound,

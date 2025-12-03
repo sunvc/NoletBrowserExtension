@@ -105,16 +105,15 @@ export default function SendPush({
   }, []);
 
   useEffect(() => {
-    const mdOpen = localStorage.getItem("nolet-draft-mdOpen");
-    if (mdOpen) {
-      setMdHelpOpen(mdOpen === "1");
-    }
+    browser.storage.local.get("nolet_draft_markdown_mode", (res) => {
+      setMdHelpOpen(res.nolet_draft_markdown_mode);
+    });
   }, []);
 
   const changeMarkdownMode = () => {
     const open = mdHelpOpen;
     setMdHelpOpen(!open);
-    localStorage.setItem("nolet-draft-mdOpen", !open ? "1" : "0");
+    browser.storage.local.set({ nolet_draft_markdown_mode: !open });
   };
 
   // 消息输入变化时实时暂存到ls

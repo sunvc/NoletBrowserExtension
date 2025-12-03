@@ -56,7 +56,7 @@ export interface PushParams extends Omit<MessagePayload, "body" | "id"> {
   devices?: Device[]; // 完整的设备信息
   apiURL: string; // API URL地址
   message: string; // *必填* 对应 MessagePayload 中的 body
-  isMarkdown: boolean,
+  isMarkdown: boolean;
   uuid?: string; // 作为请求参数里的 id 作为唯一标识, 这个 id 后续修改撤回功能会用到 对应 MessagePayload 中的 id
   authorization?: {
     type: "basic";

@@ -33,7 +33,6 @@ async function handleRecordHistory(message: any) {
         apiUrl,
         deviceName,
         response,
-        method,
         options
     );
 }

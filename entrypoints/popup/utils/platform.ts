@@ -49,7 +49,7 @@ export function getShortcutKeys(platform: PlatformType) {
 
     return {
         send: isApple ? '⌘ + ↩' : 'Ctrl + Enter',
-        openExtension: isApple ? '⌘ + ⇧ + 8' : 'Ctrl + Shift + 8'
+        openExtension: isApple ? '⌘ + ⇧ + 1' : 'Ctrl + Shift + 1'
     };
 }
 

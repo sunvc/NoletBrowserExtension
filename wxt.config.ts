@@ -19,7 +19,7 @@ export default defineConfig({
   manifest: {
     default_locale: "en",
     omnibox: {
-      keyword: "wzs",
+      keyword: "ww",
     },
     permissions: [
       "storage",
@@ -41,8 +41,8 @@ export default defineConfig({
     commands: {
       "send-clipboard": {
         suggested_key: {
-          default: "Ctrl+Shift+8",
-          mac: "Command+Shift+8",
+          default: "Ctrl+Shift+1",
+          mac: "Command+Shift+1",
         },
         description: "__MSG_shortcut_send_clipboard_description__",
         global: true,
