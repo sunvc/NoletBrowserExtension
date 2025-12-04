@@ -2,7 +2,7 @@
   "name": "NoLet",
   "description": "__MSG_ext_desc__",
   "private": true,
-  "version": "1.5.0",
+  "version": "1.5.1",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -24,14 +24,14 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.4",
-    "@mui/material": "^7.3.4",
+    "@mui/icons-material": "^7.3.6",
+    "@mui/material": "^7.3.6",
     "@types/uuid": "^10.0.0",
     "ag-grid-community": "34.2.0",
     "ag-grid-react": "34.2.0",
-    "dayjs": "^1.11.18",
+    "dayjs": "^1.11.19",
     "gsap": "^3.13.0",
-    "i18next": "^25.6.0",
+    "i18next": "^25.7.1",
     "i18next-browser-languagedetector": "^8.2.0",
     "idb": "^8.0.3",
     "lottie-web": "^5.13.0",
@@ -43,8 +43,8 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@wxt-dev/module-react": "^1.1.5",
     "typescript": "^5.9.3",
     "wxt": "^0.20.11"

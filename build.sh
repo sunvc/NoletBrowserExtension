@@ -217,8 +217,19 @@ else
     echo "❌ Error: Edge extension package not found"
 fi
 
+# 检查 Safari 扩展
+SAFARI_SUCCESS=false
+if [ -f ".output/nolet-$PACKAGE_VERSION-safari.zip" ]; then
+    echo "✅ Safari 扩展构建成功"
+    echo "✅ Safari extension build successful"
+    SAFARI_SUCCESS=true
+else
+    echo "❌ 错误: 未找到 Safari 扩展包"
+    echo "❌ Error: Edge extension package not found"
+fi
+
 # 检查是否至少有一个构建成功
-if [ "$CHROME_SUCCESS" = true ] || [ "$FIREFOX_SUCCESS" = true ] || [ "$EDGE_SUCCESS" = true ]; then
+if [ "$CHROME_SUCCESS" = true ] || [ "$FIREFOX_SUCCESS" = true ] || [ "$SAFARI_SUCCESS" = true ] || [ "$EDGE_SUCCESS" = true ]; then
     echo ""
     echo "📁 输出文件位置 / Output file locations:"
     
@@ -238,6 +249,12 @@ if [ "$CHROME_SUCCESS" = true ] || [ "$FIREFOX_SUCCESS" = true ] || [ "$EDGE_SUC
         echo "   📦 Edge: .output/nolet-$PACKAGE_VERSION-edge.zip"
         echo "   📏 文件大小 / File size:"
         ls -lh .output/nolet-$PACKAGE_VERSION-edge.zip
+    fi
+
+    if [ "$SAFARI_SUCCESS" = true ]; then
+        echo "   📦 Safari: .output/nolet-$PACKAGE_VERSION-safari.zip"
+        echo "   📏 文件大小 / File size:"
+        ls -lh .output/nolet-$PACKAGE_VERSION-safari.zip
     fi
     
     echo ""

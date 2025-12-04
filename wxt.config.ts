@@ -129,21 +129,7 @@ export default defineConfig({
         manifest.key = import.meta.env.VITE_DEV_KEY;
         // https://developer.chrome.com/docs/extensions/how-to/integrate/oauth#upload_to_dashboard
       }
-      /*
-        如果是 Firefox: 
-        1. 移除 global 属性, Firefox 不支持 global 属性
-        source: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/commands#browser_compatibility
-        2. clipboardRead 也不支持, 实际测试会被忽略所以没必要移除
-        3. 需要增加 "browser_specific_settings": {
-              "gecko": {
-                "id": "nolet@wzs.app",
-                "strict_min_version": "109.0"
-              }
-            };
-            source: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_specific_settings
-        如果是Edge: 
-        移除 identity 和 oauth2，保留其他功能
-      */
+
       if (wxt.config.browser === "firefox") {
         if (manifest.commands && manifest.commands["send-clipboard"]) {
           delete manifest.commands["send-clipboard"].global;
@@ -159,6 +145,9 @@ export default defineConfig({
           gecko: {
             id: "to@wzs.app",
             strict_min_version: "109.0",
+            data_collection_permissions: {
+              required: ["none"],
+            },
           },
         };
       } else if (wxt.config.browser === "edge") {
@@ -167,10 +156,48 @@ export default defineConfig({
             (permission: string) => permission !== "identity"
           );
         }
-      } 
+      }
 
       if (wxt.config.browser !== "chrome") {
         delete manifest.oauth2;
+      }
+
+      if (wxt.config.browser === "safari") {
+        if (manifest.permissions) {
+          // 移除 Safari 不支持的权限
+          manifest.permissions = manifest.permissions.filter(
+            (permission: string) =>
+              !["identity", "notifications"].includes(permission)
+          );
+        }
+
+        delete manifest.oauth2;
+        delete manifest.omnibox; // Safari 不支持 omnibox
+
+        if (manifest.commands && manifest.commands["send-clipboard"]) {
+          delete manifest.commands["send-clipboard"].global;
+        }
+
+        // Safari 需要 content security policy
+        if (manifest.content_security_policy) {
+          manifest.content_security_policy = {
+            extension_pages: "script-src 'self'; object-src 'self';",
+          };
+        }
+
+        if (manifest.background && "service_worker" in manifest.background) {
+          const serviceWorkerScript = manifest.background.service_worker;
+          manifest.background = {
+            scripts: [serviceWorkerScript],
+            persistent: false,
+          };
+        }
+
+        if (manifest.permissions) {
+          manifest.permissions.push("nativeMessaging");
+        }
+
+        manifest.nativeMessagingHosts = ["app.wzs.NoLets"];
       }
     },
   },

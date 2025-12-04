@@ -168,7 +168,6 @@ export default defineBackground(() => {
       handleSendPush(
         message.apiURL,
         message.message,
-        false,
         message.sound,
         message.url,
         message.title,
@@ -190,7 +189,6 @@ export default defineBackground(() => {
       handleSendEncryptedPush(
         message.apiURL,
         message.message,
-        false,
         message.encryptionConfig,
         message.sound,
         message.url,

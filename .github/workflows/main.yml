@@ -3,7 +3,7 @@ name: Build and Release Extension
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -68,6 +68,7 @@ jobs:
             .output/*-chrome.zip
             .output/*-firefox.zip
             .output/*-edge.zip
+            .output/*-safari.zip
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: |
@@ -76,6 +77,7 @@ jobs:
             - **Firefox**: `nolet-*-firefox.zip`  
             - **Chrome**: `nolet-*-chrome.zip`
             - **Edge**: `nolet-*-edge.zip`
+            - **Safari**: `nolet-*-safari.zip`
 
             ### 📖 Installation Guide | 安装说明
             1. Download the appropriate extension zip | 下载对应浏览器的扩展包  
@@ -104,4 +106,3 @@ jobs:
           path: .output/*.zip
           retention-days: 30
           include-hidden-files: true
-
