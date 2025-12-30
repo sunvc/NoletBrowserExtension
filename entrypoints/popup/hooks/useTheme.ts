@@ -2,10 +2,47 @@ import { useState, useEffect } from 'react';
 import { ThemeMode } from '../types';
 import { getAppSettings, updateAppSetting } from '../utils/settings';
 
+declare const browser: any;
+declare const chrome: any;
+
 export function useTheme() {
     const [themeMode, setThemeMode] = useState<ThemeMode>('system');
     const [systemIsDark, setSystemIsDark] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    // 监听 storage 变化
+    useEffect(() => {
+        const handleStorageChange = (changes: { [key: string]: any }, areaName: string) => {
+            if (areaName === 'local' && changes['nolet_app_settings']) {
+                const newValue = changes['nolet_app_settings'].newValue;
+                if (newValue && newValue.themeMode) {
+                    setThemeMode(newValue.themeMode);
+                }
+            }
+        };
+
+        try {
+            if (typeof browser !== 'undefined' && browser.storage) {
+                browser.storage.onChanged.addListener(handleStorageChange);
+            } else if (typeof chrome !== 'undefined' && chrome.storage) {
+                chrome.storage.onChanged.addListener(handleStorageChange);
+            }
+        } catch (e) {
+            console.warn('监听 storage 变化失败:', e);
+        }
+
+        return () => {
+            try {
+                if (typeof browser !== 'undefined' && browser.storage) {
+                    browser.storage.onChanged.removeListener(handleStorageChange);
+                } else if (typeof chrome !== 'undefined' && chrome.storage) {
+                    chrome.storage.onChanged.removeListener(handleStorageChange);
+                }
+            } catch (e) {
+                // 忽略移除监听器时的错误
+            }
+        };
+    }, []);
 
     // 检测系统主题
     useEffect(() => {

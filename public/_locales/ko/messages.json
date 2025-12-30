@@ -1,5 +1,7 @@
 {
-
+  "ext_name": {
+    "message": "Nolet"
+  },
   "ext_desc": {
     "message": "Nolet는 선택/클립보드 내용을 암호화해 iOS로 빠르게 보내는 확장입니다. 사용자 지정 푸시 지원."
   },

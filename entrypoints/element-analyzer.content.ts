@@ -1,3 +1,6 @@
+declare const browser: any;
+declare const defineContentScript: any;
+
 export default defineContentScript({
   matches: ["http://*/*", "https://*/*"],
   main() {
@@ -14,10 +17,10 @@ export default defineContentScript({
         }
         // 如果没有找到消息, 返回 key 作 fallback
         console.warn(`未找到i18n消息: ${key}`);
-        return key;
+        return key as string;
       } catch (error) {
         console.error(`获取i18n消息失败: ${key}`, error);
-        return key;
+        return key as string;
       }
     }
 
@@ -42,7 +45,7 @@ export default defineContentScript({
     });
 
     // 监听来自 background 的消息
-    browser.runtime.onMessage.addListener((message) => {
+    browser.runtime.onMessage.addListener((message: any) => {
       if (message.action === "show_dialog") {
         try {
           if (isDialogOpen) {
@@ -168,7 +171,7 @@ export default defineContentScript({
           }
         }, 30000); // 30秒超时
 
-        port.onMessage.addListener((response) => {
+        port.onMessage.addListener((response: any) => {
           if (completed) return;
 
           if (response.success) {
@@ -247,7 +250,7 @@ export default defineContentScript({
           action: "prefetchFavicon",
           url: currentPageUrl,
         })
-        .then((response) => {
+        .then((response: any) => {
           if (response?.success && response?.faviconUrl) {
             prefetchedFaviconUrl = response.faviconUrl; // background 会返回 favicon 的 URL
             console.debug(
@@ -259,7 +262,7 @@ export default defineContentScript({
             console.debug("Favicon 预加载 by background 失败或不可用");
           }
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.debug("Favicon 预加载 by background 错误:", error);
           prefetchedFaviconUrl = null;
         });
@@ -613,22 +616,24 @@ export default defineContentScript({
         // 监听系统主题变化
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
         const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-          browser.storage.local.get("nolet_app_settings").then((result) => {
-            const settings = result["nolet_app_settings"];
-            if (!settings?.themeMode || settings.themeMode === "system") {
-              if (e.matches) {
-                shadowHost.setAttribute("data-theme", "dark");
-              } else {
-                shadowHost.setAttribute("data-theme", "light");
+          browser.storage.local
+            .get("nolet_app_settings")
+            .then((result: any) => {
+              const settings = result["nolet_app_settings"];
+              if (!settings?.themeMode || settings.themeMode === "system") {
+                if (e.matches) {
+                  shadowHost.setAttribute("data-theme", "dark");
+                } else {
+                  shadowHost.setAttribute("data-theme", "light");
+                }
               }
-            }
-          });
+            });
         };
         mediaQuery.addEventListener("change", handleSystemThemeChange);
 
         // 监听设置变更 (来自 Popup 的修改)
         const handleStorageChange = (
-          changes: { [key: string]: browser.storage.StorageChange },
+          changes: { [key: string]: any }, // 使用 any 或者 chrome.storage.StorageChange
           areaName: string
         ) => {
           if (areaName === "local" && changes["nolet_app_settings"]) {
