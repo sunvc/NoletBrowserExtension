@@ -44,7 +44,7 @@
     "name_placeholder": "예: 내 iPhone",
     "name_helper": "장치 식별용, 자유롭게 지정",
     "api_url": "API URL",
-    "api_url_placeholder": "예: https://wzs.app/당신의 Key/ 또는 Device Key",
+    "api_url_placeholder": "예: https://wzs.app/key/",
     "api_url_helper": "NoLet 앱에서 주소를 복사해 여기에 붙여넣기",
     "preview_url": "미리보기 주소: {{url}}",
     "test_message": "테스트 메시지",
@@ -73,8 +73,8 @@
     "self_hosted_switch": "자가 호스팅 모드로 전환",
     "ping": "서버 연결 테스트",
     "official_switch": "공식 모드로 전환",
-    "self_hosted_tip": "현재 입력한 API URL이 비공식 서버로 감지되었습니다. 여기에서 자가 호스팅 모드로 전환하세요",
-    "self_hosted_tip_edit": "편집 중인 API URL이 비공식 서버로 감지되었습니다. 여기에서 자가 호스팅 모드로 전환하세요"
+    "self_hosted_tip": "현재 입력한 API URL이 비공식 서버로 감지되었습니다. 보안에 유의하세요",
+    "self_hosted_tip_edit": "편집 중인 API URL이 비공식 서버로 감지되었습니다. 보안에 유의하세요"
   },
   "settings": {
     "title": "기타 설정",

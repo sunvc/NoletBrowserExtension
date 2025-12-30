@@ -44,7 +44,7 @@
     "name_placeholder": "例: 私の iPhone",
     "name_helper": "デバイスの識別名。自由に設定できます",
     "api_url": "API URL",
-    "api_url_placeholder": "例: https://wzs.app/あなたのkey/ または あなたのKey",
+    "api_url_placeholder": "例: https://wzs.app/key/",
     "api_url_helper": "NoLet アプリでアドレスをコピーして貼り付けてください",
     "preview_url": "プレビューURL: {{url}}",
     "test_message": "テストメッセージ",

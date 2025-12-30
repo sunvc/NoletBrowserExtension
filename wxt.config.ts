@@ -17,7 +17,6 @@ export default defineConfig({
     },
   }),
   manifest: {
-    name: "__MSG_ext_name__",
     default_locale: "en",
     omnibox: {
       keyword: "ww",

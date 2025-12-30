@@ -44,7 +44,7 @@
     "name_placeholder": "例如: 我的iPhone",
     "name_helper": "用于识别设备，可自定义",
     "api_url": "API URL",
-    "api_url_placeholder": "例如: https://wzs.wzay/ 或 你的Key",
+    "api_url_placeholder": "例如: https://wzs.app/key/",
     "api_url_helper": "打开 NoLet NoLet App 拷贝地址到此处",
     "preview_url": "预览地址: {{url}}",
     "test_message": "测试消息",
@@ -73,8 +73,8 @@
     "self_hosted_switch": "点击切换到自建模式",
     "ping": "点击测试服务器连通性",
     "official_switch": "点击切换到非自建模式",
-    "self_hosted_tip": "检测到当前输入的 API URL 为非官方服务器，请点击这里切换到 自建模式",
-    "self_hosted_tip_edit": "检测到编辑的 API URL 为非官方服务器，请点击这里切换到 自建模式"
+    "self_hosted_tip": "检测到当前输入的 API URL 为非官方服务器，注意安全",
+    "self_hosted_tip_edit": "检测到编辑的 API URL 为非官方服务器，注意安全"
   },
   "settings": {
     "title": "其他设置",

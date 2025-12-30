@@ -44,7 +44,7 @@
     "name_placeholder": "e.g., My iPhone",
     "name_helper": "Used to identify the device, customizable",
     "api_url": "API URL",
-    "api_url_placeholder": "e.g., https://api.push.com/your-key/ or your Device Key",
+    "api_url_placeholder": "e.g., https://wzs.app/key/",
     "api_url_helper": "Open the App and copy the URL here",
     "preview_url": "Preview URL: {{url}}",
     "test_message": "Test Message",
