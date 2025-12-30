@@ -222,3 +222,6 @@ iOS デバイスに[NoLet App](https://apps.apple.com/app/id6615073345)をイン
 
 - Firefox: `.output/nolet-<Version>-firefox.zip`
 - Chrome/Edge: `.output/nolet-<Version>-chrome.zip`
+
+
+* 感谢开源项目 [Bark-Sender](#Bark-Sender) 开发。
