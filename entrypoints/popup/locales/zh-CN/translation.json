@@ -1,5 +1,6 @@
 {
   "common": {
+    "appName": "无字书",
     "add": "添加",
     "edit": "编辑",
     "delete": "删除",
@@ -43,8 +44,8 @@
     "name_placeholder": "例如: 我的iPhone",
     "name_helper": "用于识别设备，可自定义",
     "api_url": "API URL",
-    "api_url_placeholder": "例如: https://wzs.app/你的key/ 或 你的Key",
-    "api_url_helper": "打开 NoLet App 拷贝地址到此处",
+    "api_url_placeholder": "例如: https://wzs.wzay/ 或 你的Key",
+    "api_url_helper": "打开 NoLet NoLet App 拷贝地址到此处",
     "preview_url": "预览地址: {{url}}",
     "test_message": "测试消息",
     "no_devices": "暂无设备，请点击 \"添加设备\" 按钮添加一个设备。",
@@ -146,6 +147,7 @@
     },
     "avatar": {
       "enable": "启用自定义头像",
+      "simple_title": "自定义头像",
       "url": "头像 URL",
       "url_invalid": "头像 URL 无效，请检查后重试",
       "url_help": "请输入有效且稳定的图片 URL 地址, 关闭则使用 NoLet 的应用图标, 支持 PNG / JPG 格式",
@@ -155,6 +157,7 @@
     },
     "favicon": {
       "title": "API 设置",
+      "simple_title": "网站图标",
       "icon_param": "icon 参数预览",
       "enable": "启用网站图标作为头像",
       "custom_api": "自定义 Favicon API",
@@ -175,7 +178,7 @@
       "options": "加密选项",
       "key_invalid": "密钥无效, 请修改加密选项",
       "key_valid": "密钥有效",
-      "tips_on": "请注意和 NoLet App 算法配置列表第一项保持一致",
+      "tips_on": "请注意和 NoLet NoLet App 算法配置列表第一项保持一致",
       "tooltips": {
         "encryption_on": "关闭加密",
         "encryption_off": "开启加密"
@@ -187,11 +190,13 @@
     },
     "advanced_params": {
       "enable": "启用自定义参数",
+      "simple_title": "自定义参数",
       "success_message": "已启用完整参数配置，可在发送页面设置更多参数",
       "reset_message": "已关闭完整参数配置，参数设置已重置"
     },
     "speed_mode": {
       "enable": "启用极速模式",
+      "simple_title": "极速模式",
       "dialog_title": "启用极速模式",
       "warning_description": "启用后，点击扩展图标时将直接进入极速模式界面，而不是常规的推送界面。",
       "how_it_works_title": "极速模式功能流程：",
@@ -210,7 +215,7 @@
     },
     "dns_query": {
       "title": "DNS 查询",
-      "help": "这是一个用于排查网络问题的功能。你可以在这里查询到 NoLet 官方的 DNS 记录，并与本地的 ping 测试结果进行对比。如果两者不一致，可能是由于 DNS 污染导致的。你可以将正确的 IP 地址添加到设备的 hosts 文件中来解决；也可以只针对浏览器配置 DoH 服务来解决。",
+      "help": "这是一个用于排查网络问题的功能。你可以在这里查询到官方的 DNS地的 ping 测试结果进行对比。如果两者不一致，可能是由于 DNS 污染导致的。你可以将正确的 IP 地址添加到设备的 hosts 文件中来解决；也可以只针对浏览器配置 DoH 服务来解决。",
       "domain_label": "域名",
       "domain_placeholder": "请输入要查询的域名",
       "query_button": "查询",
@@ -298,6 +303,14 @@
     "can_edit_and_send": "可修改内容后手动发送",
     "auto_send_countdown": "{{seconds}}秒后自动发送"
   },
+  "legal": {
+    "intro_part1": "本应用的部分功能基于开源项目 ",
+    "intro_part2": " 开发。",
+    "copyright": "版权所有： Copyright © 2024 ij369",
+    "license_intro": "本部分代码遵循 Apache License, Version 2.0 （“协议”）进行授权。除非符合协议要求，否则您不得使用相关文件。您可以在以下地址获取协议副本：",
+    "modifications_title": "修改说明：",
+    "modifications_content": "本应用对原项目的 [UI布局/核心逻辑/配置文件] 进行了适配与修改，以实现在其他App环境下的功能集成。"
+  },
   "about": {
     "title": "关于",
     "version": "版本",
@@ -312,16 +325,7 @@
     },
     "contact": {
       "title": "联系方式",
-      "email": "to@wzs.app"
-    },
-    "nolet_app": {
-      "title": "下载 NoLet App",
-      "description": "前往 App Store 下载 NoLet App"
-    },
-    "nolet_website": {
-      "title": "了解 NoLet",
-      "description": "访问 NoLet 官网了解更多",
-      "documentation": "查看官方文档"
+      "email": "support@example.com"
     }
   },
   "push": {
@@ -329,7 +333,7 @@
     "target_device": "目标设备",
     "select_device": "选择要发送的设备",
     "message": "普通内容",
-    "message_placeholder": "输入要推送的消息内容, 点击标签切换模式",
+    "message_placeholder": "输入要推送的消息内容.",
     "send": "发送",
     "sending": "发送中...",
     "send_clipboard": "发送剪切板内容",
@@ -346,10 +350,10 @@
     "select_device_helper": "支持选择多个设备",
     "select_device_length": "已选 {{count}} 个设备",
     "tips_dbl_appbar": "双击标题栏可以弹出到新窗口",
-    "tips_omnibox": "在地址栏输入 bb <内容> 即可快速推送",
+    "tips_omnibox": "在地址栏输入 ww <内容> 即可快速推送",
     "recall": {
       "button": "尝试撤回",
-      "button2": "由于 NoLet 暂时对批量消息撤回的支持有限, 故此处不保证撤回成功, 请留意后续更新。",
+      "button2": "由于暂时对批量消息撤回的支持有限, 故此处不保证撤回成功, 请留意后续更新。",
       "loading": "撤回中...",
       "success": "已请求撤回",
       "no_record": "没有可撤回的推送记录",

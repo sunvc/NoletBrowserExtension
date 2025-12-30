@@ -1,0 +1,6 @@
+@import '../popup/App.css';
+
+body {
+  width: 100% !important;
+  min-width: unset !important;
+}

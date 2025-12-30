@@ -21,6 +21,8 @@ export function openStoreRating() {
         case 'edge':
             url = `https://microsoftedge.microsoft.com/addons/detail/nolet/${browser.runtime.id}`;
             break;
+        case 'safari':
+            url = "https://apps.apple.com/us/app/nolet/id6615073345"
         default:
             url = `https://github.com/sunvc/nolet`;
             break;

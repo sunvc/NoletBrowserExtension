@@ -43,13 +43,14 @@ const initializeLanguage = async (): Promise<string> => {
         }
     } catch (error) {
         console.error('初始化语言设置失败:', error);
-        // 出错时默认使用英文并存储
+        // 出错时检测浏览器语言，如果不支持则回落到英文
+        const detectedLang = detectBrowserLanguage();
         try {
-            await browser.storage.local.set({ language: 'en' });
+            await browser.storage.local.set({ language: detectedLang });
         } catch (storageError) {
             console.error('存储默认语言失败:', storageError);
         }
-        return 'en';
+        return detectedLang;
     }
 };
 

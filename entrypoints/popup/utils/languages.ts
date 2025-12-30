@@ -36,16 +36,22 @@ export function getSupportedLanguageCodes(): string[] {
 export function detectBrowserLanguage(): string {
     const browserLang = navigator.language || navigator.languages?.[0] || 'en';
 
-    // 如果不是中文，直接返回英文
-    if (!browserLang.startsWith('zh')) {
-        return 'en';
-    }
-
-    // 检查是否是支持的中文变体
+    // 检查是否完全匹配支持的语言代码
     if (isSupportedLanguage(browserLang)) {
         return browserLang;
     }
 
-    // 回落到简中
-    return 'zh-CN';
+    // 检查语言代码前缀（例如 ja-JP -> ja, ko-KR -> ko）
+    const langPrefix = browserLang.split('-')[0];
+    if (isSupportedLanguage(langPrefix)) {
+        return langPrefix;
+    }
+
+    // 中文特殊处理 (zh, zh-CN, zh-SG, zh-Hans -> zh-CN)
+    if (browserLang.startsWith('zh')) {
+        return 'zh-CN';
+    }
+
+    // 默认回落到英文
+    return 'en';
 } 

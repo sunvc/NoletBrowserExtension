@@ -157,7 +157,7 @@ export default function SoundDialog({ open, currentSound, onClose, onSave }: Sou
             }
 
             const testMessage = `${t('settings.sound.test_message', { sound: soundName })}`;
-            await sendPushMessage(defaultDevice, testMessage, false, soundName, generateID());
+            await sendPushMessage(defaultDevice, testMessage, soundName, generateID());
 
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'push.errors.send_failed';

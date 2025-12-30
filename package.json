@@ -1,8 +1,8 @@
 {
-  "name": "NoLet",
+  "name": "nolet",
   "description": "__MSG_ext_desc__",
   "private": true,
-  "version": "1.5.3",
+  "version": "1.6.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",

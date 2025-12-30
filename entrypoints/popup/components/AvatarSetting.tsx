@@ -20,7 +20,7 @@ import { useAppContext } from '../contexts/AppContext';
 import gsap from 'gsap';
 import { SlideUpTransition } from './DialogTransitions';
 
-export default function AvatarSetting() {
+export default function AvatarSetting({ simpleLabel }: { simpleLabel?: string }) {
     const { t } = useTranslation();
     const { appSettings, updateAppSetting } = useAppContext();
     const [avatarUrl, setAvatarUrl] = useState<string>('');
@@ -189,7 +189,7 @@ export default function AvatarSetting() {
                         onChange={(e) => handleEnableChange(e.target.checked)}
                     />
                 }
-                label={t('settings.avatar.enable')}
+                label={simpleLabel || t('settings.avatar.enable')}
                 sx={{ userSelect: 'none' }}
             />
 

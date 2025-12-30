@@ -6,11 +6,10 @@ import { PushResponse, EncryptionAlgorithm, Device } from "../popup/types";
  * i18n 参考 https://github.com/sunvc/NoLet/blob/master/NoLet/Localizable.xcstrings
  */
 export interface MessagePayload {
-  body: string; // 推送内容（必需）
+  markdown: string; // 推送内容（必需）
   title?: string; // 推送标题
   subtitle?: string; // 推送副标题
   image?: string; // 推送图片地址，支持 URL 或 base64 编码的图片
-  markdown?: string;
   device_key?: string;
   /* 设备 key，API v2 使用
         实际服务器根据请求头 Content-Type 来判断是 API v1 还是 API v2
@@ -42,21 +41,20 @@ export interface MessagePayload {
 }
 
 /**
- * API v2 消息体（body字段可选）
+ * API v2 消息体（markdown字段可选）
  */
-export interface MessagePayloadv2 extends Omit<MessagePayload, "body"> {
-  body?: string; // 推送内容（加密时可选）
+export interface MessagePayloadv2 extends Omit<MessagePayload, "markdown"> {
+  markdown?: string; // 推送内容（加密时可选）
 }
 
 /**
  * 推送参数接口（前端传入的数据）
  * 继承 MessagePayload 只添加特殊字段, 避免重复定义
  */
-export interface PushParams extends Omit<MessagePayload, "body" | "id"> {
+export interface PushParams extends Omit<MessagePayload, "markdown" | "id"> {
   devices?: Device[]; // 完整的设备信息
   apiURL: string; // API URL地址
   message: string; // *必填* 对应 MessagePayload 中的 body
-  isMarkdown: boolean;
   uuid?: string; // 作为请求参数里的 id 作为唯一标识, 这个 id 后续修改撤回功能会用到 对应 MessagePayload 中的 id
   authorization?: {
     type: "basic";
@@ -310,26 +308,23 @@ async function sendGroupAPIv2Push(
   }
   let payload = { ...msgPayload };
 
-  if (payload.markdown) {
-    delete payload.body;
-  }
-
   // 如果是加密模式，处理加密
   if (encryptionConfig?.key) {
     const iv = generateIV();
     const plaintext = JSON.stringify({
-      ...(payload.body ? { body: payload.body } : {}),
+      markdown: payload.markdown,
       title: payload.title,
       ...Object.entries(payload)
-        .filter(([key]) => !["body", "title"].includes(key))
+        .filter(([key]) => !["markdown", "title"].includes(key))
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}),
     });
 
     const ciphertext = await encryptAESGCM(plaintext, encryptionConfig.key, iv);
 
     // 加密模式下，移除 body，title subtitle, markdown 字段，使用 ciphertext
-    const { body, title, markdown, subtitle, ...payloadWithoutBody } = payload;
+    const { title, markdown, subtitle, ...payloadWithoutBody } = payload;
     payload = {
+       markdown: markdown,
       ...payloadWithoutBody,
       ciphertext,
     };
@@ -376,8 +371,7 @@ export async function sendPush(
 
   const msgPayload: MessagePayload = {
     // 特殊字段映射
-    body: !params.isMarkdown ? params.message : "",
-    markdown: params.isMarkdown ? params.message : undefined,
+    markdown: params.message,
     id: params.uuid || generateID(),
 
     // 复制其他所有字段 (除去前端内部使用的 apiURL, authorization, devices 等)
@@ -420,7 +414,6 @@ export function getRequestParameters(
   // 构建基本参数对象
   const paramMap: Record<string, string | undefined> = {
     message: params.message,
-    isMarkdown: params.isMarkdown ? "1" : "0",
     autoCopy: params.autoCopy || "1",
     copy: params.copy || params.message,
     id: params.uuid || "",

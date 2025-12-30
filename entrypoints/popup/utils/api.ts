@@ -13,7 +13,6 @@ import {
  * 发送推送消息 - 通过background script
  * @param device 设备信息 (包含 apiURL, alias, authorization)
  * @param message 消息内容
- * @param isMarkdown 是否是markdown
  * @param sound 铃声
  * @param uuid 唯一标识符
  * @param title 标题
@@ -25,7 +24,6 @@ import {
 export async function sendPushMessage(
   device: Device,
   message: string,
-  isMarkdown: boolean,
   sound?: string,
   uuid?: string,
   title?: string,
@@ -67,7 +65,6 @@ export async function sendPushMessage(
     const pushParams: PushParams = {
       apiURL: device.apiURL,
       message,
-      isMarkdown,
       devices: devices ? devices : [device], // 设备信息, 可能有多个设备 (用于API v2)
       device_key: device.deviceKey, // 添加device_key (用于 indexedDB 记录)
       device_keys: devices?.map((d) => d.deviceKey).filter(Boolean) as string[], // 添加device_keys (用于 indexedDB 记录)

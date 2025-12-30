@@ -104,17 +104,17 @@ export default function FeatureSettings({ devices, onError, onToast }: FeatureSe
                 </Box>
                 <Divider />
                 <Box>
-                    <Stack direction="column" alignItems="flex-start" gap={1}>
+                    <Stack direction="row" flexWrap="wrap" gap={1}>
 
                         {/* 自定义头像 */}
-                        <AvatarSetting />
+                        <AvatarSetting simpleLabel={t('settings.avatar.simple_title')} />
 
                         {/* 网站图标设置 */}
                         {appSettings?.enableInspectSend &&
-                            <FaviconSetting />}
+                            <FaviconSetting simpleLabel={t('settings.favicon.simple_title')} />}
 
                         {/* 启用极速模式 */}
-                        <SpeedModeSetting disabled={devices.length === 0} />
+                        <SpeedModeSetting disabled={devices.length === 0} simpleLabel={t('settings.speed_mode.simple_title')} />
 
                         {/* 启用完整的参数配置 */}
                         <FormControlLabel
@@ -125,10 +125,9 @@ export default function FeatureSettings({ devices, onError, onToast }: FeatureSe
                                 />
                             }
                             // label="启用完整的参数配置"
-                            label={t('settings.advanced_params.enable')}
+                            label={t('settings.advanced_params.simple_title')}
                             sx={{ userSelect: 'none' }}
                         />
-                        <Divider sx={{ pt: 1 }} />
 
                     </Stack>
                 </Box>

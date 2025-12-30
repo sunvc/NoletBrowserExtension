@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../contexts/AppContext';
 import { SlideUpTransition } from './DialogTransitions';
 
-export default function FaviconSetting() {
+export default function FaviconSetting({ simpleLabel }: { simpleLabel?: string }) {
     const { t } = useTranslation();
     const { appSettings, updateAppSetting } = useAppContext();
     const [enableFaviconIcon, setEnableFaviconIcon] = useState<boolean>(false);
@@ -114,7 +114,7 @@ export default function FaviconSetting() {
                         onChange={(e) => handleEnableChange(e.target.checked)}
                     />
                 }
-                label={t('settings.favicon.enable')}
+                label={simpleLabel || t('settings.favicon.enable')}
                 sx={{ userSelect: 'none' }}
             />
 

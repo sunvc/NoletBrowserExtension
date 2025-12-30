@@ -1,5 +1,6 @@
 {
   "common": {
+    "appName": "NoLet",
     "add": "Add",
     "edit": "Edit",
     "delete": "Delete",
@@ -43,8 +44,8 @@
     "name_placeholder": "e.g., My iPhone",
     "name_helper": "Used to identify the device, customizable",
     "api_url": "API URL",
-    "api_url_placeholder": "e.g., https://wzs.app/your-key/ or your Device Key",
-    "api_url_helper": "Open NoLet App and copy the URL here",
+    "api_url_placeholder": "e.g., https://api.push.com/your-key/ or your Device Key",
+    "api_url_helper": "Open the App and copy the URL here",
     "preview_url": "Preview URL: {{url}}",
     "test_message": "Test Message",
     "no_devices": "No devices yet. Click the \"Add Device\" button to add one.",
@@ -304,6 +305,14 @@
     "can_edit_and_send": "Can edit content and send manually",
     "auto_send_countdown": "Auto-send in {{seconds}} seconds"
   },
+  "legal": {
+    "intro_part1": "Some features of this application are based on the open source project ",
+    "intro_part2": " developed.",
+    "copyright": "Copyright: Copyright © 2024 ij369",
+    "license_intro": "This part of the code is licensed under the Apache License, Version 2.0 (the \"License\"). You may not use this file except in compliance with the License. You may obtain a copy of the License at:",
+    "modifications_title": "Modification Notice:",
+    "modifications_content": "This application has adapted and modified the [UI layout/core logic/configuration files] of the original project to achieve functional integration in other App environments."
+  },
   "about": {
     "title": "About",
     "version": "Version",
@@ -318,16 +327,7 @@
     },
     "contact": {
       "title": "Contact",
-      "email": "to@wzs.app"
-    },
-    "nolet_app": {
-      "title": "Download NoLet App",
-      "description": "Go to App Store to download NoLet App"
-    },
-    "nolet_website": {
-      "title": "About NoLet",
-      "description": "Visit NoLet website to learn more",
-      "documentation": "View documentation"
+      "email": "support@example.com"
     }
   },
   "push": {
@@ -335,7 +335,7 @@
     "target_device": "Target Device",
     "select_device": "Select a device to send to",
     "message": "Message",
-    "message_placeholder": "Enter the message content to be sent, and click the tab to switch modes.",
+    "message_placeholder": "Enter the message content to be sent.",
     "send": "Send Push",
     "sending": "Sending...",
     "send_clipboard": "Send Clipboard Content",
@@ -352,7 +352,7 @@
     "select_device_helper": "Support selecting multiple devices",
     "select_device_length": "{{count}} devices selected",
     "tips_dbl_appbar": "Double-click the app bar to pop out",
-    "tips_omnibox": "Type 'bb <content>' in the address bar to push",
+    "tips_omnibox": "Type 'ww <content>' in the address bar to push",
     "recall": {
       "button": "Try Recall",
       "button2": "Due to the limited support for batch message recall by NoLet, this function cannot guarantee successful recall. Please pay attention to future updates.",

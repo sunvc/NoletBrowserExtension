@@ -181,7 +181,6 @@ export default function UrlDialog({
             const response = await sendPushMessage(
                 selectedDevice,
                 urlParams.url,
-                false,
                 undefined,
                 pushUuid,
                 urlParams.title || 'Web',
@@ -216,7 +215,6 @@ export default function UrlDialog({
             const response = await sendPushMessage(
                 selectedDevice,
                 urlParams.selectionText || urlParams.title || 'Text',
-                false,
                 undefined,
                 pushUuid,
                 urlParams.title || 'Text',
@@ -251,7 +249,6 @@ export default function UrlDialog({
             const response = await sendPushMessage(
                 selectedDevice,
                 urlParams.linkUrl,
-                false,
                 undefined,
                 pushUuid,
                 urlParams.title || 'Link',

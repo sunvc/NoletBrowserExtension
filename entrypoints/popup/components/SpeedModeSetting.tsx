@@ -24,7 +24,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { SlideUpTransition } from './DialogTransitions';
 
-export default function SpeedModeSetting({ disabled }: { disabled: boolean }) {
+export default function SpeedModeSetting({ disabled, simpleLabel }: { disabled: boolean; simpleLabel?: string }) {
     const { t } = useTranslation();
     const { appSettings, updateAppSetting } = useAppContext();
     const [enableSpeedMode, setEnableSpeedMode] = useState<boolean>(false);
@@ -92,7 +92,7 @@ export default function SpeedModeSetting({ disabled }: { disabled: boolean }) {
                 disabled={disabled}
               />
             }
-            label={t("settings.speed_mode.enable")}
+            label={simpleLabel || t("settings.speed_mode.enable")}
             sx={{ userSelect: "none" }}
           />
         )}

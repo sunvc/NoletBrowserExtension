@@ -1,5 +1,6 @@
 {
   "common": {
+    "appName": "NoLet",
     "add": "追加",
     "edit": "編集",
     "delete": "削除",
@@ -298,6 +299,14 @@
     "can_edit_and_send": "内容を編集して手動送信できます",
     "auto_send_countdown": "{{seconds}}秒後に自動送信"
   },
+  "legal": {
+    "intro_part1": "このアプリケーションの一部機能は、オープンソースプロジェクト ",
+    "intro_part2": " に基づき開発されています。",
+    "copyright": "著作権： Copyright © 2024 ij369",
+    "license_intro": "このコードの一部は、Apache License, Version 2.0（「ライセンス」）の下でライセンスされています。ライセンスに準拠する場合を除き、ファイルを使用することはできません。ライセンスのコピーは以下で入手できます。",
+    "modifications_title": "変更通知：",
+    "modifications_content": "このアプリケーションは、他のアプリ環境での機能統合を実現するために、元のプロジェクトの [UIレイアウト/コアロジック/設定ファイル] を適応および変更しました。"
+  },
   "about": {
     "title": "情報",
     "version": "バージョン",
@@ -329,7 +338,7 @@
     "target_device": "送信先デバイス",
     "select_device": "送信するデバイスを選択",
     "message": "送信内容",
-    "message_placeholder": "送信するメッセージ内容を入力し、タブをクリックしてモードを切り替えます。",
+    "message_placeholder": "送信するメッセージ内容を入力し.",
     "send": "送信",
     "sending": "送信中...",
     "send_clipboard": "クリップボードを送信",
@@ -346,7 +355,7 @@
     "select_device_helper": "複数デバイスの選択に対応",
     "select_device_length": "{{count}} 台を選択済み",
     "tips_dbl_appbar": "タイトルバーをダブルクリックで新しいウィンドウに表示",
-    "tips_omnibox": "アドレスバーに bb <内容> を入力すると素早く送信",
+    "tips_omnibox": "アドレスバーに ww <内容> を入力すると素早く送信",
     "recall": {
       "button": "取り消しを試す",
       "button2": "現状、NoLet は一括メッセージの取り消しを十分にサポートしていません。そのため成功は保証できません。今後の更新にご注目ください。",

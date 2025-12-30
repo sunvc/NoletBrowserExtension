@@ -549,39 +549,39 @@ const lightTheme = createTheme({
     palette: {
         mode: 'light',
         primary: {
-            main: '#1976d2',
-            light: '#42a5f5',
-            dark: '#1565c0',
+            main: '#6200ea', // Deep Purple
+            light: '#9d46ff',
+            dark: '#0a00b6',
             contrastText: '#ffffff',
         },
         secondary: {
-            main: '#dc004e',
-            light: '#f06292',
-            dark: '#c51162',
-            contrastText: '#ffffff',
+            main: '#00bfa5', // Teal
+            light: '#5df2d6',
+            dark: '#008e76',
+            contrastText: '#000000',
         },
         background: {
-            default: '#fafafa',
+            default: '#f3f4f6',
             paper: '#ffffff',
         },
         text: {
             primary: 'rgba(0, 0, 0, 0.87)',
             secondary: 'rgba(0, 0, 0, 0.6)',
         },
-        divider: 'rgba(0, 0, 0, 0.12)',
+        divider: 'rgba(0, 0, 0, 0.08)',
         action: {
-            hover: 'rgba(0, 0, 0, 0.04)',
-            selected: 'rgba(0, 0, 0, 0.08)',
+            hover: 'rgba(98, 0, 234, 0.04)',
+            selected: 'rgba(98, 0, 234, 0.08)',
         },
     },
     customColors: {
         gradients: {
-            primary: 'linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)',
-            secondary: 'linear-gradient(135deg, #dc004e 0%, #f06292 100%)',
+            primary: 'linear-gradient(135deg, #6200ea 0%, #9d46ff 100%)',
+            secondary: 'linear-gradient(135deg, #00bfa5 0%, #5df2d6 100%)',
         },
         shadows: {
-            primary: '0 2px 6px rgba(25, 118, 210, 0.15)',
-            secondary: '0 2px 6px rgba(220, 0, 78, 0.15)',
+            primary: '0 4px 12px rgba(98, 0, 234, 0.2)',
+            secondary: '0 4px 12px rgba(0, 191, 165, 0.2)',
         },
     },
 });
@@ -592,15 +592,15 @@ const darkTheme = createTheme({
     palette: {
         mode: 'dark',
         primary: {
-            main: '#90caf9',
-            light: '#e3f2fd',
-            dark: '#42a5f5',
+            main: '#b388ff', // Light Deep Purple
+            light: '#e7b9ff',
+            dark: '#7c52cb',
             contrastText: 'rgba(0, 0, 0, 0.87)',
         },
         secondary: {
-            main: '#f48fb1',
-            light: '#fce4ec',
-            dark: '#f06292',
+            main: '#64ffda', // Light Teal
+            light: '#9effff',
+            dark: '#14cba8',
             contrastText: 'rgba(0, 0, 0, 0.87)',
         },
         background: {
@@ -611,7 +611,7 @@ const darkTheme = createTheme({
             primary: '#ffffff',
             secondary: 'rgba(255, 255, 255, 0.7)',
         },
-        divider: 'rgba(255, 255, 255, 0.12)',
+        divider: 'rgba(255, 255, 255, 0.08)',
         action: {
             hover: 'rgba(255, 255, 255, 0.08)',
             selected: 'rgba(255, 255, 255, 0.16)',
@@ -619,12 +619,12 @@ const darkTheme = createTheme({
     },
     customColors: {
         gradients: {
-            primary: 'linear-gradient(135deg, #90caf9 0%, #42a5f5 100%)',
-            secondary: 'linear-gradient(135deg, #f48fb1 0%, #f06292 100%)',
+            primary: 'linear-gradient(135deg, #b388ff 0%, #7c52cb 100%)',
+            secondary: 'linear-gradient(135deg, #64ffda 0%, #14cba8 100%)',
         },
         shadows: {
-            primary: '0 2px 6px rgba(144, 202, 249, 0.2)',
-            secondary: '0 2px 6px rgba(244, 143, 177, 0.2)',
+            primary: '0 4px 12px rgba(179, 136, 255, 0.2)',
+            secondary: '0 4px 12px rgba(100, 255, 218, 0.2)',
         },
     },
 });

@@ -30,7 +30,6 @@ import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import UndoIcon from "@mui/icons-material/Undo";
 import CloseIcon from "@mui/icons-material/Close";
-// 使用自定义 SVG 替换原来的 CodeIcon
 
 import { useTranslation } from "react-i18next";
 import { Device } from "../types";
@@ -89,7 +88,6 @@ export default function SendPush({
     title?: string;
     selectionText?: string;
   }>({});
-  const [mdHelpOpen, setMdHelpOpen] = useState(false);
 
   // 自定义参数
   const [advancedParams, setAdvancedParams] = useState<
@@ -103,18 +101,6 @@ export default function SendPush({
       setMessage(savedMessage);
     }
   }, []);
-
-  useEffect(() => {
-    browser.storage.local.get("nolet_draft_markdown_mode", (res) => {
-      setMdHelpOpen(res.nolet_draft_markdown_mode);
-    });
-  }, []);
-
-  const changeMarkdownMode = () => {
-    const open = mdHelpOpen;
-    setMdHelpOpen(!open);
-    browser.storage.local.set({ nolet_draft_markdown_mode: !open });
-  };
 
   // 消息输入变化时实时暂存到ls
   const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -247,7 +233,6 @@ export default function SendPush({
       const response = await sendPushMessage(
         selectedDevices[0],
         shortcutClipboardText.trim(),
-        mdHelpOpen,
         undefined,
         pushUuid,
         undefined,
@@ -400,7 +385,6 @@ export default function SendPush({
       const response = await sendPushMessage(
         selectedDevices[0],
         message.trim(),
-        mdHelpOpen,
         undefined,
         pushUuid,
         undefined,
@@ -466,7 +450,6 @@ export default function SendPush({
       const response = await sendPushMessage(
         selectedDevices[0],
         clipboardText.trim(),
-        mdHelpOpen,
         undefined,
         pushUuid,
         undefined,
@@ -688,7 +671,7 @@ export default function SendPush({
             <Box sx={{ position: "relative" }}>
               <TextField
                 /* 推送内容 */
-                label={!mdHelpOpen ? t("push.message") : "MARKDOWN"}
+                label={t("push.message")}
                 /* 输入要推送的消息内容 */
                 placeholder={t("push.message_placeholder")}
                 multiline
@@ -700,21 +683,6 @@ export default function SendPush({
                 size="small"
                 fullWidth
                 autoFocus
-                slotProps={{
-                  inputLabel: {
-                    onClick: changeMarkdownMode,
-                    sx: {
-                      cursor: "pointer",
-                      color: mdHelpOpen ? "#FF7232" : undefined,
-                      "&.Mui-focused": {
-                        color: mdHelpOpen ? "#FF7232" : undefined,
-                      },
-                      "&.MuiFormLabel-colorPrimary.Mui-focused": {
-                        color: mdHelpOpen ? "#FF7232" : undefined,
-                      },
-                    },
-                  },
-                }}
               />
             </Box>
 
