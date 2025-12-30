@@ -11,8 +11,12 @@ import {
 import SettingsIcon from "@mui/icons-material/Settings";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import { useTranslation } from "react-i18next";
 import { detectPlatform } from "../utils/platform";
+import { useTheme } from "../hooks/useTheme";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -29,9 +33,35 @@ export default function Layout({
   onEncryptionToggle,
 }: LayoutProps) {
   const { t } = useTranslation();
+  const { themeMode, updateThemeMode } = useTheme();
   const [isWindowMode] = useState(
     new URLSearchParams(window.location.search).get("mode") === "window"
   );
+
+  // 切换主题
+  const handleThemeToggle = () => {
+    if (themeMode === "system") {
+      updateThemeMode("light");
+    } else if (themeMode === "light") {
+      updateThemeMode("dark");
+    } else {
+      updateThemeMode("system");
+    }
+  };
+
+  // 获取主题图标
+  const getThemeIcon = () => {
+    if (themeMode === "system") return <BrightnessAutoIcon fontSize="small" />;
+    if (themeMode === "light") return <LightModeIcon fontSize="small" />;
+    return <DarkModeIcon fontSize="small" />;
+  };
+
+  // 获取主题提示文字
+  const getThemeTooltip = () => {
+    if (themeMode === "system") return t("settings.theme.system");
+    if (themeMode === "light") return t("settings.theme.light");
+    return t("settings.theme.dark");
+  };
 
   // 打开小窗口
   const handleOpenWindow = (event: React.MouseEvent) => {
@@ -140,6 +170,16 @@ export default function Layout({
                 </IconButton>
               </Tooltip>
             )}
+
+            <Tooltip title={getThemeTooltip()}>
+              <IconButton
+                onClick={handleThemeToggle}
+                sx={{ color: "primary.main", ml: 0.5 }}
+                size="small"
+              >
+                {getThemeIcon()}
+              </IconButton>
+            </Tooltip>
             
             <Tooltip title={t("nav.settings")}>
               <IconButton

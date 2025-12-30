@@ -287,7 +287,7 @@ export default defineBackground(() => {
             level = message.isLastChunk ? undefined : "passive"; // 最后一段显示提醒出来
             break;
           case "image": // 策略: 点击推送能打开 Safari，下拉复制的是图片的网址，能显示推送图片，不用加密，也不用传递 body 来减少请求体大小
-            url = message.content;
+            // url = message.content; // 注释: 图片类型不需要 url 参数
             autoCopy = "1";
             copyContent = undefined; // 避免太长，用autoCopy =1 代替
             content = undefined; // 由于image直接用url参数，且body意义不大, 减少请求体大小

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  forwardRef,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import {
   Box,
   TextField,
@@ -22,7 +16,6 @@ import {
   Collapse,
   IconButton,
   Tooltip,
-  SvgIcon,
 } from "@mui/material";
 
 import SendIcon from "@mui/icons-material/Send";
@@ -44,8 +37,7 @@ import { useAppContext } from "../contexts/AppContext";
 import DeviceSelectV2 from "../components/DeviceSelectV2";
 import DeviceDialog from "../components/DeviceDialog";
 import ShortcutTips from "../components/ShortcutTips";
-import UrlDialog from "../components/UrlDialog";
-import UrlDialogV2 from "../components/UrlDialogV2";
+import UrlDialogMain from "../components/UrlDialogMain";
 import AdvancedParamsEditor from "../components/AdvancedParamsEditor";
 import { SlideUpTransition } from "../components/DialogTransitions";
 
@@ -66,7 +58,6 @@ export default function SendPush({
 }: SendPushProps) {
   const { t } = useTranslation();
   const { shortcutKeys, isAppleDevice } = useAppContext();
-  // const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
   const [selectedDevices, setSelectedDevices] = useState<Device[]>([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -967,7 +958,7 @@ export default function SendPush({
       </Dialog>
 
       {/* URL选择Dialog */}
-      <UrlDialogV2
+      <UrlDialogMain
         open={urlDialogOpen}
         onClose={() => setUrlDialogOpen(false)}
         urlParams={urlParams}

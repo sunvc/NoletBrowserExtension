@@ -11,12 +11,12 @@ export interface MessagePayload {
   subtitle?: string; // 推送副标题
   image?: string; // 推送图片地址，支持 URL 或 base64 编码的图片
   device_key?: string;
-  /* 设备 key，API v2 使用
-        实际服务器根据请求头 Content-Type 来判断是 API v1 还是 API v2
+  /* 设备 key，API 使用
+        实际服务器根据请求头 Content-Type 来判断是 API v1 还是 API
         目前用的是 API v1, apiURL 格式为 = 服务器地址/:device_key/ device_key在:path 中
-        如果后续 API v2 使用, 地址固定为 服务器地址/:push/ device_key在 body 中
+        如果后续 API 使用, 地址固定为 服务器地址/:push/ device_key在 body 中
      */
-  device_keys?: string[]; // key数组，用于批量推送，API v2 使用
+  device_keys?: string[]; // key数组，用于批量推送，API 使用
   level?: "critical" | "active" | "timeSensitive" | "passive";
   /* 推送中断级别：
         critical: 重要警告，在静音模式下也会响铃
@@ -32,7 +32,7 @@ export interface MessagePayload {
   sound?: string; // 可以为推送设置不同的铃声
   icon?: string; // 为推送设置自定义图标，设置的图标将替换默认NoLet图标
   group?: string; // 对消息进行分组，推送将按group分组显示在通知中心中
-  ciphertext?: string; // 加密推送的密文，API v2 使用
+  ciphertext?: string; // 加密推送的密文，API 使用
   isArchive?: "1"; // 传1保存推送，传其他的不保存推送，不传按APP内设置来决定是否保存
   url?: string; // 点击推送时，跳转的URL
   action?: "none"; // 传"none"时，点击推送不会弹窗
@@ -41,7 +41,7 @@ export interface MessagePayload {
 }
 
 /**
- * API v2 消息体（markdown字段可选）
+ * API 消息体（markdown字段可选）
  */
 export interface MessagePayloadv2 extends Omit<MessagePayload, "markdown"> {
   markdown?: string; // 推送内容（加密时可选）
@@ -183,7 +183,7 @@ export async function encryptAESGCM(
 }
 
 /**
- * 发送 API v2 推送消息
+ * 发送 API 推送消息
  */
 export async function sendAPIv2Push(
   msgPayload: MessagePayloadv2,
@@ -198,7 +198,7 @@ export async function sendAPIv2Push(
 
   if (!devices || devices.length === 0) {
     const { device_keys, ...cleanPayload } = msgPayload as any;
-    return sendGroupAPIv2Push(
+    return sendGroupAPIPush(
       cleanPayload,
       defaultEndpoint,
       authorization,
@@ -233,7 +233,7 @@ export async function sendAPIv2Push(
       } = msgPayload as any;
       const groupPayload = {
         ...payloadWithoutDevices,
-        // 对于API v2，如果是多个设备，只使用device_keys；如果是单个设备，使用device_key
+        // 对于API，如果是多个设备，只使用device_keys；如果是单个设备，使用device_key
         ...(deviceKeys.length > 1
           ? { device_keys: deviceKeys }
           : { device_key: deviceKeys[0] }),
@@ -242,7 +242,7 @@ export async function sendAPIv2Push(
       try {
         // 发送批量请求
         const endpoint = `${server}/push`;
-        const result = await sendGroupAPIv2Push(
+        const result = await sendGroupAPIPush(
           groupPayload,
           endpoint,
           groupAuth,
@@ -290,9 +290,9 @@ function groupDevicesByServer(devices: Device[]): Record<string, Device[]> {
 }
 
 /**
- * 发送分组 API v2 推送消息
+ * 发送分组 API 推送消息
  */
-async function sendGroupAPIv2Push(
+async function sendGroupAPIPush(
   msgPayload: MessagePayloadv2,
   endpoint: string,
   authorization?: PushParams["authorization"],
@@ -329,13 +329,13 @@ async function sendGroupAPIv2Push(
       ciphertext,
     };
 
-    console.debug("API v2 加密请求:", {
+    console.debug("API 加密请求:", {
       endpoint,
       plaintext,
       ciphertext,
     });
   } else {
-    console.debug("API v2 明文请求:", {
+    console.debug("API 明文请求:", {
       endpoint,
       payload,
     });
@@ -355,7 +355,7 @@ async function sendGroupAPIv2Push(
   }
 
   const result: PushResponse = await response.json();
-  console.debug("API v2 请求成功:", result);
+  console.debug("API 请求成功:", result);
 
   return result;
 }
@@ -394,7 +394,7 @@ export async function sendPush(
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}),
   };
 
-  // 使用 API v2 方式
+  // 使用 API 方式
   return sendAPIv2Push(
     msgPayload as unknown as MessagePayloadv2,
     params.apiURL,

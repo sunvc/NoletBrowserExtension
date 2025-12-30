@@ -38,7 +38,6 @@ import KeyboardIcon from "@mui/icons-material/Keyboard";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 // import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useTranslation } from "react-i18next";
 import { Device, ThemeMode } from "../types";
 import { useAppContext } from "../contexts/AppContext";
@@ -47,7 +46,6 @@ import EncryptionDialog from "../components/EncryptionDialog";
 import SoundDialog from "../components/SoundDialog";
 import FeatureSettings from "../components/FeatureSettings";
 import BackupRestoreCard from "../components/BackupRestoreCard";
-import ThemeSelector from "../components/ThemeSelector";
 // import CacheSetting from "../components/CacheSetting";
 import DnsQueryCard from "../components/DnsQueryCard";
 import { openGitHub, openStoreRating } from "../utils/extension";
@@ -574,32 +572,6 @@ export default function Settings({
           onError={setError}
           onToast={(message) => setToast({ open: true, message })}
         />
-
-        {/* 界面相关 */}
-        <Paper elevation={2} sx={{ p: 3 }}>
-          <Stack spacing={1}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              >
-                <StarBorderIcon />
-                {/* 界面相关 */}
-                {t("settings.other.interface")}
-              </Typography>
-              <ThemeSelector
-                themeMode={themeMode}
-                onThemeChange={onThemeChange}
-              />
-            </Box>
-          </Stack>
-        </Paper>
 
         {/* 系统通知设置 */}
         <Paper elevation={2} sx={{ p: 3 }}>

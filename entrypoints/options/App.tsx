@@ -27,6 +27,9 @@ import {
 import LanguageSelector from "../popup/components/LanguageSelector";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import { openGitHub, openStoreRating } from "../popup/utils/extension";
 
 function AppContent() {
@@ -45,6 +48,31 @@ function AppContent() {
   } = useDevices();
 
   const { themeMode, effectiveTheme, updateThemeMode } = useTheme();
+
+  // 切换主题
+  const handleThemeToggle = () => {
+    if (themeMode === "system") {
+      updateThemeMode("light");
+    } else if (themeMode === "light") {
+      updateThemeMode("dark");
+    } else {
+      updateThemeMode("system");
+    }
+  };
+
+  // 获取主题图标
+  const getThemeIcon = () => {
+    if (themeMode === "system") return <BrightnessAutoIcon />;
+    if (themeMode === "light") return <LightModeIcon />;
+    return <DarkModeIcon />;
+  };
+
+  // 获取主题提示文字
+  const getThemeTooltip = () => {
+    if (themeMode === "system") return t("settings.theme.system");
+    if (themeMode === "light") return t("settings.theme.light");
+    return t("settings.theme.dark");
+  };
 
   const {
     appSettings,
@@ -124,6 +152,11 @@ function AppContent() {
               <Tab label={t("about.title")} value="legal" />
             </Tabs>
             <Box sx={{ ml: 2, display: "flex", alignItems: "center", gap: 1 }}>
+              <Tooltip title={getThemeTooltip()}>
+                <IconButton onClick={handleThemeToggle} color="inherit">
+                  {getThemeIcon()}
+                </IconButton>
+              </Tooltip>
               <Box sx={{ minWidth: 120 }}>
                 <LanguageSelector />
               </Box>
