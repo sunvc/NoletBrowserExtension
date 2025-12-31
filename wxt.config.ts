@@ -207,6 +207,8 @@ export default defineConfig({
 
         manifest.nativeMessagingHosts = ["app.wzs.NoLets"];
       }
+
+      delete manifest.options_ui;
     },
   },
 });
