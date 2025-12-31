@@ -1138,6 +1138,35 @@ export default defineBackground(() => {
     }
   });
 
+  // 确保 Action 默认打开 Popup
+  browser.action.setPopup({ popup: "popup.html" });
+
+  // 监听来自 Popup 的请求，打开独立窗口
+  browser.runtime.onMessage.addListener(async (message: any, sender: any) => {
+    if (message.action === "open_standalone_window") {
+      try {
+        const url = browser.runtime.getURL("/popup.html?mode=window");
+        // 检查是否已有打开的独立窗口
+        const tabs = await browser.tabs.query({ url });
+
+        if (tabs.length > 0 && tabs[0].windowId) {
+          // 如果有，聚焦该窗口
+          await browser.windows.update(tabs[0].windowId, { focused: true });
+        } else {
+          // 如果没有，创建新窗口
+          await browser.windows.create({
+            url,
+            type: "popup",
+            width: 380,
+            height: 600,
+          });
+        }
+      } catch (error) {
+        console.error("Open standalone window failed:", error);
+      }
+    }
+  });
+
   // 更新右键菜单
   async function updateContextMenus() {
     try {
@@ -1224,6 +1253,13 @@ export default defineBackground(() => {
           contexts: ["action"],
         });
       }
+
+      // 添加 Open Standalone Window 菜单
+      browser.contextMenus.create({
+        id: "open-standalone-window",
+        title: getMessage("open_in_standalone_window"),
+        contexts: ["all"],
+      });
     } catch (error) {
       console.error(getMessage("update_context_menus_failed"), error);
     }
@@ -1275,6 +1311,27 @@ export default defineBackground(() => {
 
         // 更新右键菜单
         updateContextMenus();
+        return;
+      }
+
+      // 打开独立窗口
+      if (info.menuItemId === "open-standalone-window") {
+        try {
+          const url = browser.runtime.getURL("/popup.html?mode=window");
+          const tabs = await browser.tabs.query({ url });
+          if (tabs.length > 0 && tabs[0].windowId) {
+            await browser.windows.update(tabs[0].windowId, { focused: true });
+          } else {
+            await browser.windows.create({
+              url,
+              type: "popup",
+              width: 380,
+              height: 600,
+            });
+          }
+        } catch (error) {
+          console.error("Open standalone window failed:", error);
+        }
         return;
       }
 

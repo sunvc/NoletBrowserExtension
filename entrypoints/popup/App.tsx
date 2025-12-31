@@ -31,7 +31,7 @@ function AppContent() {
     getDefaultDevice,
   } = useDevices();
 
-  const { themeMode, effectiveTheme, updateThemeMode } = useTheme();
+  const { themeMode, themeColor, effectiveTheme, updateThemeMode } = useTheme();
 
   const {
     appSettings,
@@ -79,7 +79,9 @@ function AppContent() {
   // 创建动态主题
   const theme = createAppTheme(
     effectiveTheme,
-    i18n.language?.startsWith("zh") ? "zh" : "en"
+    themeColor,
+    i18n.language?.startsWith("zh") ? "zh" : "en",
+    appSettings?.customColor
   );
 
   // 退出极速模式

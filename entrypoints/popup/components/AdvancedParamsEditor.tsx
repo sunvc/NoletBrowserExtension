@@ -721,7 +721,7 @@ const AdvancedParamsEditor: React.FC<AdvancedParamsEditorProps> = ({ onChange, p
                             py: 0.5,
                             zIndex: 10,
                             opacity: 0.9,
-                            boxShadow: '0px -2px 4px rgba(0,0,0,0.05)'
+                            boxShadow: theme.customColors.advancedParams.drawerShadow,
                         }}>
                             <Box sx={{
                                 width: '100%',

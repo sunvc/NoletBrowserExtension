@@ -393,7 +393,7 @@ const EncryptedCellRenderer = (props: ICellRendererParams) => {
     return (
         <span style={{
             fontSize: '12px',
-            color: isEncrypted ? '#4caf50' : theme.palette.text.disabled
+            color: isEncrypted ? theme.customColors.status.success : theme.palette.text.disabled
         }}>
             {isEncrypted ? t('common.yes') : t('common.no')}
         </span>
@@ -941,10 +941,10 @@ export default function HistoryTable({ records, selectedIds, onSelectionChanged,
 
             {/* 右键菜单 */}
             <Menu id={MENU_ID} animation="scale" style={{
-                backgroundColor: theme.palette.mode === 'dark' ? '#1E1E1E' : '#fff',
+                backgroundColor: theme.customColors.menu.background,
                 borderRadius: '14px',
-                boxShadow: theme.palette.mode === 'dark' ? '0 2px 8px rgba(0, 0, 0, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.08)',
-                border: theme.palette.mode === 'dark' ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid rgba(0, 0, 0, 0.12)',
+                boxShadow: theme.customColors.menu.shadow,
+                border: theme.customColors.menu.border,
             }}>
                 {/* 查看详情 */}
                 {/* <Item >

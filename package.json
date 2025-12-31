@@ -1,5 +1,5 @@
 {
-  "name": "NoLets",
+  "name": "nolet-extension",
   "description": "__MSG_ext_desc__",
   "private": true,
   "version": "1.6.0",

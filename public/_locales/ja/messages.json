@@ -1,4 +1,7 @@
 {
+  "extName": {
+    "message": "Nolet"
+  },
   "ext_desc": {
     "message": "Nolet は、選択テキストやクリップボード内容を暗号化して iOS 端末へ送信できる拡張機能です。カスタム通知対応。"
   },
@@ -187,5 +190,8 @@
   },
   "text_length_tip": {
     "message": "テキストが長すぎる場合、分割送信されることがあります"
+  },
+  "open_in_standalone_window": {
+    "message": "独立したウィンドウで開く"
   }
 }

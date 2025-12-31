@@ -72,14 +72,14 @@ export default function PreviewCard({ parameters, }: PreviewCardProps) {
                     flex: 1,
                     border: '1px solid',
                     borderColor: 'divider',
-                    boxShadow: '0 0 6px 0 rgba(0, 0, 0, 0.01)',
+                    boxShadow: (theme) => theme.customColors.previewCard.shadow,
                     borderRadius: '1.25rem',
                     py: 1,
                     px: 0.5,
                     userSelect: 'none',
                     backgroundColor: 'background.paper',
                     '&:hover': {
-                        boxShadow: '0 0 8px 0 rgba(0, 0, 0, 0.05)',
+                        boxShadow: (theme) => theme.customColors.previewCard.hoverShadow,
                     }
                 }}
             >

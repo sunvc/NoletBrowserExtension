@@ -28,6 +28,9 @@ export type TabValue = "send" | "history" | "settings";
 // 主题模式类型
 export type ThemeMode = "light" | "dark" | "system";
 
+// 主题颜色类型
+export type ThemeColor = "orange" | "blue" | "green" | "purple" | "custom";
+
 // 加密算法类型
 export type EncryptionAlgorithm = "AES256" | "AES192" | "AES128";
 
@@ -53,6 +56,8 @@ export interface AppSettings {
   enableContextMenu: boolean;
   enableInspectSend: boolean;
   themeMode: ThemeMode;
+  themeColor?: ThemeColor;
+  customColor?: string; // 自定义主题颜色 (hex格式)
   enableEncryption: boolean;
   encryptionConfig?: EncryptionConfig;
   sound?: string;

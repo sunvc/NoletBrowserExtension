@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  AppBar,
-  Toolbar,
-  Typography,
-  Stack,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import LockIcon from "@mui/icons-material/Lock";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { useTranslation } from "react-i18next";
-import { detectPlatform } from "../utils/platform";
+import { Box, Stack, GlobalStyles, useTheme } from "@mui/material";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,48 +15,23 @@ export default function Layout({
   encryptionEnabled = false,
   onEncryptionToggle,
 }: LayoutProps) {
-  const { t } = useTranslation();
-  const [isWindowMode] = useState(
-    new URLSearchParams(window.location.search).get("mode") === "window"
-  );
+  const theme = useTheme();
+  const isOverlay =
+    new URLSearchParams(window.location.search).get("mode") === "overlay" ||
+    window.self !== window.top; // 兼容性增强：如果在 iframe 中，也视为 overlay 模式
 
-  // 打开小窗口
-  const handleOpenWindow = (event: React.MouseEvent) => {
-    browser.windows.getCurrent((win) => {
-      // macOS 窗口全屏模式会显示扩展栏，打开的小窗会自动进入全屏状态会很难看，所以不打开小窗
-      const windowState = win.state || "normal";
-
-      if (
-        windowState === "fullscreen" || // 如果当前浏览器窗口是全屏状态
-        isWindowMode
-      ) {
-        // 如果当前本身就是小窗
-        return;
-      }
-      // 获取鼠标点击位置
-      const { screenX } = event;
-
-      // 计算窗口位置，使窗口中心对准鼠标点击位置
-      const windowWidth = 380;
-      const windowHeight = 660;
-      const left = Math.max(0, screenX - windowWidth / 2);
-
-      const platform = detectPlatform();
-      browser.windows.create({
-        url: browser.runtime.getURL("/popup.html?mode=window"),
-        type: "popup",
-        width: windowWidth,
-        height: windowHeight,
-        left: Math.round(left),
-        top: platform === "unknown" ? 90 : platform === "mac" ? 120 : 90, // 如果是 Windows 则为 90，如果是 Mac 则为 120
-        focused: true,
-      });
-      window.close();
-    });
-  };
+  React.useEffect(() => {
+    // 根据用户要求，使用 document.querySelector 设置圆角
+    const container = document.querySelector(".popup-container") as HTMLElement;
+    if (container) {
+      container.style.borderRadius = "24px";
+      container.style.overflow = "hidden";
+    }
+  }, []);
 
   return (
     <Box
+      className="popup-container"
       sx={{
         width: "100%",
         height: "100vh",
@@ -78,10 +40,25 @@ export default function Layout({
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
-        bgcolor: "background.default",
+        bgcolor: "background.paper",
+        borderRadius: isOverlay ? "24px" : 0, // 在 Overlay 模式下强制应用圆角
       }}
     >
-      {/* 主要内容区域：AppBar + 内容 */}
+      <GlobalStyles
+        styles={{
+          html: {
+            backgroundColor: isOverlay
+              ? "transparent"
+              : theme.palette.background.paper,
+          },
+          body: {
+            backgroundColor: isOverlay
+              ? "transparent"
+              : theme.palette.background.paper,
+          },
+        }}
+      />
+      {/* 主要内容区域：内容 */}
       <Stack
         sx={{
           height: "100%",
@@ -89,75 +66,6 @@ export default function Layout({
           minHeight: 0, // 确保Stack能够正确收缩
         }}
       >
-        {/* 顶部AppBar */}
-        <AppBar
-          position="static"
-          elevation={0}
-          sx={{
-            borderTop: "none",
-            borderLeft: "none",
-            borderRight: "none",
-            bgcolor: "background.paper",
-            color: "text.primary",
-            borderBottom: 1,
-            borderColor: "divider",
-          }}
-        >
-          <Toolbar variant="dense" sx={{ minHeight: 48, px: 1 }}>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{
-                flexGrow: 1,
-                fontSize: "1.1rem",
-                userSelect: "none",
-                fontWeight: 700,
-                color: "primary.main",
-              }}
-              onDoubleClick={handleOpenWindow}
-            >
-              {t("common.appName")}
-            </Typography>
-            {/* Appbar 的加密切换按钮 */}
-            {showEncryptionToggle && (
-              <Tooltip
-                title={
-                  encryptionEnabled
-                    ? t("settings.encryption.tooltips.encryption_on")
-                    : t("settings.encryption.tooltips.encryption_off")
-                }
-              >
-                <IconButton
-                  style={{ outline: "none" }}
-                  onClick={onEncryptionToggle}
-                  sx={{
-                    color: "primary.main",
-                    mr: 1,
-                  }}
-                  size="small"
-                >
-                  {encryptionEnabled ? <LockIcon /> : <LockOpenIcon />}
-                </IconButton>
-              </Tooltip>
-            )}
-
-            <Tooltip title={t("nav.settings")}>
-              <IconButton
-                onClick={() => {
-                  browser.tabs.create({
-                    url: browser.runtime.getURL("/options.html"),
-                  });
-                  window.close();
-                }}
-                sx={{ color: "primary.main", ml: 0.5 }}
-                size="small"
-              >
-                <SettingsIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </Toolbar>
-        </AppBar>
-
         {/* 主内容区域 */}
         <Box
           sx={{

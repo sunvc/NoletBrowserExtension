@@ -48,9 +48,7 @@ export default function HistoryTableSkeleton({ }: HistoryTableSkeletonProps) {
                 <Box
                     sx={{
                         borderBottom: `1px solid ${theme.palette.divider}`,
-                        backgroundColor: theme.palette.mode === 'dark'
-                            ? 'rgba(255, 255, 255, 0.05)'
-                            : 'rgba(0, 0, 0, 0.02)',
+                        backgroundColor: (theme) => theme.customColors.table.headerBackground,
                     }}
                 >
                     <Stack direction="row" gap={1}>

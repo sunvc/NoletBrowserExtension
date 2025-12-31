@@ -68,28 +68,14 @@ const SendOption = React.forwardRef<HTMLButtonElement, SendOptionProps>(
           textAlign: "left",
           gap: 2, // 增加间距
           borderRadius: 3, // 更圆润的边角
-          background: isDark
-            ? `linear-gradient(145deg, ${alpha(
-                theme.palette.background.paper,
-                0.9
-              )}, ${alpha(theme.palette.action.hover, 0.1)})`
-            : "linear-gradient(145deg, rgba(255,255,255,0.9), rgba(245,247,250,0.9))", // 默认微渐变
-          boxShadow: isDark
-            ? "0 2px 8px rgba(0,0,0,0.2)"
-            : "0 2px 8px rgba(0,0,0,0.05)", // 默认阴影
+          background: theme.customColors.urlDialog.optionBackground,
+          boxShadow: theme.customColors.urlDialog.optionShadow,
           transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)", // 更平滑的过渡
           border: isDark ? `1px solid ${theme.palette.divider}` : "none",
           "&:hover": {
-            background: isDark
-              ? `linear-gradient(145deg, ${alpha(
-                  theme.palette.primary.main,
-                  0.15
-                )}, ${alpha(theme.palette.primary.main, 0.05)})`
-              : "linear-gradient(145deg, #ffffff, #e3f2fd)", // 悬停时的渐变
+            background: theme.customColors.urlDialog.optionHoverBackground,
             transform: "translateY(-2px)", // 悬停上浮效果
-            boxShadow: isDark
-              ? "0 8px 16px rgba(0,0,0,0.4)"
-              : "0 8px 16px rgba(0,0,0,0.1)", // 增强阴影
+            boxShadow: theme.customColors.urlDialog.optionHoverShadow,
             borderColor: isDark ? theme.palette.primary.main : "transparent",
             "& .icon-box": {
               // 悬停时图标容器变化
@@ -110,10 +96,8 @@ const SendOption = React.forwardRef<HTMLButtonElement, SendOptionProps>(
             minWidth: 44, // 稍微加大
             minHeight: 44,
             borderRadius: "12px", // 稍微圆角
-            bgcolor: isDark
-              ? alpha(theme.palette.primary.main, 0.1)
-              : "background.paper", // 图标背景
-            boxShadow: isDark ? "none" : "0 2px 4px rgba(0,0,0,0.05)",
+            bgcolor: theme.customColors.urlDialog.iconBackground,
+            boxShadow: theme.customColors.urlDialog.iconShadow,
             transition: "all 0.3s ease", // 图标过渡
             border: isDark
               ? `1px solid ${alpha(theme.palette.primary.main, 0.2)}`

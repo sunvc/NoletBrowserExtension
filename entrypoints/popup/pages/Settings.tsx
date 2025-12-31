@@ -39,7 +39,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 // import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 import { useTranslation } from "react-i18next";
-import { Device, ThemeMode } from "../types";
+import { Device, ThemeMode, ThemeColor } from "../types";
 import { useAppContext } from "../contexts/AppContext";
 import DeviceDialog from "../components/DeviceDialog";
 import EncryptionDialog from "../components/EncryptionDialog";
@@ -48,6 +48,8 @@ import FeatureSettings from "../components/FeatureSettings";
 import BackupRestoreCard from "../components/BackupRestoreCard";
 // import CacheSetting from "../components/CacheSetting";
 import DnsQueryCard from "../components/DnsQueryCard";
+import ThemeSelector from "../components/ThemeSelector";
+import ThemeColorSelector from "../components/ThemeColorSelector";
 import { openGitHub, openStoreRating } from "../utils/extension";
 import { detectBrowser } from "../utils/platform";
 
@@ -69,6 +71,8 @@ interface SettingsProps {
   onSetDefaultDevice: (deviceId: string) => Promise<void>;
   themeMode: ThemeMode;
   onThemeChange: (mode: ThemeMode) => void;
+  themeColor: ThemeColor;
+  onThemeColorChange: (color: ThemeColor) => void;
   onSettingsChange?: () => void;
 }
 
@@ -81,6 +85,8 @@ export default function Settings({
   onSetDefaultDevice,
   themeMode,
   onThemeChange,
+  themeColor,
+  onThemeColorChange,
   onSettingsChange,
 }: SettingsProps) {
   const { t } = useTranslation();
@@ -112,9 +118,8 @@ export default function Settings({
     const url =
       browserType === "firefox"
         ? "about:addons"
-        : `${
-            browserType === "chrome" ? "chrome" : "edge"
-          }://extensions/shortcuts`;
+        : `${browserType === "chrome" ? "chrome" : "edge"
+        }://extensions/shortcuts`;
     try {
       await navigator.clipboard.writeText(url);
     } catch (error) {
@@ -443,7 +448,16 @@ export default function Settings({
                 ))}
               </List>
             ) : (
-              <Alert severity="info">
+              <Alert
+                sx={{
+                  backgroundColor: (theme) => theme.customColors.alert.background,
+                  color: (theme) => theme.customColors.alert.color,
+                  border: (theme) => `1px solid ${theme.customColors.alert.border}`,
+                  '& .MuiAlert-icon': {
+                    color: (theme) => theme.customColors.alert.iconColor,
+                  },
+                }}
+              >
                 {/* 暂无设备，请点击"添加设备"按钮添加一个设备。 */}
                 {t("device.no_devices")}
               </Alert>
@@ -557,9 +571,9 @@ export default function Settings({
                     <Typography variant="body2">
                       {isValid
                         ? /* 密钥有效 */
-                          t("settings.encryption.key_valid")
+                        t("settings.encryption.key_valid")
                         : /* 密钥无效 */
-                          t("settings.encryption.key_invalid")}
+                        t("settings.encryption.key_invalid")}
                     </Typography>
                   </Alert>
                 );
@@ -572,6 +586,60 @@ export default function Settings({
           onError={setError}
           onToast={(message) => setToast({ open: true, message })}
         />
+
+        {/* 外观设置 */}
+        <Paper elevation={2} sx={{ p: 3 }}>
+          <Stack spacing={2}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              >
+                <TuneIcon />
+                {/* 外观设置 */}
+                {t("settings.appearance.title")}
+              </Typography>
+            </Box>
+            <Stack spacing={2}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="body1">
+                  {t("settings.theme.title")}
+                </Typography>
+                <ThemeSelector
+                  themeMode={themeMode}
+                  onThemeChange={onThemeChange}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="body1">
+                  {t("settings.theme.color")}
+                </Typography>
+                <ThemeColorSelector
+                  themeColor={themeColor}
+                  onThemeColorChange={onThemeColorChange}
+                />
+              </Box>
+            </Stack>
+          </Stack>
+        </Paper>
 
         {/* 系统通知设置 */}
         <Paper elevation={2} sx={{ p: 3 }}>
@@ -711,9 +779,8 @@ export default function Settings({
                   >
                     {browserType === "firefox"
                       ? "about:addons"
-                      : `${
-                          browserType === "chrome" ? "chrome" : "edge"
-                        }://extensions/shortcuts`}
+                      : `${browserType === "chrome" ? "chrome" : "edge"
+                      }://extensions/shortcuts`}
                   </Typography>
                   <IconButton
                     size="small"
@@ -728,10 +795,15 @@ export default function Settings({
             </Popover>
             <Alert
               icon={<InfoIcon />}
-              severity="info"
               sx={{
                 "& .MuiAlert-message": {
                   width: "100%",
+                },
+                backgroundColor: (theme) => theme.customColors.alert.background,
+                color: (theme) => theme.customColors.alert.color,
+                border: (theme) => `1px solid ${theme.customColors.alert.border}`,
+                '& .MuiAlert-icon': {
+                  color: (theme) => theme.customColors.alert.iconColor,
                 },
               }}
             >

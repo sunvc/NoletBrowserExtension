@@ -17,6 +17,7 @@ export default defineConfig({
     },
   }),
   manifest: {
+    name: "__MSG_extName__",
     default_locale: "en",
     omnibox: {
       keyword: "ww",
@@ -48,6 +49,13 @@ export default defineConfig({
         global: true,
       },
     },
+    web_accessible_resources: [
+      {
+        resources: ["popup.html"],
+        matches: ["<all_urls>"],
+      },
+    ],
+    options_page: "options.html",
   },
   hooks: {
     "build:done": (wxt, output) => {

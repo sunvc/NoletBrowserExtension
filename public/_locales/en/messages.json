@@ -1,4 +1,7 @@
 {
+  "extName": {
+    "message": "Nolet"
+  },
   "ext_desc": {
     "message": "Nolet sends webpage selection or clipboard content to iOS, with encryption and custom push."
   },
@@ -187,5 +190,8 @@
   },
   "text_length_tip": {
     "message": "If the text is too long, it may be sent in chunks"
+  },
+  "open_in_standalone_window": {
+    "message": "Open in standalone window"
   }
 }

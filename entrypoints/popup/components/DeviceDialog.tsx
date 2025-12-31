@@ -203,7 +203,16 @@ export default function DeviceDialog({
   };
 
   // 判断是否显示自建服务器提示
-  const showSelfHostedWarning = !deviceApiURL.includes(defaultServer);
+  // 如果输入包含 defaultServer (wzs.app) -> 不提示 (官方)
+  // 如果输入是 defaultServer 的前缀 (wzs...) -> 不提示 (正在输入官方)
+  // 如果输入是 http(s)://defaultServer 的前缀 -> 不提示 (正在输入官方)
+  const isPotentialOfficial =
+    `https://${defaultServer}`.startsWith(deviceApiURL) ||
+    `http://${defaultServer}`.startsWith(deviceApiURL) ||
+    defaultServer.startsWith(deviceApiURL);
+
+  const showSelfHostedWarning =
+    !deviceApiURL.includes(defaultServer) && !isPotentialOfficial;
 
   return (
     <Dialog
@@ -368,11 +377,7 @@ export default function DeviceDialog({
             variant="standard"
             sx={{ width: "100%" }}
           >
-            {t(
-              editDevice
-                ? "device.self_hosted_tip_edit"
-                : "device.self_hosted_tip"
-            )}
+            {t("device.self_hosted_tip")}
           </Alert>
         </Snackbar>
       )}

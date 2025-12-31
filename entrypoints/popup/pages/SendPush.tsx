@@ -23,6 +23,8 @@ import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import UndoIcon from "@mui/icons-material/Undo";
 import CloseIcon from "@mui/icons-material/Close";
+import SettingsIcon from "@mui/icons-material/Settings";
+import PictureInPictureAltIcon from "@mui/icons-material/PictureInPictureAlt";
 
 import { useTranslation } from "react-i18next";
 import { Device } from "../types";
@@ -50,6 +52,41 @@ interface SendPushProps {
     authorization?: { type: "basic"; user: string; pwd: string; value: string }
   ) => Promise<Device>;
 }
+
+import { styled } from "@mui/material/styles";
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  "& .MuiInputLabel-root": {
+    marginLeft: theme.spacing(1),
+    "&.Mui-focused": {
+      color: theme.palette.primary.main,
+    },
+  },
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: theme.customColors.input.background,
+    borderRadius: 12, // 3 * 4px
+    paddingLeft: theme.spacing(1.8),
+    paddingRight: theme.spacing(1),
+    transition: "all 0.3s ease",
+    boxShadow: theme.customColors.input.shadow,
+
+    "& fieldset": {
+      borderColor: theme.customColors.input.borderColor,
+      paddingLeft: theme.spacing(1.5),
+      transition: "all 0.3s ease",
+    },
+    "&:hover fieldset": {
+      borderColor: theme.customColors.input.hoverBorderColor,
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: theme.palette.primary.main,
+    },
+    "&.Mui-focused": {
+      backgroundColor: theme.customColors.input.focusedBackground,
+      boxShadow: `0 0 0 4px ${theme.palette.primary.main}15, ${theme.customColors.input.shadow}`,
+    },
+  },
+}));
 
 export default function SendPush({
   devices,
@@ -629,12 +666,10 @@ export default function SendPush({
 
   return (
     <>
-      <Box
-        sx={{ p: 2, height: "100%", display: "flex", flexDirection: "column" }}
-      >
+      <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <Paper
           ref={paperRef}
-          elevation={2}
+          elevation={0}
           sx={{
             p: 3,
             flex: 1,
@@ -642,13 +677,73 @@ export default function SendPush({
             flexDirection: "column",
             gap: 3,
             transformOrigin: "center center",
-            // transition: 'gap 0.3s ease-in-out'
+            backgroundColor: "background.paper",
+            transition: "gap 0.3s ease-in-out",
           }}
         >
-          <Typography variant="h6" gutterBottom>
-            {/* 发送推送消息 */}
-            {t("push.title")}
-          </Typography>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ mb: 3 }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 700,
+                background: (theme) => theme.customColors.gradients.primary,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {/* 推送消息 */}
+              {t("push.title")}
+            </Typography>
+            <Stack direction="row" spacing={1}>
+              {!isWindowMode && (
+                <Tooltip title={t("push.open_in_standalone_window")}>
+                  <IconButton
+                    onClick={async () => {
+                      await browser.runtime.sendMessage({
+                        action: "open_standalone_window",
+                      });
+                      window.close();
+                    }}
+                    sx={{
+                      color: (theme) => theme.palette.text.secondary,
+                      "&:hover": {
+                        color: (theme) => theme.palette.primary.main,
+                        backgroundColor: (theme) => theme.palette.action.hover,
+                      },
+                    }}
+                    size="small"
+                  >
+                    <PictureInPictureAltIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Tooltip title={t("nav.settings")}>
+                <IconButton
+                  onClick={() => {
+                    browser.tabs.create({
+                      url: browser.runtime.getURL("/options.html"),
+                    });
+                    window.close();
+                  }}
+                  sx={{
+                    color: (theme) => theme.palette.text.secondary,
+                    "&:hover": {
+                      color: (theme) => theme.palette.primary.main,
+                      backgroundColor: (theme) => theme.palette.action.hover,
+                    },
+                  }}
+                  size="small"
+                >
+                  <SettingsIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </Stack>
+          </Stack>
 
           <DeviceSelectV2
             devices={devices}
@@ -658,15 +753,15 @@ export default function SendPush({
             defaultDevice={defaultDevice}
           />
 
-          <Stack gap={2}>
+          <Stack gap={1.5}>
             <Box sx={{ position: "relative" }}>
-              <TextField
+              <StyledTextField
                 /* 推送内容 */
                 label={t("push.message")}
                 /* 输入要推送的消息内容 */
                 placeholder={t("push.message_placeholder")}
                 multiline
-                rows={3}
+                rows={4}
                 value={message}
                 onChange={handleMessageChange}
                 onKeyDown={handleKeyDown}
@@ -789,7 +884,8 @@ export default function SendPush({
               </Slide>
             </Collapse>
           </Stack>
-          <Stack spacing={2} sx={{ mt: "auto" }}>
+
+          <Stack spacing={1} sx={{ mt: "auto" }}>
             <Button
               variant="contained"
               size="large"
@@ -804,6 +900,17 @@ export default function SendPush({
                 !message.trim()
               }
               fullWidth
+              sx={{
+                height: 48,
+                background: (theme) => theme.customColors.gradients.primary,
+                boxShadow: (theme) => theme.customColors.shadows.primary,
+                "&.Mui-disabled": {
+                  background: (theme) =>
+                    theme.customColors.button.disabledBackground,
+                  boxShadow: "none",
+                  color: (theme) => theme.customColors.button.disabledText,
+                },
+              }}
               id="send-button"
             >
               {/* 发送中... / 发送推送 */}
@@ -811,40 +918,46 @@ export default function SendPush({
             </Button>
 
             <Button
-              variant="outlined"
-              size="large"
+              variant="text"
+              size="medium"
               startIcon={
                 clipboardLoading ? (
-                  <CircularProgress size={20} />
+                  <CircularProgress size={16} />
                 ) : (
-                  <ContentPasteIcon />
+                  <ContentPasteIcon fontSize="small" />
                 )
               }
               onClick={handleSendClipboard}
               disabled={loading || clipboardLoading}
               fullWidth
+              color="secondary"
+              sx={{
+                borderRadius: 3,
+                opacity: 0.8,
+                "&:hover": {
+                  opacity: 1,
+                  background: (theme) =>
+                    theme.customColors.button.secondaryHover,
+                },
+              }}
             >
               {/* 读取剪切板中... / 发送剪切板内容 */}
               {clipboardLoading
                 ? t("push.reading_clipboard")
                 : t("push.send_clipboard")}
             </Button>
+          </Stack>
 
-            <Collapse
-              in={!result}
-              timeout={{
-                enter: 400,
-                exit: 200,
-              }}
-              sx={{
-                "& .MuiCollapse-wrapper": {
-                  transition: "height 0.2s ease-in-out !important",
-                },
-              }}
-              style={{
-                margin: 0,
-              }}
-            >
+          <Collapse
+            in={!result}
+            timeout={{ enter: 400, exit: 200 }}
+            sx={{
+              "& .MuiCollapse-wrapper": {
+                transition: "height 0.2s ease-in-out !important",
+              },
+            }}
+          >
+            <Box>
               <ShortcutTips
                 tips={[
                   { description: t("push.send"), key: shortcutKeys.send },
@@ -857,8 +970,8 @@ export default function SendPush({
                 ]}
                 interval={12000}
               />
-            </Collapse>
-          </Stack>
+            </Box>
+          </Collapse>
         </Paper>
 
         {/* 自定义参数, 传递 paperRef */}

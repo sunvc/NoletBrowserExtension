@@ -47,7 +47,13 @@ function AppContent() {
     getDefaultDevice,
   } = useDevices();
 
-  const { themeMode, effectiveTheme, updateThemeMode } = useTheme();
+  const {
+    themeMode,
+    themeColor,
+    effectiveTheme,
+    updateThemeMode,
+    updateThemeColor,
+  } = useTheme();
 
   // 切换主题
   const handleThemeToggle = () => {
@@ -104,7 +110,9 @@ function AppContent() {
 
   const theme = createAppTheme(
     effectiveTheme,
-    i18n.language?.startsWith("zh") ? "zh" : "en"
+    themeColor,
+    i18n.language?.startsWith("zh") ? "zh" : "en",
+    appSettings?.customColor
   );
 
   // Set data-theme
@@ -189,6 +197,8 @@ function AppContent() {
                 onSetDefaultDevice={setDefaultDevice}
                 themeMode={themeMode}
                 onThemeChange={updateThemeMode}
+                themeColor={themeColor}
+                onThemeColorChange={updateThemeColor}
                 onSettingsChange={reloadSettings}
               />
             )}

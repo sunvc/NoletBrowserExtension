@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ThemeMode } from '../types';
+import { ThemeMode, ThemeColor } from '../types';
 import { getAppSettings, updateAppSetting } from '../utils/settings';
 
 declare const browser: any;
@@ -7,6 +7,7 @@ declare const chrome: any;
 
 export function useTheme() {
     const [themeMode, setThemeMode] = useState<ThemeMode>('system');
+    const [themeColor, setThemeColor] = useState<ThemeColor>('green');
     const [systemIsDark, setSystemIsDark] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -15,8 +16,13 @@ export function useTheme() {
         const handleStorageChange = (changes: { [key: string]: any }, areaName: string) => {
             if (areaName === 'local' && changes['nolet_app_settings']) {
                 const newValue = changes['nolet_app_settings'].newValue;
-                if (newValue && newValue.themeMode) {
-                    setThemeMode(newValue.themeMode);
+                if (newValue) {
+                    if (newValue.themeMode) {
+                        setThemeMode(newValue.themeMode);
+                    }
+                    if (newValue.themeColor) {
+                        setThemeColor(newValue.themeColor);
+                    }
                 }
             }
         };
@@ -63,9 +69,11 @@ export function useTheme() {
             try {
                 const settings = await getAppSettings();
                 setThemeMode(settings.themeMode || 'system');
+                setThemeColor(settings.themeColor || 'green');
             } catch (error) {
                 console.error('加载主题设置失败:', error);
                 setThemeMode('system');
+                setThemeColor('green');
             } finally {
                 setLoading(false);
             }
@@ -83,6 +91,16 @@ export function useTheme() {
         }
     };
 
+    // 更新主题颜色
+    const updateThemeColor = async (newColor: ThemeColor) => {
+        try {
+            await updateAppSetting('themeColor', newColor);
+            setThemeColor(newColor);
+        } catch (error) {
+            console.error('更新主题颜色失败:', error);
+        }
+    };
+
     // 计算最终的主题模式
     const effectiveTheme = themeMode === 'system'
         ? (systemIsDark ? 'dark' : 'light')
@@ -90,9 +108,11 @@ export function useTheme() {
 
     return {
         themeMode,
+        themeColor,
         effectiveTheme,
         systemIsDark,
         loading,
-        updateThemeMode
+        updateThemeMode,
+        updateThemeColor
     };
-} 
+}
