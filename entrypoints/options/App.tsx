@@ -143,8 +143,12 @@ function AppContent() {
         }}
       >
         <AppBar position="static" color="default" elevation={1}>
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Toolbar sx={{ gap: 1, px: { xs: 1, sm: 2 } }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ display: { xs: "none", sm: "block" }, mr: 2 }}
+            >
               {getTitle()}
             </Typography>
             <Tabs
@@ -154,37 +158,73 @@ function AppContent() {
               onChange={handleTabChange}
               textColor="primary"
               indicatorColor="primary"
+              variant="scrollable"
+              scrollButtons="auto"
+              allowScrollButtonsMobile
+              sx={{
+                flexGrow: 1,
+                minHeight: 48,
+                "& .MuiTab-root": { minWidth: "auto", px: { xs: 1, sm: 2 } },
+              }}
             >
               <Tab label={t("nav.history")} value="history" />
               <Tab label={t("nav.settings")} value="settings" />
               <Tab label={t("about.title")} value="legal" />
             </Tabs>
-            <Box sx={{ ml: 2, display: "flex", alignItems: "center", gap: 1 }}>
+            <Box
+              sx={{
+                ml: { xs: 0, sm: 2 },
+                display: "flex",
+                alignItems: "center",
+                gap: 0.5,
+              }}
+            >
               <Tooltip title={getThemeTooltip()}>
                 <IconButton onClick={handleThemeToggle} color="inherit">
                   {getThemeIcon()}
                 </IconButton>
               </Tooltip>
-              <Box sx={{ minWidth: 120 }}>
-                <LanguageSelector />
+              <Box sx={{ minWidth: { xs: 100, sm: 120 } }}>
+                <LanguageSelector sx={{ minWidth: { xs: 100, sm: 120 } }} />
               </Box>
               <Tooltip title={t("about.github.title")}>
-                <IconButton onClick={openGitHub} color="inherit">
+                <IconButton
+                  onClick={openGitHub}
+                  color="inherit"
+                  sx={{ display: { xs: "none", sm: "inline-flex" } }}
+                >
                   <GitHubIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title={t("about.store_rating.title")}>
-                <IconButton onClick={openStoreRating} color="inherit">
+                <IconButton
+                  onClick={openStoreRating}
+                  color="inherit"
+                  sx={{ display: { xs: "none", sm: "inline-flex" } }}
+                >
                   <StarBorderIcon />
                 </IconButton>
               </Tooltip>
             </Box>
           </Toolbar>
         </AppBar>
-        <Box sx={{ flex: 1, overflow: "auto", p: 2 }}>
+        <Box
+          sx={{
+            flex: 1,
+            overflow: "auto",
+            p: { xs: 0, sm: 2 },
+            bgcolor: "background.default",
+          }}
+        >
           <Container
             maxWidth="lg"
-            sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+            disableGutters
+            sx={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              px: { xs: 0, sm: 2 },
+            }}
           >
             {page === "history" && <History />}
             {page === "settings" && (

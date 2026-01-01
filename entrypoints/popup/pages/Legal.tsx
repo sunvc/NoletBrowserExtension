@@ -6,7 +6,12 @@ export default function Legal() {
 
   return (
     <Box
-      sx={{ p: 2, height: "100%", display: "flex", flexDirection: "column" }}
+      sx={{
+        p: { xs: 1.5, sm: 2 },
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       <Paper
         elevation={0}

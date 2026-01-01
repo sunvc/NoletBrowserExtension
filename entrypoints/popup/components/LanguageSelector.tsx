@@ -1,8 +1,12 @@
-import { FormControl, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { FormControl, Select, MenuItem, SelectChangeEvent, SxProps, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { getSupportedLanguages } from '../utils/languages';
 
-export default function LanguageSelector() {
+interface LanguageSelectorProps {
+    sx?: SxProps<Theme>;
+}
+
+export default function LanguageSelector({ sx }: LanguageSelectorProps) {
     const { i18n } = useTranslation();
     // 使用统一的语言列表
     const supportedLanguages = getSupportedLanguages();
@@ -21,7 +25,7 @@ export default function LanguageSelector() {
     };
 
     return (
-        <FormControl size="small" sx={{ minWidth: 140, width: '100%' }}>
+        <FormControl size="small" sx={{ minWidth: 120, width: '100%', ...sx }}>
             <Select
                 value={i18n.language || 'zh-CN'}
                 onChange={handleLanguageChange}

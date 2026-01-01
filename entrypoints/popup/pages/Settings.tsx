@@ -319,10 +319,10 @@ export default function Settings({
         sx={{
           flex: 1,
           overflowY: "auto",
-          p: 2,
+          p: { xs: 1.5, sm: 2 },
           display: "flex",
           flexDirection: "column",
-          gap: 2,
+          gap: { xs: 1.5, sm: 2 },
           minHeight: "min-content", // 确保内容可以撑开
         }}
       >
