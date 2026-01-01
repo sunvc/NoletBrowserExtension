@@ -10,7 +10,9 @@ echo ""
 
 # Dynamically read project version
 PACKAGE_VERSION=$(node -pe "require('./package.json').version")
+PACKAGE_NAME=$(node -pe "require('./package.json').name")
 echo "📋 Project Version: v$PACKAGE_VERSION"
+echo "📋 Project Name: $PACKAGE_NAME"
 echo ""
 
 # Check operating system
@@ -177,7 +179,7 @@ echo "📋 Checking build output..."
 
 # Check Chrome extension
 CHROME_SUCCESS=false
-if [ -f ".output/nolets-$PACKAGE_VERSION-chrome.zip" ]; then
+if [ -f ".output/$PACKAGE_NAME-$PACKAGE_VERSION-chrome.zip" ]; then
     echo "✅ Chrome extension build successful"
     CHROME_SUCCESS=true
 else
@@ -186,7 +188,7 @@ fi
 
 # Check Firefox extension
 FIREFOX_SUCCESS=false
-if [ -f ".output/nolets-$PACKAGE_VERSION-firefox.zip" ]; then
+if [ -f ".output/$PACKAGE_NAME-$PACKAGE_VERSION-firefox.zip" ]; then
     echo "✅ Firefox extension build successful"
     FIREFOX_SUCCESS=true
 else
@@ -195,7 +197,7 @@ fi
 
 # Check Edge extension
 EDGE_SUCCESS=false
-if [ -f ".output/nolets-$PACKAGE_VERSION-edge.zip" ]; then
+if [ -f ".output/$PACKAGE_NAME-$PACKAGE_VERSION-edge.zip" ]; then
     echo "✅ Edge extension build successful"
     EDGE_SUCCESS=true
 else
@@ -204,7 +206,7 @@ fi
 
 # Check Safari extension
 SAFARI_SUCCESS=false
-if [ -f ".output/nolets-$PACKAGE_VERSION-safari.zip" ]; then
+if [ -f ".output/$PACKAGE_NAME-$PACKAGE_VERSION-safari.zip" ]; then
     echo "✅ Safari extension build successful"
     SAFARI_SUCCESS=true
 else
@@ -217,27 +219,27 @@ if [ "$CHROME_SUCCESS" = true ] || [ "$FIREFOX_SUCCESS" = true ] || [ "$SAFARI_S
     echo "📁 Output file locations:"
     
     if [ "$CHROME_SUCCESS" = true ]; then
-        echo "   📦 Chrome: .output/nolets-$PACKAGE_VERSION-chrome.zip"
+        echo "   📦 Chrome: .output/$PACKAGE_NAME-$PACKAGE_VERSION-chrome.zip"
         echo "   📏 File size:"
-        ls -lh .output/nolets-$PACKAGE_VERSION-chrome.zip
+        ls -lh .output/$PACKAGE_NAME-$PACKAGE_VERSION-chrome.zip
     fi
     
     if [ "$FIREFOX_SUCCESS" = true ]; then
-        echo "   📦 Firefox: .output/nolets-$PACKAGE_VERSION-firefox.zip"
+        echo "   📦 Firefox: .output/$PACKAGE_NAME-$PACKAGE_VERSION-firefox.zip"
         echo "   📏 File size:"
-        ls -lh .output/nolets-$PACKAGE_VERSION-firefox.zip
+        ls -lh .output/$PACKAGE_NAME-$PACKAGE_VERSION-firefox.zip
     fi
     
     if [ "$EDGE_SUCCESS" = true ]; then
-        echo "   📦 Edge: .output/nolets-$PACKAGE_VERSION-edge.zip"
+        echo "   📦 Edge: .output/$PACKAGE_NAME-$PACKAGE_VERSION-edge.zip"
         echo "   📏 File size:"
-        ls -lh .output/nolets-$PACKAGE_VERSION-edge.zip
+        ls -lh .output/$PACKAGE_NAME-$PACKAGE_VERSION-edge.zip
     fi
 
     if [ "$SAFARI_SUCCESS" = true ]; then
-        echo "   📦 Safari: .output/nolets-$PACKAGE_VERSION-safari.zip"
+        echo "   📦 Safari: .output/$PACKAGE_NAME-$PACKAGE_VERSION-safari.zip"
         echo "   📏 File size:"
-        ls -lh .output/nolets-$PACKAGE_VERSION-safari.zip
+        ls -lh .output/$PACKAGE_NAME-$PACKAGE_VERSION-safari.zip
     fi
     
     echo ""

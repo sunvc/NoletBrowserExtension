@@ -349,158 +349,187 @@ export default function History() {
     }
 
     return (
-        <Box sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}>
-            {/* 操作栏 */}
-            <Stack spacing={1} sx={{ mb: 0.5 }} direction="row" justifyContent="space-between">
-                <Stack direction="row" gap={1} alignItems="flex-end" justifyContent="space-between" sx={{ mb: 1, mt: 0 }}>
-                    {/* 记录统计 */}
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1, pl: .3 }}>
-                        {selectedIds.length > 0 ? `${t('history.table.selected_count', { count: selectedIds.length })}` : t('history.table.records_count', { count: records.length })}
-                    </Typography>
-                </Stack>
-                {/* 操作按钮 */}
-                <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                    <Stack direction="row" spacing={1}>
-                        <Tooltip title={t('history.export')}>
-                            <span>
-                                <IconButton
-                                    onClick={handleExport}
-                                    color="primary"
-                                    size="small"
-                                    disabled={!hasData}
-                                >
-                                    <DownloadIcon />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
-                        <Tooltip title={t('history.import')}>
-                            <IconButton
-                                color="primary"
-                                size="small"
-                                onClick={() => fileInputRef.current?.click()}
-                            >
-                                <UploadIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept=".json"
-                            onChange={handleImport}
-                            style={{ display: 'none' }}
-                        />
-                    </Stack>
-
-                    {selectedIds.length > 0 && (
-                        <Button
-                            variant="text"
-                            color="error"
-                            size="small"
-                            startIcon={<DeleteIcon />}
-                            onClick={() => setShowDeleteDialog(true)}
-                        >
-                            {t('history.toolbar.delete_selected')} ({selectedIds.length})
-                        </Button>
-                    )}
-                </Stack>
+      <Box
+        sx={{ p: 2, height: "100%", display: "flex", flexDirection: "column" }}
+      >
+        {/* 操作栏 */}
+        <Stack
+          spacing={1}
+          sx={{ mb: 0.5 }}
+          direction="row"
+          justifyContent="space-between"
+        >
+          <Stack
+            direction="row"
+            gap={1}
+            alignItems="flex-end"
+            justifyContent="space-between"
+            sx={{ mb: 1, mt: 0 }}
+          >
+            {/* 记录统计 */}
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mb: 1, pl: 0.3 }}
+            >
+              {selectedIds.length > 0
+                ? `${t("history.table.selected_count", {
+                    count: selectedIds.length,
+                  })}`
+                : t("history.table.records_count", { count: records.length })}
+            </Typography>
+          </Stack>
+          {/* 操作按钮 */}
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Stack direction="row" spacing={1}>
+              <Tooltip title={t("history.export")}>
+                <span>
+                  <IconButton
+                    onClick={handleExport}
+                    color="primary"
+                    size="small"
+                    disabled={!hasData}
+                  >
+                    <DownloadIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+              <Tooltip title={t("history.import")}>
+                <IconButton
+                  color="primary"
+                  size="small"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <UploadIcon />
+                </IconButton>
+              </Tooltip>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleImport}
+                style={{ display: "none" }}
+              />
             </Stack>
 
-            {/* 警告信息 */}
-            {alert && (
-                <Alert
-                    severity={alert.type}
-                    onClose={() => setAlert(null)}
-                    sx={{ mb: 2 }}
-                >
-                    {alert.message}
-                </Alert>
+            {selectedIds.length > 0 && (
+              <Button
+                variant="text"
+                color="error"
+                size="small"
+                startIcon={<DeleteIcon />}
+                onClick={() => setShowDeleteDialog(true)}
+              >
+                {t("history.toolbar.delete_selected")} ({selectedIds.length})
+              </Button>
             )}
+          </Stack>
+        </Stack>
 
-            {/* 记录表格 */}
-            {!hasData && searchKeyword.trim() === '' ?
-                <Box
-                    sx={{
-                        p: 2,
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Stack spacing={2} alignItems="center">
-                        <LottiePlayer
-                            autoplay
-                            loop
-                            src="/lottie/coming-soon.json"
-                            style={{ height: '180px', width: '180px' }}
-                        />
-                        <Typography variant="h6" color="text.secondary">
-                            {/* 空 */}
-                            {t('history.messages.empty')}
-                        </Typography>
-                    </Stack>
-                </Box>
-                :
-                <>
-                    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <React.Suspense fallback={
-                            <HistoryTableSkeleton />
-                        }>
-                            <HistoryTable
-                                records={records}
-                                selectedIds={selectedIds}
-                                onSelectionChanged={setSelectedIds}
-                                onRowDoubleClick={handleRowDoubleClick}
-                                scrollToRecordId={scrollToRecordId}
-                                onFilteredDataChanged={handleFilteredDataChanged}
-                                onRecallSuccess={() => loadRecords(true)}
-                                onDeleteRecords={handleDeleteRecords}
-                                onExportRecords={handleExportRecords}
-                            />
-                        </React.Suspense>
-                    </Box>
-                </>
-            }
+        {/* 警告信息 */}
+        {alert && (
+          <Alert
+            severity={alert.type}
+            onClose={() => setAlert(null)}
+            sx={{ mb: 2 }}
+          >
+            {alert.message}
+          </Alert>
+        )}
 
-            {/* 删除确认对话框 */}
-            <Dialog slots={{
-                transition: GrowTransition,
+        {/* 记录表格 */}
+        {!hasData && searchKeyword.trim() === "" ? (
+          <Box
+            sx={{
+              p: 2,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-                open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)}>
-                {/* 确认删除 */}
-                <DialogTitle>{t('history.confirm_delete')}</DialogTitle>
-                {/* 确定要删除选中的 {{count}} 条记录吗？此操作不可撤销。 */}
-                <DialogContent>
-                    {t('history.confirm_delete_message', { count: selectedIds.length })}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setShowDeleteDialog(false)}>取消</Button>
-                    <Button
-                        onClick={handleDelete}
-                        color="error"
-                        disabled={deleting}
-                        startIcon={deleting ? <CircularProgress size={16} /> : <DeleteIcon />}
-                    >
-                        {deleting ? t('common.processing') : t('common.delete')}
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            {/* 详情模态框 */}
-            <React.Suspense fallback={null}>
-                <RecordDetailModal
-                    record={selectedRecord}
-                    open={detailModalOpen}
-                    onClose={handleCloseDetailModal}
-                    onExited={handleDetailExited}
-                    currentIndex={currentRecordIndex}
-                    totalCount={filteredRecords.length} // 使用过滤后的总数
-                    onNavigate={handleNavigate}
-                    onRecallSuccess={() => loadRecords(true)} // 撤回成功后刷新数据
-                    onRecordUpdate={handleRecordUpdate} // 记录更新回调
+          >
+            <Stack spacing={2} alignItems="center">
+              <LottiePlayer
+                autoplay
+                loop
+                src="/lottie/history.json"
+                style={{ height: "180px", width: "180px" }}
+              />
+              <Typography variant="h6" color="text.secondary">
+                {/* 空 */}
+                {t("history.messages.empty")}
+              </Typography>
+            </Stack>
+          </Box>
+        ) : (
+          <>
+            <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+              <React.Suspense fallback={<HistoryTableSkeleton />}>
+                <HistoryTable
+                  records={records}
+                  selectedIds={selectedIds}
+                  onSelectionChanged={setSelectedIds}
+                  onRowDoubleClick={handleRowDoubleClick}
+                  scrollToRecordId={scrollToRecordId}
+                  onFilteredDataChanged={handleFilteredDataChanged}
+                  onRecallSuccess={() => loadRecords(true)}
+                  onDeleteRecords={handleDeleteRecords}
+                  onExportRecords={handleExportRecords}
                 />
-            </React.Suspense>
-        </Box >
+              </React.Suspense>
+            </Box>
+          </>
+        )}
+
+        {/* 删除确认对话框 */}
+        <Dialog
+          slots={{
+            transition: GrowTransition,
+          }}
+          open={showDeleteDialog}
+          onClose={() => setShowDeleteDialog(false)}
+        >
+          {/* 确认删除 */}
+          <DialogTitle>{t("history.confirm_delete")}</DialogTitle>
+          {/* 确定要删除选中的 {{count}} 条记录吗？此操作不可撤销。 */}
+          <DialogContent>
+            {t("history.confirm_delete_message", { count: selectedIds.length })}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setShowDeleteDialog(false)}>取消</Button>
+            <Button
+              onClick={handleDelete}
+              color="error"
+              disabled={deleting}
+              startIcon={
+                deleting ? <CircularProgress size={16} /> : <DeleteIcon />
+              }
+            >
+              {deleting ? t("common.processing") : t("common.delete")}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* 详情模态框 */}
+        <React.Suspense fallback={null}>
+          <RecordDetailModal
+            record={selectedRecord}
+            open={detailModalOpen}
+            onClose={handleCloseDetailModal}
+            onExited={handleDetailExited}
+            currentIndex={currentRecordIndex}
+            totalCount={filteredRecords.length} // 使用过滤后的总数
+            onNavigate={handleNavigate}
+            onRecallSuccess={() => loadRecords(true)} // 撤回成功后刷新数据
+            onRecordUpdate={handleRecordUpdate} // 记录更新回调
+          />
+        </React.Suspense>
+      </Box>
     );
 } 

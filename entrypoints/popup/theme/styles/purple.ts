@@ -113,6 +113,13 @@ export const customColors = {
             border: 'rgba(147, 51, 234, 0.2)',
             iconColor: '#9333EA',
         },
+        previewCard: {
+            shadow: '0 0 6px 0 rgba(0, 0, 0, 0.01)',
+            hoverShadow: '0 0 8px 0 rgba(0, 0, 0, 0.05)',
+        },
+        table: {
+            headerBackground: 'rgba(0, 0, 0, 0.02)',
+        },
     },
     dark: {
         gradients: {
@@ -162,6 +169,13 @@ export const customColors = {
             color: 'rgba(255, 255, 255, 0.9)',
             border: 'rgba(192, 132, 252, 0.3)',
             iconColor: '#C084FC',
+        },
+        previewCard: {
+            shadow: '0 0 6px 0 rgba(0, 0, 0, 0.2)',
+            hoverShadow: '0 0 8px 0 rgba(0, 0, 0, 0.4)',
+        },
+        table: {
+            headerBackground: 'rgba(255, 255, 255, 0.05)',
         },
     },
 };

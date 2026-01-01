@@ -4,7 +4,13 @@ import * as path from "path";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
-  modules: ["@wxt-dev/module-react"],
+  modules: ["@wxt-dev/module-react", "@wxt-dev/auto-icons"],
+  autoIcons: {
+    enabled: true,
+    baseIconPath: "./public/icon.png",
+    developmentIndicator: false,
+    sizes: [16, 32, 48, 128],
+  },
   manifestVersion: 3,
   vite: () => ({
     build: {
