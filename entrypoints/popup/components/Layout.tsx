@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Stack, GlobalStyles, useTheme } from "@mui/material";
 
 interface LayoutProps {
   children: React.ReactNode;
-  // 加密相关 props
-  showEncryptionToggle?: boolean;
-  encryptionEnabled?: boolean;
-  onEncryptionToggle?: () => void;
 }
 
 export default function Layout({
   children,
-  showEncryptionToggle = false,
-  encryptionEnabled = false,
-  onEncryptionToggle,
 }: LayoutProps) {
   const theme = useTheme();
   const isOverlay =

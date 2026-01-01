@@ -1,13 +1,4 @@
-import React from "react";
-import {
-  Box,
-  Paper,
-  Typography,
-  Divider,
-  IconButton,
-  Link,
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Paper, Typography, Divider, Link } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 export default function Legal() {

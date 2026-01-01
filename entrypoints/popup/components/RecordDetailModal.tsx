@@ -334,7 +334,7 @@ const CachedImage: React.FC<{
       alt={alt || record.title || "Image"}
       style={style}
       onDoubleClick={onDoubleClick}
-      onError={(e) => {
+      onError={() => {
         // 如果缓存的图片加载失败，回退到原始URL
         if (imageUrl !== record.url && record.url) {
           console.warn("缓存图片加载失败，回退到原始URL");

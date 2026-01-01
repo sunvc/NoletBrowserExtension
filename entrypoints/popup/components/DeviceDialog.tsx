@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -19,7 +19,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { Device } from "../types";
 import { validateApiURL } from "../utils/api";
-import { useAppContext } from "../contexts/AppContext";
 import PingButton from "./PingButton";
 import GiteIcon from "@mui/icons-material/Gite";
 import { useSnackbar, SnackbarKey } from "notistack";

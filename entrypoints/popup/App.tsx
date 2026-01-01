@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useTranslation } from "react-i18next";
@@ -22,24 +22,14 @@ function AppContent() {
 
   const {
     devices,
-    defaultDeviceId,
     loading: devicesLoading,
     addDevice,
-    editDevice,
-    removeDevice,
-    setDefaultDevice,
     getDefaultDevice,
   } = useDevices();
 
-  const { themeMode, themeColor, effectiveTheme, updateThemeMode } = useTheme();
+  const { themeColor, effectiveTheme } = useTheme();
 
-  const {
-    appSettings,
-    toggleEncryption,
-    shouldShowEncryptionToggle,
-    reloadSettings,
-    updateAppSetting,
-  } = useAppContext();
+  const { appSettings, updateAppSetting } = useAppContext();
 
   // 初始化历史服务
   useEffect(() => {
@@ -99,11 +89,7 @@ function AppContent() {
           onExitSpeedMode={handleExitSpeedMode}
         />
       ) : (
-        <Layout
-          showEncryptionToggle={shouldShowEncryptionToggle}
-          encryptionEnabled={appSettings?.enableEncryption || false}
-          onEncryptionToggle={toggleEncryption}
-        >
+        <Layout>
           <SendPush
             devices={devices}
             defaultDevice={getDefaultDevice()}

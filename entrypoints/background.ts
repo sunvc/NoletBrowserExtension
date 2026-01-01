@@ -1253,13 +1253,6 @@ export default defineBackground(() => {
           contexts: ["action"],
         });
       }
-
-      // 添加 Open Standalone Window 菜单
-      browser.contextMenus.create({
-        id: "open-standalone-window",
-        title: getMessage("open_in_standalone_window"),
-        contexts: ["all"],
-      });
     } catch (error) {
       console.error(getMessage("update_context_menus_failed"), error);
     }

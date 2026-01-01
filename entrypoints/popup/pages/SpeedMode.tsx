@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
     Box,
     Typography,
@@ -217,8 +217,8 @@ export default function SpeedMode({ defaultDevice, onExitSpeedMode }: SpeedModeP
     }, []);
 
     // 退出极速模式
-    const handleExitSpeedMode = useCallback(async () => {
-        await onExitSpeedMode();
+    const handleExitSpeedMode = useCallback(() => {
+        onExitSpeedMode();
     }, [onExitSpeedMode]);
 
     // 重新读取剪贴板
