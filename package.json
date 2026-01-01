@@ -2,7 +2,7 @@
   "name": "nolet-extension",
   "description": "__MSG_ext_desc__",
   "private": true,
-  "version": "1.6.0",
+  "version": "1.6.1",
   "type": "module",
   "scripts": {
     "dev": "wxt",
